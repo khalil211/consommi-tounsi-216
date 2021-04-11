@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
+<!DOCTYPE html>
 <html class="" lang="en">
 <head>
     <title>@ViewBag.Title - Consommi Tounsi #216</title>
@@ -505,13 +506,37 @@
 
                         <nav class="navbar ">
                             <div class="dropdown right1 md_acc ">
-                                <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a href="#" class="font-weight-bolder"> my account&nbsp;<i class="fas fa-angle-down"></i></a>
-                                </span>
-                                <div class="dropdown-menu r_menu dropdown-menu-right">
-                                    <a class="dropdown-item font-weight-bolder" href="login.html">log in</a>
-                                    <a class="dropdown-item font-weight-bolder" href="registration.html">register</a>
-                                </div>
+                                @if (user == null)
+                                {
+                                    <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a href="#" class="font-weight-bolder"> My account&nbsp;<i class="fas fa-angle-down"></i></a>
+                                    </span>
+                                    <div class="dropdown-menu r_menu dropdown-menu-right">
+                                        @Html.ActionLink("Login", "Login", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        @Html.ActionLink("Register", "Register", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a href="#" class="font-weight-bolder"> @user.username &nbsp;<i class="fas fa-angle-down"></i></a>
+                                    </span>
+                                    <div class="dropdown-menu r_menu dropdown-menu-right">
+                                        @if (user.type == ConsommiTounsi.Models.User.UserType.ADMIN)
+                                        {
+                                            @Html.ActionLink("Dashboard", "Index", "Admin", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        }
+                                        else if (user.type == ConsommiTounsi.Models.User.UserType.DELIVERER)
+                                        {
+                                            @Html.ActionLink("Dashboard", "Index", "Deliverer", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink("Profile", "Profile", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        }
+                                        @Html.ActionLink("Logout", "Logout", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                    </div>
+                                }
                             </div>
                             <div class="dropdown right1 md_1 hr_">
                                 <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -651,7 +676,7 @@
                 <div class="row">
                     <div class="col-lg-9 text-left">
                         <ul class="main-menu navbar">
-                            <li><a href="index.html">Home</a></li>
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li><a href="shop-left-sidebar.html">Shop</a></li>
                             <li><a href="blog.html">blog</a></li>
                             <li><a href="portfolio-grid-4.html">gallery</a></li>
