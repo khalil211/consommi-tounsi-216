@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsommiTounsi.Models.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,8 @@ namespace ConsommiTounsi.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            if (Session["user"] == null || ((User)Session["user"]).type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
             return View();
         }
     }

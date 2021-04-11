@@ -1,0 +1,58 @@
+﻿@model ConsommiTounsi.Models.User.User
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div id="login_page" class="login-page animate__animated animate__fadeInUp">
+
+
+    <div class="sp_header bg-white p-3 ">
+        <div class="container custom_container">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li class="d-inline-block hr_ font-weight-bolder">@Html.ActionLink("Login", "Login", "User")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom_container ">
+        <h3 class="text-center">Log in to your account </h3>
+        <div id="login" class="page-content card card-block p-3 p-sm-4 ">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "font-weight-bolder" })
+                    @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group font-weight-bolder">
+                    @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "font-weight-bolder" })
+                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="user_check">
+                    <label class="form-check-label" for="user_check">Keep me logged in</label>
+                </div>
+
+                <input type="submit" name="submit" class="btn btn-primary mb-3" value="Login">
+                <div class="pass_acc border-top pt-3">
+                    <span class="no_account float-right font-weight-bolder">@Html.ActionLink("No account? Create one here", "Register", "User")</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
