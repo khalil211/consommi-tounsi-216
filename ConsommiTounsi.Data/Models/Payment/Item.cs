@@ -1,11 +1,11 @@
-﻿using System;
+﻿using ConsommiTounsi.Data.Models.Products;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConsommiTounsi.Service.Models.Products;
 
-namespace ConsommiTounsi.Service.Models.Payment
+namespace ConsommiTounsi.Data.Models.Payment
 {
     public class Item
     {

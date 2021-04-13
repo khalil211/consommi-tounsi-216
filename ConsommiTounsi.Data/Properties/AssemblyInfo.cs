@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsommiTounsi.Service")]
+[assembly: AssemblyTitle("ConsommiTounsi.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HP Inc.")]
-[assembly: AssemblyProduct("ConsommiTounsi.Service")]
+[assembly: AssemblyProduct("ConsommiTounsi.Data")]
 [assembly: AssemblyCopyright("Copyright © HP Inc. 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("81d57243-2486-4825-93f0-3437148da5c8")]
+[assembly: Guid("6572d725-90dc-4ef3-a34e-ed6f848774c0")]
 
 // Version information for an assembly consists of the following four values:
 //

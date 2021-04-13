@@ -2215,8 +2215,8 @@
     <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsommiTounsi.Service\ConsommiTounsi.Data.csproj">
-      <Project>{81d57243-2486-4825-93f0-3437148da5c8}</Project>
+    <ProjectReference Include="..\ConsommiTounsi.Data\ConsommiTounsi.Data.csproj">
+      <Project>{6572d725-90dc-4ef3-a34e-ed6f848774c0}</Project>
       <Name>ConsommiTounsi.Data</Name>
     </ProjectReference>
   </ItemGroup>

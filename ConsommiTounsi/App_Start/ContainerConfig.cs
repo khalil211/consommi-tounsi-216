@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using ConsommiTounsi.Service.Repositories.Payment;
+using ConsommiTounsi.Data.Repositories.Payment;
 using System.Web.Mvc;
 
 namespace ConsommiTounsi
@@ -12,7 +12,7 @@ namespace ConsommiTounsi
             var builder = new ContainerBuilder();
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterType<FakeCartRepository>()
+            builder.RegisterType<InMemoryCartRepository>()
                         .As<ICartRepository>()
                         .InstancePerLifetimeScope();
 

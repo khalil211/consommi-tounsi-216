@@ -1,14 +1,13 @@
-﻿using ConsommiTounsi.Service.Models.Payment;
-using ConsommiTounsi.Service.Models.Payment.ResponseModels;
+﻿using ConsommiTounsi.Data.Models.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsommiTounsi.Service.Repositories.Payment
+namespace ConsommiTounsi.Data.Repositories.Payment
 {
-    public class FakeCartRepository : ICartRepository
+    public class InMemoryCartRepository : ICartRepository
     {
         public ResponseModel<Cart> AddItem(int userId, Item item)
         {

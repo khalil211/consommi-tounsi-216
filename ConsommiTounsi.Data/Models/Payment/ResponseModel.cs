@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsommiTounsi.Service.Models.Payment.ResponseModels
+namespace ConsommiTounsi.Data.Models.Payment
 {
     public class ResponseModel<T>
     {
