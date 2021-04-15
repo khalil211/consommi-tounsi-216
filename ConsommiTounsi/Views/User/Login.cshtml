@@ -39,10 +39,6 @@
                     @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="user_check">
-                    <label class="form-check-label" for="user_check">Keep me logged in</label>
-                </div>
 
                 <input type="submit" name="submit" class="btn btn-primary mb-3" value="Login">
                 <div class="pass_acc border-top pt-3">

@@ -1,0 +1,117 @@
+﻿@model ConsommiTounsi.Models.User.Address
+
+@{
+    ViewBag.Title = "Addresses";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div id="home_vertical_menu" class="container custom_container menu_slider ">
+    <div class="row ">
+        <div class="col-lg-3 vertical_menu ">
+            <div class="v_menu bg-white rounded">
+                <div id="mySidenav" class="sidenav 	">
+                    <div class="close-nav d-xl-none d-lg-none">
+                        <span class="categories">Category</span>
+                        <a href="javascript:void(0)" class="closebtn pull-right" onclick="closeNav()"><svg class="svg-inline--fa fa-times fa-w-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" data-fa-i2svg=""><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg><!-- <i class="fas fa-times"></i> Font Awesome fontawesome.com --></a>
+                    </div>
+                    <ul class="vertical_main_menu h_menu navbar navbar-nav">
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Details", "User")"><i class="fas fa-user-circle"></i>Profile</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Addresses", "User")"><i class="fas fa-address-book"></i>Addresses</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Edit", "User")"><i class="fas fa-book"></i>Edit profile</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Password", "User")"><i class="fas fa-unlock-alt"></i>Change password</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Logout", "User")"><i class="fas fa-times"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Registration_page" class="Registration-page animate__animated animate__fadeInUp">
+    <div class="container custom_container">
+        <h3 class="text-center"> Add Address </h3>
+
+        <div id="Registration" class="page-content card card-block p-3 p-sm-4  ">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(model => model.street, htmlAttributes: new { @class = "font-weight-bolder" })
+                    @Html.EditorFor(model => model.street, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.street, "", new { @class = "text-danger" })
+                </div>
+                <div class="d-flex">
+                    <div class="form-group col-md-6 pl-0 ">
+                        @Html.LabelFor(model => model.city, htmlAttributes: new { @class = "font-weight-bolder" })
+                        @Html.EditorFor(model => model.city, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.city, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-6 pr-0 ">
+                        @Html.LabelFor(model => model.governorate, htmlAttributes: new { @class = "font-weight-bolder" })
+                        @Html.EditorFor(model => model.governorate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.governorate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group col-md-6 pl-0 ">
+                        @Html.LabelFor(model => model.postCode, htmlAttributes: new { @class = "font-weight-bolder" })
+                        @Html.EditorFor(model => model.postCode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.postCode, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-6 pr-0 ">
+                        @Html.LabelFor(model => model.recipientName, htmlAttributes: new { @class = "font-weight-bolder" })
+                        @Html.EditorFor(model => model.recipientName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.recipientName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div><button id="clearButton" type="reset" class="btn btn-primary rese float-left mt-3">Reset</button><input type="submit" name="submit" class="btn btn-primary mt-3 float-right" value="Add"></div>
+
+            }
+        </div>
+        <hr />
+        <h3 class="text-center"> Addresses </h3>
+        @foreach (var item in ViewBag.addresses)
+        {
+            <div id="Registration" class="page-content card card-block p-3 p-sm-4">
+                <div class="form-group">
+                    <span class="font-weight-bolder text-danger">Street</span>
+                    <h5 class="font-weight-bolder" style="text-transform:none"> @item.street </h5>
+                </div>
+                <hr />
+                <div class="d-flex">
+                    <div class="col-md-6 pl-0">
+                        <span class="font-weight-bolder text-danger">City</span>
+                        <h5 class="font-weight-bolder" style="text-transform:none">@item.city</h5>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <span class="font-weight-bolder text-danger">Governorate</span>
+                        <h5 class="font-weight-bolder" style="text-transform:none">@item.governorate</h5>
+                    </div>
+                </div>
+                <hr />
+                <div class="d-flex">
+                    <div class="col-md-6 pl-0">
+                        <span class="font-weight-bolder text-danger">Postcode</span>
+                        <h5 class="font-weight-bolder" style="text-transform:none">@item.postCode</h5>
+                    </div>
+                    <div class="col-md-6 pr-0">
+                        <span class="font-weight-bolder text-danger">Recipient Name</span>
+                        <h5 class="font-weight-bolder" style="text-transform:none">@item.recipientName</h5>
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    @Html.ActionLink("Edit", "EditAddress", "User", new { id = item.id }, new { @class = "btn btn-primary rese float-left mt-3" })
+                    @Html.ActionLink("Delete", "DeleteAddress", "User", new { id = item.id }, new { @class = "btn btn-primary mt-3 float-right" })
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
