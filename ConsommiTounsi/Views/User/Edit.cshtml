@@ -1,30 +1,38 @@
 ﻿@model ConsommiTounsi.Models.User.User
-
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Edit profile";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-<div id="Registration_page" class="Registration-page animate__animated animate__fadeInUp">
-    <div class="sp_header bg-white p-3">
-        <div class="container custom_container ">
-            <div class="row ">
-                <div class="col-12 ">
-                    <ul>
-                        <li class="d-inline-block font-weight-bolder">@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li class="d-inline-block hr_ font-weight-bolder">@Html.ActionLink("Register", "Register", "User")</li>
+
+<div id="home_vertical_menu" class="container custom_container menu_slider ">
+    <div class="row ">
+        <div class="col-lg-3 vertical_menu ">
+            <div class="v_menu bg-white rounded">
+                <div id="mySidenav" class="sidenav 	">
+                    <div class="close-nav d-xl-none d-lg-none">
+                        <span class="categories">Category</span>
+                        <a href="javascript:void(0)" class="closebtn pull-right" onclick="closeNav()"><svg class="svg-inline--fa fa-times fa-w-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" data-fa-i2svg=""><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg><!-- <i class="fas fa-times"></i> Font Awesome fontawesome.com --></a>
+                    </div>
+                    <ul class="vertical_main_menu h_menu navbar navbar-nav">
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Details", "User")"><i class="fas fa-user-circle"></i>Profile</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Addresses", "User")"><i class="fas fa-address-book"></i>Addresses</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Edit", "User")"><i class="fas fa-book"></i>Edit profile</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Password", "User")"><i class="fas fa-unlock-alt"></i>Change password</a></li>
+                        <li class="level-1 font-weight-bolder"><a href="@Url.Action("Logout", "User")"><i class="fas fa-times"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div id="Registration_page" class="Registration-page animate__animated animate__fadeInUp">
     <div class="container custom_container">
-        <h3 class="text-center"> Register </h3>
+        <h3 class="text-center"> Edit profile </h3>
         <div id="Registration" class="page-content card card-block p-3 p-sm-4  ">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-
-                <p>Already have an account? @Html.ActionLink("Log in instead!", "Login", "User")</p>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="d-flex">
                     <div class="form-group col-md-6 pl-0 ">
@@ -43,19 +51,27 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "font-weight-bolder" })
                     @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                    @if (ViewBag.Message != null && ViewBag.Message == "\"USERNAME_ALREADY_EXISTS\"")
+                    {
+                        @Html.ValidationMessageFor(model => model.username, "Username already exists", new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                    }
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "font-weight-bolder" })
                     @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "font-weight-bolder" })
-                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                    @if (ViewBag.Message != null && ViewBag.Message == "\"EMAIL_ALREADY_EXISTS\"")
+                    {
+                        @Html.ValidationMessageFor(model => model.email, "Email already exists", new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    }
                 </div>
 
                 <div class="form-group">
@@ -108,7 +124,7 @@
                     @Html.EnumDropDownListFor(model => model.occupation, null, new { @class = "select-menu form-select d-none d-sm-block" })
                     @Html.ValidationMessageFor(model => model.occupation, "", new { @class = "text-danger" })
                 </div>
-                <div><button id="clearButton" type="reset" class="btn btn-primary rese float-left mt-3">reset</button><input type="submit" name="submit" class="btn btn-primary mt-3 float-right" value="Register"></div>
+                <div><input type="submit" name="submit" class="btn btn-primary mt-3 float-right" value="Edit"></div>
             }
         </div>
     </div>
