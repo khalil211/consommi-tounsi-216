@@ -519,7 +519,7 @@
                                 else
                                 {
                                     <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <a href="#" class="font-weight-bolder"> @user.username &nbsp;<i class="fas fa-angle-down"></i></a>
+                                        <a href="#" class="font-weight-bolder" style="text-transform:none"> @user.username &nbsp;<i class="fas fa-angle-down"></i></a>
                                     </span>
                                     <div class="dropdown-menu r_menu dropdown-menu-right">
                                         @if (user.type == ConsommiTounsi.Models.User.UserType.ADMIN)
@@ -530,10 +530,7 @@
                                         {
                                             @Html.ActionLink("Dashboard", "Index", "Deliverer", null, new { @class = "dropdown-item font-weight-bolder" })
                                         }
-                                        else
-                                        {
-                                            @Html.ActionLink("Profile", "Profile", "User", null, new { @class = "dropdown-item font-weight-bolder" })
-                                        }
+                                        @Html.ActionLink("Profile", "Details", "User", null, new { @class = "dropdown-item font-weight-bolder" })
                                         @Html.ActionLink("Logout", "Logout", "User", null, new { @class = "dropdown-item font-weight-bolder" })
                                     </div>
                                 }
