@@ -507,11 +507,11 @@
                                 @if (user == null)
                                 {
                                     <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <a href="#" class="font-weight-bolder"> My account&nbsp;<i class="fas fa-angle-down"></i></a>
+                                        <a href="#" class="font-weight-bolder"> Mon compte&nbsp;<i class="fas fa-angle-down"></i></a>
                                     </span>
                                     <div class="dropdown-menu r_menu dropdown-menu-right">
-                                        @Html.ActionLink("Login", "Login", "User", null, new { @class = "dropdown-item font-weight-bolder" })
-                                        @Html.ActionLink("Register", "Register", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        @Html.ActionLink("Connexion", "Login", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        @Html.ActionLink("Créez un compte", "Register", "User", null, new { @class = "dropdown-item font-weight-bolder" })
                                     </div>
                                 }
                                 else
@@ -532,28 +532,6 @@
                                         @Html.ActionLink("Logout", "Logout", "User", null, new { @class = "dropdown-item font-weight-bolder" })
                                     </div>
                                 }
-                            </div>
-                            <div class="dropdown right1 md_1 hr_">
-                                <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a href="#" class="font-weight-bolder"> USD&nbsp;<i class="fas fa-angle-down"></i></a>
-                                </span>
-                                <div class="dropdown-menu r_menu dropdown-menu-right">
-                                    <a class="dropdown-item font-weight-bolder" href="#">SAR SAR</a>
-                                    <a class="dropdown-item font-weight-bolder" href="#">USD $</a>
-                                </div>
-                            </div>
-
-                            <div class="dropdown right1 md_2 hr_">
-                                <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a href="#" class="font-weight-bolder">ENG&nbsp;<i class="fas fa-angle-down"></i></a>
-                                </span>
-                                <div class="dropdown-menu r_menu dropdown-menu-right">
-                                    <a class="dropdown-item font-weight-bolder" href="#">English</a>
-                                    <a class="dropdown-item font-weight-bolder" href="#">Polski</a>
-                                    <a class="dropdown-item font-weight-bolder" href="#">Romana</a>
-                                    <a class="dropdown-item font-weight-bolder" href="#">Deutsch</a>
-                                    <a class="dropdown-item font-weight-bolder" href="#">Italiano</a>
-                                </div>
                             </div>
                         </nav>
 
@@ -577,7 +555,7 @@
                                 <div class="between-header border border-danger rounded mb-0 head-left">
 
                                     <select class="select-menu form-select d-none d-sm-block">
-                                        <option value="selected">all categories</option>
+                                        <option value="selected">Les categories</option>
                                         <option value="1">laptop</option>
                                         <option value="2">headphone</option>
                                         <option value="3">audio</option>
@@ -585,26 +563,19 @@
 
 
                                     <div class="input-group">
-                                        <input type="text" placeholder="search" class="form-control" aria-label="search" aria-describedby="button-addon2">
-                                        <div class="input-group-btn"><button type="button" class="btn btn-danger text-uppercase font-weight-normal">search</button></div>
+                                        <input type="text" placeholder="Saisissez des mots clés à rechercher"
+                                               class="form-control" aria-label="search" aria-describedby="button-addon2">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-danger font-weight-normal">
+                                                Rechercher
+                                            </button>
+                                        </div>
                                     </div>
                                 </div> <!-- between-header text-left col-sm-8 head-left border border-danger rounded mb-0 -->
                             </div>
 
                             <div class="col-xl-4 col-lg-5 head-right text-right">
                                 <ul>
-                                    <li class="md_compare d-lg-inline-block">
-                                        <a href="compare.html">
-                                            <span class="rcom d-lg-inline-block d-md-none d-sm-none d-none"><svg width="34px" height="34px"><use xlink:href="#compare"></use></svg></span>
-                                            <span class="comp_wish align-middle d-lg-inline-block font-weight-bolder">compare</span>
-                                        </a>
-                                    </li>
-                                    <li class="md_wish d-lg-inline-block d-md-none d-sm-none d-none">
-                                        <a href="wishlist.html">
-                                            <span class="rcom d-lg-inline-block d-md-none d-sm-none d-none"><svg width="35px" height="35px"><use xlink:href="#favourite"></use></svg></span>
-                                            <span class="comp_wish align-middle d-lg-inline-block font-weight-bolder">favourite</span>
-                                        </a>
-                                    </li>
 
                                     <li class="d-lg-none d-md-inline-block user">
                                         <span>
@@ -673,30 +644,11 @@
                 <div class="row">
                     <div class="col-lg-9 text-left">
                         <ul class="main-menu navbar">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li><a href="shop-left-sidebar.html">Shop</a></li>
-                            <li><a href="blog.html">blog</a></li>
-                            <li><a href="portfolio-grid-4.html">gallery</a></li>
-                            <li><a href="about-us.html">about us</a></li>
-                            <li>
-                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">pages  <i class="fas fa-angle-down"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="about-us.html">about us</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="single-product.html">single product</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="single-blog.html">single blog</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="login.html">login</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="registration.html">registration</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="cart.html">cart</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="compare.html">compare</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="wishlist.html">wishlist</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="checkout.html">check out</a></li>
-                                    <li class="d-block"><a class="dropdown-item font-weight-bolder" href="forgot.html">forgot password</a></li>
-                                </ul>
-                            </li>
+                            <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
                         </ul>
                     </div> <!-- col-lg-9 text-left -->
                     <div class="col-lg-3 text-right">
-                        <a href="#" class="text-uppercase">Special Offer!</a>
+                        <a href="#" class="text-uppercase">Nous contacter</a>
                     </div> <!-- col-lg-3 text-right -->
                 </div> <!-- row -->
             </div> <!-- container custom_container -->

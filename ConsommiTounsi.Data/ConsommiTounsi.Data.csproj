@@ -52,6 +52,8 @@
     <Compile Include="Models\Products\Tax.cs" />
     <Compile Include="Models\Products\ValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Category\ICategoryRepository.cs" />
+    <Compile Include="Repositories\Category\InMemoryCartRepository.cs" />
     <Compile Include="Repositories\Payment\ICartRepository.cs" />
     <Compile Include="Repositories\Payment\InMemoryCartRepository.cs" />
   </ItemGroup>

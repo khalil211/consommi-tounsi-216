@@ -14,7 +14,7 @@ namespace ConsommiTounsi
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterType<InMemoryCartRepository>()
                         .As<ICartRepository>()
-                        .InstancePerLifetimeScope();
+                         .InstancePerRequest();
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

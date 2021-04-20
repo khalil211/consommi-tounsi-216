@@ -9,16 +9,25 @@ namespace ConsommiTounsi.Utils
 {
     public class HttpClientBuilder
     {
-        public static HttpClient get(Object header = null)
+        public static HttpClient Get(object header = null)
         {
             HttpClient httpClient = 
-                new HttpClient(new HttpClientHandler() { UseCookies = false });
+                new HttpClient(new HttpClientHandler() 
+                { 
+                    UseCookies = false 
+                });
+
             httpClient.BaseAddress = new Uri("http://localhost:8080/api/");
+
             httpClient.DefaultRequestHeaders
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             if (header != null)
+            {
                 httpClient.DefaultRequestHeaders.Add("Cookie", (string)header);
+            }
+                
             return httpClient;
         }
     }

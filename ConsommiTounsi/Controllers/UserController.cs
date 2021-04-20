@@ -17,7 +17,7 @@ namespace ConsommiTounsi.Controllers
         [HttpPost]
         public ActionResult Register(User user)
         {
-            HttpClient httpClient = HttpClientBuilder.get();
+            HttpClient httpClient = HttpClientBuilder.Get();
             if (ModelState.IsValid)
             {
                 HttpResponseMessage response = httpClient.PostAsJsonAsync<User>("users", user).Result;
@@ -41,7 +41,7 @@ namespace ConsommiTounsi.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
-            HttpClient httpClient = HttpClientBuilder.get();
+            HttpClient httpClient = HttpClientBuilder.Get();
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "multipart/form-data");
             var loginForm = new MultipartFormDataContent
             {
@@ -68,7 +68,7 @@ namespace ConsommiTounsi.Controllers
 
         public ActionResult Logout()
         {
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             httpClient.GetAsync("logout");
             Session.Clear();
             return RedirectToAction("Index", "Home");
@@ -96,7 +96,7 @@ namespace ConsommiTounsi.Controllers
             User u = (User)Session["user"];
             if (u == null)
                 return Redirect("Login");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             user.id = u.id;
             HttpResponseMessage response = httpClient.PostAsJsonAsync<User>("customer/users/edit", user).Result;
             response.EnsureSuccessStatusCode();
@@ -127,7 +127,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return Redirect("Login");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/users/" + user.id + "/password";
             HttpResponseMessage response = httpClient.PostAsJsonAsync<PasswordEdit>(url, password).Result;
             response.EnsureSuccessStatusCode();
@@ -143,7 +143,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return Redirect("Login");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/users/" + user.id + "/addresses";
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
             response.EnsureSuccessStatusCode();
@@ -157,7 +157,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return Redirect("Login");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/addresses/" + user.id;
             HttpResponseMessage postResponse = httpClient.PostAsJsonAsync<Address>(url, address).Result;
             postResponse.EnsureSuccessStatusCode();
@@ -173,7 +173,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return RedirectToAction("Login", "User");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/addresses/" + id;
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
             response.EnsureSuccessStatusCode();
@@ -186,7 +186,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return RedirectToAction("Login", "User");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             HttpResponseMessage response = httpClient.PostAsJsonAsync<Address>("customer/addresses/edit", address).Result;
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Addresses", "User");
@@ -198,7 +198,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return Redirect("Login");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/addresses/" + id;
             httpClient.DeleteAsync(url);
             return RedirectToAction("Addresses", "User");
@@ -211,7 +211,7 @@ namespace ConsommiTounsi.Controllers
                 return Redirect("Login");
             if (user.type != UserType.ADMIN)
                 return RedirectToAction("Index", "Home");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             HttpResponseMessage response = httpClient.GetAsync("customer/users").Result;
             response.EnsureSuccessStatusCode();
             return View(response.Content.ReadAsAsync<IEnumerable<User>>().Result);
@@ -224,7 +224,7 @@ namespace ConsommiTounsi.Controllers
                 return RedirectToAction("Login", "User");
             if (user.type != UserType.ADMIN)
                 return RedirectToAction("Index", "Home");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "admin/users/" + id + "/" + type;
             HttpResponseMessage response = httpClient.PutAsync(url, null).Result;
             response.EnsureSuccessStatusCode();
@@ -243,7 +243,7 @@ namespace ConsommiTounsi.Controllers
                 return RedirectToAction("Login", "User");
             if (user.type != UserType.ADMIN)
                 return RedirectToAction("Index", "Home");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "admin/users/" + id;
             HttpResponseMessage response = httpClient.DeleteAsync(url).Result;
             response.EnsureSuccessStatusCode();
