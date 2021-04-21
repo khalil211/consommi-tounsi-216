@@ -6,28 +6,32 @@ using ConsommiTounsi.Repositories.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace ConsommiTounsi.Controllers
 {
-    public class HomeController : Controller
+    public class ProductController : Controller
     {
         private readonly ICategoryRepository categoryRepository;
+        private readonly IProductRepository productRepository;
         private readonly ICartRepository cartRepository;
 
-        public HomeController(ICategoryRepository categoryRepository,
+        public ProductController(ICategoryRepository categoryRepository,
+                                IProductRepository productRepository,
                               ICartRepository cartRepository)
         {
             this.categoryRepository = categoryRepository;
+            this.productRepository = productRepository;
             this.cartRepository = cartRepository;
         }
 
+        // GET: Product
         public async Task<ActionResult> Index()
         {
             var categories = await categoryRepository.Get();
+            var products = await productRepository.Get();
 
 
             Cart cart = null;
@@ -39,10 +43,11 @@ namespace ConsommiTounsi.Controllers
             }
 
 
-            var homeViewModel = new HomeIndexViewModel()
+            var homeViewModel = new ProductIndexViewModel()
             {
                 Cart = cart,
-                Categories = categories
+                Categories = categories,
+                Products = products
             };
 
             return View(homeViewModel);

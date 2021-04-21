@@ -1,10 +1,17 @@
-﻿using ConsommiTounsi.Data.Models.Payment;
+﻿using ConsommiTounsi.Models.Payment;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ConsommiTounsi.Data.Repositories.Payment
+namespace ConsommiTounsi.Repositories.Payment
 {
     public interface ICartRepository
     {
-        ResponseModel<Cart> GetCart(int userId);
-        ResponseModel<Cart> AddItem(int userId, Item item);
+        Task<ResponseModel<Cart>> Get(int userId);
+        Task<ResponseModel<Cart>> AddItem(int userId, Item item);
+        Task<ResponseModel<Cart>> RemoveItem(int userId, int itemId);
+        Task<ResponseModel<Cart>> UpdateItemQuantity(int userId, int itemId, int quantity);
     }
 }
