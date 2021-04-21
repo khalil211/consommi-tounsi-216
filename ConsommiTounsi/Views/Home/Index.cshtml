@@ -1,15 +1,20 @@
-﻿@{
+﻿@model ConsommiTounsi.Models.ViewModels.HomeIndexViewModel
+@{
     Layout = "~/Views/Shared/_UserLayout.cshtml";
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Accueil";
 }
 
-<!-- vertical menu and slider -->
 
 <div id="home_vertical_menu" class="container custom_container menu_slider ">
     <div class="row ">
         <div class="col-lg-3 vertical_menu ">
             <div class="v_menu bg-white rounded">
-                <div class="cat_menu bg-warning rounded-top"><a href="#" class="pe-auto text-uppercase d-md-none d-sm-none d-none d-lg-block font-weight-bold"><i class="fas fa-bars"></i>all categories</a></div>
+                <div class="cat_menu bg-warning rounded-top">
+                    <a href="#" class="pe-auto text-uppercase d-md-none d-sm-none d-none d-lg-block font-weight-bold">
+                        <i class="fas fa-bars"></i>
+                        Les categories
+                    </a>
+                </div>
 
                 <div class="navbar-header d-xl-none d-lg-none">
                     <button type="button" class="btn-navbar navbar-toggle" onclick="openNav()" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fas fa-bars"></i></button>
@@ -21,110 +26,19 @@
                     </div>
 
                     <ul class="vertical_main_menu h_menu navbar navbar-nav">
-                        <li class="dropdown mega_menu m1_menu level-1 font-weight-bolder">
-                            <a class="dropdown-toggle" href="single-product.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-mobile-alt"></i>portfolio&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <ul class="row mx-0">
-                                        <li class="mg_menu col-lg-6 col-md-12 ">
-                                            <ul>
-                                                <li class="h_title text-uppercase font-weight-bold border-bottom">portfolio grid 2</li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="portfolio-grid-2.html">portfolio grid 2</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="portfolio-grid-3.html">portfolio grid 3</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="portfolio-grid-4.html">portfolio grid 4</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="mesonary-grid-2.html">mesonary grid 2</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="mesonary-grid-3.html">mesonary grid 3</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="mesonary-grid-4.html">mesonary grid 4</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mg_menu col-lg-6 col-md-12">
-                                            <ul>
-                                                <li class="h_title text-uppercase font-weight-bold border-bottom">theme elements</li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="title.html">title</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="category-style.html">category</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="services.html">services</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="product-tab.html">product tab</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="multi-slider-product.html">multi slider product</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown level-1 font-weight-bolder">
-                            <a class="dropdown-toggle" href="blog.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="far fa-hourglass"></i>blog&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item font-weight-bolder" href="blog.html">blog</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="blog-left-sidebar.html">left sidebar</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="blog-right-sidebar.html">right sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown level-1 font-weight-bolder">
-                            <a class="dropdown-toggle" href="shop-left-sidebar.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-laptop"></i>shop&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item font-weight-bolder" href="shop-left-sidebar.html">left sidebar</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="shop-right-sidebar.html">right sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown mega_menu level-1 font-weight-bolder">
-                            <a class="dropdown-toggle" href="single-product.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-mobile-alt"></i>Smartphone&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <ul class="row mx-0">
-                                        <li class="mg_menu col-lg-4 col-md-12 ">
-                                            <ul>
-                                                <li class="h_title text-uppercase font-weight-bold border-bottom">fashion</li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">Laptop</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">head phone</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">computer</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">chair</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">mobile</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mg_menu col-lg-4 col-md-12">
-                                            <ul>
-                                                <li class="h_title text-uppercase font-weight-bold border-bottom">fashion</li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">Laptop</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">head phone</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">computer</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">chair</a></li>
-                                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">mobile</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mg_menu col-lg-4 col-md-12">
-                                            <ul>
-                                                <li><a href="single-product.html"><img src="~/Content/TmpUserImages/product/deal2.jpg" class="fst-image mx-auto d-block mb-1 img-fluid" alt="deal2"></a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown level-1 font-weight-bolder">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-laptop"></i>pages&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item font-weight-bolder" href="about-us.html">about us</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="login.html">login</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="registration.html">registration</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="single-product.html">single product</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="single-blog.html">single blog</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="cart.html">cart</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="compare.html">compare</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="wishlist.html">wishlist</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="checkout.html">check out</a></li>
-                                <li><a class="dropdown-item font-weight-bolder" href="forgot.html">forgot password</a></li>
-                            </ul>
-                        </li>
-                        <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-tv"></i>TV & Audio</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-headphones-alt"></i>Headphone</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="far fa-clock"></i>Smart watch</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="shop-left-sidebar.html"><i class="far fa-keyboard"></i>Accessories</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-tshirt"></i>Fashion</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-universal-access"></i>Sale and Offers</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="shop-left-sidebar.html"><i class="far fa-keyboard"></i>Accessories</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-tshirt"></i>Fashion</a></li>
-                        <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-universal-access"></i>Sale and Offers</a></li>
 
+                        @foreach (var category in Model.Categories)
+                        {
+                            <li class="level-1 font-weight-bolder">
+                                <a href="single-product.html">
+                                    @category.Name
+                                </a>
+                            </li>
+                        }
+                        @*<a href="single-product.html">
+                                <i class="fas fa-tv"></i>
+                                TV & Audio
+                            </a>*@
                     </ul>
                 </div>
             </div> <!-- v_menu bg-white rounded -->

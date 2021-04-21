@@ -1,4 +1,5 @@
-﻿@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
+﻿
+@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
 <!DOCTYPE html>
 <html class="" lang="en">
 <head>
@@ -493,14 +494,15 @@
         <div class="topbar-outer py-2 border-bottom bg-white d-md-none d-none d-none d-lg-block">
             <div class="container custom_container">
                 <div class="row">
-                    <div class="col-lg-5 col-md-4 col-sm-4 topbar_left">
+                    @*<div class="col-lg-5 col-md-4 col-sm-4 topbar_left">
                         <ul>
                             <li>
                                 <span class="font-weight-bolder">Get 30% Off On Selected Items</span>
                             </li>
                         </ul>
-                    </div> <!-- col-lg-5 col-md-4 col-sm-4 hidden-md-down topbar_left -->
-                    <div class="col-lg-7 col-md-8 col-sm-8 text-xs-right  topbar_right text-right">
+                    </div>*@ 
+                    <!-- col-lg-5 col-md-4 col-sm-4 hidden-md-down topbar_left -->
+                    <div class="col-lg-12 text-xs-right  topbar_right text-right">
 
                         <nav class="navbar ">
                             <div class="dropdown right1 md_acc ">
@@ -553,12 +555,14 @@
                         <div class="d-flex navbar">
                             <div class="input-class  text-left col-xl-8 col-lg-7 col-md-12  ">
                                 <div class="between-header border border-danger rounded mb-0 head-left">
-
+                                    
                                     <select class="select-menu form-select d-none d-sm-block">
                                         <option value="selected">Les categories</option>
-                                        <option value="1">laptop</option>
-                                        <option value="2">headphone</option>
-                                        <option value="3">audio</option>
+                                        @foreach (var category in Model.Categories)
+                                        {
+                                            <option value=@category.Id>@category.Name</option>
+                                        }
+                                        @RenderSection("NavbarCategoriesList", required: false)
                                     </select>
 
 
@@ -643,19 +647,22 @@
             <div class="container custom_container">
                 <div class="row">
                     <div class="col-lg-9 text-left">
+                        @RenderSection("AddionalNavbarLinks", required: false)
                         <ul class="main-menu navbar">
                             <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
                         </ul>
-                    </div> <!-- col-lg-9 text-left -->
+                        <ul class="main-menu navbar">
+                            <li>@Html.ActionLink("Nos produits", "Index", "Product")</li>
+                        </ul>
+                    </div> 
                     <div class="col-lg-3 text-right">
                         <a href="#" class="text-uppercase">Nous contacter</a>
-                    </div> <!-- col-lg-3 text-right -->
-                </div> <!-- row -->
-            </div> <!-- container custom_container -->
-        </div> <!-- header_bottom shadow-sm bg-white rounded bg-white -->
+                    </div> 
+                </div>
+            </div>
+        </div>
 
-    </header> <!-- header -->
-    <!-- header area end -->
+    </header>
 
     @RenderBody()
 
