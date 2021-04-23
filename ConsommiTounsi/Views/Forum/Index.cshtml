@@ -1,0 +1,233 @@
+﻿@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
+@model ConsommiTounsi.Models.Forum.Topic
+
+@{
+    ViewBag.Title = "Forum";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div id="right_blog_sidebar_page" class="right-blog-page blog-page animate__animated animate__fadeInUp">
+
+    <div class="sp_header bg-white p-3   animate__animated animate__fadeInUp">
+        <div class="container custom_container ">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li class="d-inline-block hr_ font-weight-bolder"><a href="@Url.Action("Index", "Forum")">Forum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom_container">
+
+        <div class="row">
+            <div class="col-md-8 col-lg-8 col-xl-9 col-sm-12 b_left_blog mb-3 mb-md-0">
+                <div class="row sh_page rounded">
+                    @if (ViewBag.totalPages == 0)
+                    {
+                        <p class="font-weight-bold" style="text-transform:none; margin-left: 40%; margin-top: 75px;">No topics found :'(</p>
+                    }
+                    @foreach (ConsommiTounsi.Models.Forum.Topic topic in ViewBag.topics)
+                    {
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card mb-4  animate__animated animate__fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
+                                <div class="card-body p-0 mt-3">
+                                    <h2 class="card-title mt-3 font-weight-bold">@Html.ActionLink(topic.title, "Topic", "Forum", new { id = topic.id }, new { @style = "text-transform:none;" })</h2>
+                                    <p class="text-muted f_13" style="text-transform:none;">
+                                        @topic.description
+                                    </p>
+                                    <div class="blog_subtitle">
+                                        <span class="font-weight-bolder pr-2"><i class="far fa-calendar-alt mr-2"></i> @topic.date.ToString("dd/MM/yyyy") </span>
+                                        <span class="font-weight-bolder border-secondary border-left border-right px-2"><i class="far fa-comments mr-2"></i>@topic.posts.Count posts</span>
+                                        <span class="font-weight-bolder pl-2" style="text-transform:none;"><i class="fas fa-user mr-2"></i>@topic.user.username</span>
+                                        @{ double starAvg = 0;
+                                            if (topic.stars.Count != 0)
+                                            {
+                                                starAvg = (int)(topic.stars.Select(s => s.value).Average() * 100);
+                                                starAvg = starAvg / 100;
+                                            }
+                                        }
+                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg</span>
+                                    </div>
+                                    @Html.ActionLink("View topic", "Topic", "Forum", new { id = topic.id }, new { @class = "btn btn-primary mt-2 f_13 px-3 py-2" })
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+
+                    <div class="container custom_container">
+                        <div class="row">
+                            <div class="col-12">
+                                <nav class="float-right mt-5 mt-col-3">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("Index", "Forum", new { page = ViewBag.page - 1, sort = ViewBag.sort })">
+                                                <span aria-hidden="true">«</span>
+                                            </a>
+                                        </li>
+                                        @if (ViewBag.totalPages <= 10)
+                                        {
+                                            for (int i = 1; i <= ViewBag.totalPages; i++)
+                                            {
+                                                <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Index", "Forum", new { page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (int i = 1; i <= 3; i++)
+                                            {
+                                                <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Index", "Forum", new { page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                            }
+                                            if (ViewBag.page < 3 || ViewBag.page > ViewBag.totalPages - 2)
+                                            {
+                                                <li class="font-weight-bold">...</li>
+                                            }
+                                            else if (ViewBag.page >= 3 && ViewBag.page <= 5)
+                                            {
+                                                for (int i = 4; i <= ViewBag.page + 1; i++)
+                                                {
+                                                    <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Index", "Forum", new { page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                                }
+                                                <li class="font-weight-bold">...</li>
+                                            }
+                                            else if (ViewBag.page > 5 && ViewBag.page < ViewBag.totalPages - 4)
+                                            {
+                                                <li class="font-weight-bold">...</li>
+                                                for (int i = ViewBag.page - 1; i <= ViewBag.page + 1; i++)
+                                                {
+                                                    <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Index", "Forum", new { page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                                }
+                                                <li class="font-weight-bold">...</li>
+
+                                            }
+                                            else if (ViewBag.page >= ViewBag.totalPages - 4 && ViewBag.page <= ViewBag.totalPages - 2)
+                                            {
+                                                <li class="font-weight-bold">...</li>
+                                                for (int i = ViewBag.page - 1; i <= ViewBag.totalPages - 3; i++)
+                                                {
+                                                    <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Index", "Forum", new { page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                                }
+
+                                            }
+                                            for (int i = ViewBag.totalPages - 2; i <= ViewBag.totalPages; i++)
+                                            {
+                                                <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Index", "Forum", new { page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                            }
+                                        }
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("Index", "Forum", new { page = ViewBag.page + 1, sort = ViewBag.sort })">
+                                                <span aria-hidden="true">»</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (user != null)
+                    {
+                        <div class="row page-content card card-block p-3 p-sm-4 col-md-12">
+                            <div class="page-content card card-block p-3 p-sm-4 col-md-12">
+                                <div class="col-md-12">
+                                    <h5 style="text-transform:none" class="font-weight-bold text-danger">Create a topic</h5>
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "font-weight-bold" })
+                                                <div class="col-md-8">
+                                                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control", @style = "border: gray solid 1px;" } })
+                                                    @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "font-weight-bold" })
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control form-control-full", @style = "border: gray solid 1px;" } })
+                                                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-12">
+                                                    <div><input type="submit" name="submit" class="btn btn-primary mt-3 float-right" value="Create"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row page-content card card-block p-3 p-sm-4 col-md-12">
+                            <div class="page-content card card-block p-3 p-sm-4 col-md-12">
+                                <div class="col-md-12">
+                                    <p class="font-weight-bold" style="text-transform:none; margin-left: 40%; margin-top: 75px;">
+                                        @Html.ActionLink("Login", "Login", "User", null, new { @class = "text-danger" }) or @Html.ActionLink("Register", "Register", "User", null, new { @class = "text-danger" }) to add a topic.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-xl-3 col-sm-12 b_left_side">
+                <div class="bl_sticky">
+                    <div class="row sh_page rounded mb-3">
+                        <div class="col-12">
+
+                            <div class="title_outer">
+                                <h5 class="font-weight-bolder mb-4 d-inline-block pr-3 bg-white"><span class="text-danger">Order by</span></h5>
+                            </div>
+
+                            <ul class="bl_cat">
+                                @if (ViewBag.sort == "popular")
+                                {
+                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Index", "Forum", new { page = 1, sort = "date" }, null)</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("Popularity", "Index", "Forum", new { page = 1, sort = "popular" }, new { @class = "text-danger" })</li>
+                                }
+                                else
+                                {
+                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Index", "Forum", new { page = 1, sort = "date" }, new { @class = "text-danger" })</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("Popularity", "Index", "Forum", new { page = 1, sort = "popular" }, null)</li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row sh_page rounded mb-3">
+                        <div class="col-12">
+
+                            <div class="title_outer">
+                                <h5 class="font-weight-bolder mb-4 d-inline-block pr-3 bg-white"><span class="text-danger">Top Users</span></h5>
+                            </div>
+
+                            <ul class="bl_cat">
+                                @foreach (var u in ViewBag.users)
+                                {
+                                    <li class="font-weight-bold pt-0" style="text-transform:none">@u.username</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
