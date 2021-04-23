@@ -15,7 +15,7 @@ namespace ConsommiTounsi.Controllers
     {
         public ActionResult Index(int page = 1, string sort = "date")
         {
-            HttpClient httpClient = HttpClientBuilder.get();
+            HttpClient httpClient = HttpClientBuilder.Get();
             string url = "topics?sort="+sort;
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
             response.EnsureSuccessStatusCode();
@@ -41,7 +41,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return Redirect("Index");
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/topics/" + user.id;
             HttpResponseMessage response = httpClient.PostAsJsonAsync<Topic>(url, topic).Result;
             response.EnsureSuccessStatusCode();
@@ -79,7 +79,7 @@ namespace ConsommiTounsi.Controllers
                     return DisplayTopic(id, page, sort);
                 }
             }
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/posts/" + user.id + "/" + id;
             HttpResponseMessage response = httpClient.PostAsJsonAsync<Post>(url, p).Result;
             response.EnsureSuccessStatusCode();
@@ -88,7 +88,7 @@ namespace ConsommiTounsi.Controllers
 
         private ActionResult DisplayTopic(long id, int page, string sort)
         {
-            HttpClient httpClient = HttpClientBuilder.get();
+            HttpClient httpClient = HttpClientBuilder.Get();
             HttpResponseMessage response = httpClient.GetAsync("topics/" + id).Result;
             response.EnsureSuccessStatusCode();
             Topic topic = response.Content.ReadAsAsync<Topic>().Result;
@@ -118,7 +118,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user != null)
             {
-                HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+                HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
                 string url = "customer/topics/" + id + "/" + user.id + "/" + value;
                 httpClient.PutAsync(url, null);
             }
@@ -130,7 +130,7 @@ namespace ConsommiTounsi.Controllers
             User user = (User)Session["user"];
             if (user == null)
                 return Json("failed", JsonRequestBehavior.AllowGet);
-            HttpClient httpClient = HttpClientBuilder.get(Session["api-cookie"]);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/posts/" + id + "/" + user.id + "/" + liked;
             HttpResponseMessage response = httpClient.PutAsync(url, null).Result;
             if (!response.IsSuccessStatusCode)
