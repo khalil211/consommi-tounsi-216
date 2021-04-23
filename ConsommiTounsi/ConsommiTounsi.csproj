@@ -153,6 +153,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -160,6 +161,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Forum\DuplicateTopic.cs" />
+    <Compile Include="Models\Forum\Post.cs" />
+    <Compile Include="Models\Forum\PostLike.cs" />
+    <Compile Include="Models\Forum\Star.cs" />
+    <Compile Include="Models\Forum\Topic.cs" />
     <Compile Include="Models\Payment\Cart.cs" />
     <Compile Include="Models\Payment\Item.cs" />
     <Compile Include="Models\Payment\ResponseModel.cs" />
@@ -2294,6 +2300,8 @@
     <Content Include="Views\User\Addresses.cshtml" />
     <Content Include="Views\User\EditAddress.cshtml" />
     <Content Include="Views\User\ManageUsers.cshtml" />
+    <Content Include="Views\Forum\Index.cshtml" />
+    <Content Include="Views\Forum\Topic.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
