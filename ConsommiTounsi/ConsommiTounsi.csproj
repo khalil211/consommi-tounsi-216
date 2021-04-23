@@ -2295,6 +2295,7 @@
     <Content Include="Views\User\EditAddress.cshtml" />
     <Content Include="Views\User\ManageUsers.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
