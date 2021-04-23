@@ -1,11 +1,14 @@
 ﻿using ConsommiTounsi.Models.Payment;
+using ConsommiTounsi.Models.Products;
 using ConsommiTounsi.Models.User;
 using ConsommiTounsi.Models.ViewModels;
 using ConsommiTounsi.Repositories.Payment;
 using ConsommiTounsi.Repositories.Product;
+using ConsommiTounsi.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +21,7 @@ namespace ConsommiTounsi.Controllers
         private readonly IProductRepository productRepository;
         private readonly ICartRepository cartRepository;
 
+
         public ProductController(ICategoryRepository categoryRepository,
                                 IProductRepository productRepository,
                               ICartRepository cartRepository)
@@ -28,6 +32,7 @@ namespace ConsommiTounsi.Controllers
         }
 
         // GET: Product
+       
         public async Task<ActionResult> Index()
         {
             var categories = await categoryRepository.Get();
@@ -52,5 +57,24 @@ namespace ConsommiTounsi.Controllers
 
             return View(homeViewModel);
         }
-    }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Product pro)
+        {
+            HttpClient httpClient = HttpClientBuilder.Get();
+            if (ModelState.IsValid)
+            {
+                HttpResponseMessage response = httpClient.PostAsJsonAsync<Product>("products/", pro).Result;
+                response.EnsureSuccessStatusCode();
+
+            }
+            return View(pro);
+        }
+}
 }
