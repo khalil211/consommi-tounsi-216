@@ -153,11 +153,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Forum\DuplicateTopic.cs" />
+    <Compile Include="Models\Forum\Post.cs" />
+    <Compile Include="Models\Forum\PostLike.cs" />
+    <Compile Include="Models\Forum\Star.cs" />
+    <Compile Include="Models\Forum\Topic.cs" />
     <Compile Include="Models\User\Address.cs" />
     <Compile Include="Models\User\PasswordEdit.cs" />
     <Compile Include="Models\User\User.cs" />
@@ -2113,9 +2119,12 @@
     <Content Include="Views\User\Addresses.cshtml" />
     <Content Include="Views\User\EditAddress.cshtml" />
     <Content Include="Views\User\ManageUsers.cshtml" />
+    <Content Include="Views\Forum\Index.cshtml" />
+    <Content Include="Views\Forum\Topic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Forum\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\webfonts\fa-brands-400.eot" />

@@ -1,0 +1,316 @@
+﻿@model ConsommiTounsi.Models.Forum.Post
+
+@{
+    ViewBag.Title = ViewBag.topic.title;
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
+
+<div id="right_blog_sidebar_page" class="right-blog-page blog-page animate__animated animate__fadeInUp">
+
+    <div class="sp_header bg-white p-3   animate__animated animate__fadeInUp">
+        <div class="container custom_container ">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li class="d-inline-block hr_ font-weight-bolder"><a href="@Url.Action("Index", "Forum")">Forum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom_container">
+
+        <div class="row">
+            <div class="col-md-8 col-lg-8 col-xl-9 col-sm-12 b_left_blog mb-3 mb-md-0">
+                <div class="row sh_page rounded">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card mb-4  animate__animated animate__fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
+                            <div class="card-body p-0 mt-3">
+                                <h2 class="card-title mt-3 font-weight-bold" style="text-transform:none;">@ViewBag.topic.title</h2>
+                                <p class="text-muted f_13" style="text-transform:none;">
+                                    @ViewBag.topic.description
+                                </p>
+                                <div class="blog_subtitle">
+                                    <span class="font-weight-bolder pr-2"><i class="far fa-calendar-alt mr-2"></i> @ViewBag.topic.date.ToString("dd/MM/yyyy") </span>
+                                    <span class="font-weight-bolder border-secondary border-left border-right px-2"><i class="far fa-comments mr-2"></i>@ViewBag.topic.posts.Count posts</span>
+                                    <span class="font-weight-bolder pl-2 " style="text-transform:none;"><i class="fas fa-user mr-2"></i>@ViewBag.topic.user.username</span>
+                                    @{ double starAvg = 0;
+                                        if (ViewBag.topic.stars.Count != 0)
+                                        {
+                                            starAvg = (int)(((ConsommiTounsi.Models.Forum.Topic)ViewBag.topic).stars.Select(s => s.value).Average() * 100);
+                                            starAvg = starAvg / 100;
+                                        }
+                                    }
+                                    @if (user != null)
+                                    {
+                                        ConsommiTounsi.Models.Forum.Star userStar = null;
+                                        if (ViewBag.topic.stars.Count != 0)
+                                        {
+                                            userStar = ((ConsommiTounsi.Models.Forum.Topic)ViewBag.topic).stars.Where(s => s.user.id == user.id).FirstOrDefault();
+                                        }
+                                        <span class="font-weight-bolder border-secondary border-left pl-2">
+                                            @for (int i = 1; i < 6; i++)
+                                            {
+                                                <a href="@Url.Action("Rate", "Forum", new { id = ViewBag.topic.id, page = ViewBag.page, sort = ViewBag.sort, value = i })"><i class="@Html.Raw((userStar == null) ? "far" : ((i <= userStar.value) ? "fas" : "far")) fa-star" style="color: gold;"></i></a>
+                                            }
+                                            @starAvg
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 style="margin-left: 21px;" class="text-danger">Posts</h4>
+                    @if (ViewBag.totalPages == 0)
+                    {
+                        <p class="font-weight-bold" style="text-transform:none; margin-left: 40%; margin-top: 75px;">No posts found :'(</p>
+                    }
+                    @foreach (ConsommiTounsi.Models.Forum.Post post in ViewBag.posts)
+                    {
+                        ConsommiTounsi.Models.Forum.PostLike userLike = null;
+                        if (post.likes.Count != 0 && user != null)
+                        {
+                            userLike = post.likes.Where(l => l.user.id == user.id).FirstOrDefault();
+                        }
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card mb-4  animate__animated animate__fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
+                                <div class="card-body p-0 mt-3">
+                                    <h2 class="card-title mt-3 font-weight-bold" style="text-transform:none;">@post.content</h2>
+                                    @if (post.medias != null)
+                                    {
+                                        <img src="@Url.Content("~/Content/Forum/" + post.medias)" class="fst-image mx-auto d-block img-fluid rounded" alt="image", style="margin-bottom: 21px; width: 40%;">
+                                    }
+                                    <div class="blog_subtitle">
+                                        <span class="font-weight-bolder pr-2" style="text-transform:none;"><i class="fas fa-user mr-2"></i>@post.user.username </span>
+                                        <span class="font-weight-bolder border-secondary border-left border-right px-2"><i class="far fa-calendar-alt mr-2"></i> @post.date.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                        <span class="font-weight-bolder border-secondary pl-2"><a href="#" onclick="likePost(@post.id, true)"><i id="like-icon-p-@post.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "fas" : "far")) fa-thumbs-up mr-2" style="color: red;"></i><span id="like-count-p-@post.id">@post.likes.Where(l => l.liked).Count()</span> Like</a></span>
+                                        <span class="font-weight-bolder pl-2"><a href="#" onclick="likePost(@post.id, false)"><i id="dislike-icon-p-@post.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "far" : "fas")) fa-thumbs-down mr-2" style="color: red;"></i><span id="dislike-count-p-@post.id">@post.likes.Where(l => l.liked != true).Count()</span> Dislike</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+
+                    <div class="container custom_container">
+                        <div class="row">
+                            <div class="col-12">
+                                <nav class="float-right mt-5 mt-col-3">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("Topic", "Forum", new { id = ViewBag.topic.id, page = ViewBag.page - 1, sort = ViewBag.sort })">
+                                                <span aria-hidden="true">«</span>
+                                            </a>
+                                        </li>
+                                        @if (ViewBag.totalPages <= 10)
+                                        {
+                                            for (int i = 1; i <= ViewBag.totalPages; i++)
+                                            {
+                                                <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Topic", "Forum", new { id = ViewBag.topic.id, page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (int i = 1; i <= 3; i++)
+                                            {
+                                                <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Topic", "Forum", new { id = ViewBag.topic.id, page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                            }
+                                            if (ViewBag.page < 3 || ViewBag.page > ViewBag.totalPages - 2)
+                                            {
+                                                <li class="font-weight-bold">...</li>
+                                            }
+                                            else if (ViewBag.page >= 3 && ViewBag.page <= 5)
+                                            {
+                                                for (int i = 4; i <= ViewBag.page + 1; i++)
+                                                {
+                                                    <
+                                                    <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Topic", "Forum", new { id = ViewBag.topic.id, page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                                }
+                                                <li class="font-weight-bold">...</li>
+                                            }
+                                            else if (ViewBag.page > 5 && ViewBag.page < ViewBag.totalPages - 4)
+                                            {
+                                                <li class="font-weight-bold">...</li>
+                                                for (int i = ViewBag.page - 1; i <= ViewBag.page + 1; i++)
+                                                {
+                                                    <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Topic", "Forum", new { id = ViewBag.topic.id, page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                                }
+                                                <li class="font-weight-bold">...</li>
+
+                                            }
+                                            else if (ViewBag.page >= ViewBag.totalPages - 4 && ViewBag.page <= ViewBag.totalPages - 2)
+                                            {
+                                                <li class="font-weight-bold">...</li>
+                                                for (int i = ViewBag.page - 1; i <= ViewBag.totalPages - 3; i++)
+                                                {
+                                                    <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Topic", "Forum", new { id = ViewBag.topic.id, page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                                }
+
+                                            }
+                                            for (int i = ViewBag.totalPages - 2; i <= ViewBag.totalPages; i++)
+                                            {
+                                                <li class="page-item @if (ViewBag.page == i) { @Html.Raw("active"); }">@Html.ActionLink(i.ToString(), "Topic", "Forum", new { id = ViewBag.topic.id, page = i, sort = ViewBag.sort }, new { @class = "page-link" })</li>
+                                            }
+                                        }
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("Topic", "Forum", new { id = ViewBag.topic.id, page = ViewBag.page + 1, sort = ViewBag.sort })">
+                                                <span aria-hidden="true">»</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (user != null)
+                    {
+                        <div class="row page-content card card-block p-3 p-sm-4 col-md-12">
+                            <div class="page-content card card-block p-3 p-sm-4 col-md-12">
+                                <div class="col-md-12">
+                                    <h5 style="text-transform:none" class="font-weight-bold text-danger">Post in this topic</h5>
+                                    @using (Html.BeginForm("Topic", "Forum", FormMethod.Post, new { enctype = "multipart/form-data", id = ViewBag.topic.id, page = ViewBag.page, sort = ViewBag.sort }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    @Html.EditorFor(model => model.content, new { htmlAttributes = new { @class = "form-control form-control-full", @style = "border: gray solid 1px;" } })
+                                                    @Html.ValidationMessageFor(model => model.content, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="font-weight-bolder" style="text-transform:none">Choose an image (Optional)</label>
+                                                <div class="col-md-8">
+                                                    @Html.TextBox("file", "", new { type = "file" })
+                                                    @Html.ValidationMessageFor(model => model.medias, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-12">
+                                                    <div><input type="submit" name="submit" class="btn btn-primary mt-3 float-right" value="Post"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row page-content card card-block p-3 p-sm-4 col-md-12">
+                            <div class="page-content card card-block p-3 p-sm-4 col-md-12">
+                                <div class="col-md-12">
+                                    <p class="font-weight-bold" style="text-transform:none; margin-left: 40%; margin-top: 75px;">
+                                        @Html.ActionLink("Login", "Login", "User", null, new { @class = "text-danger" }) or @Html.ActionLink("Register", "Register", "User", null, new { @class = "text-danger" }) to post in this topic.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-xl-3 col-sm-12 b_left_side">
+                <div class="bl_sticky">
+                    <div class="row sh_page rounded mb-3">
+                        <div class="col-12">
+
+                            <div class="title_outer">
+                                <h5 class="font-weight-bolder mb-4 d-inline-block pr-3 bg-white"><span class="text-danger">Order by</span></h5>
+                            </div>
+
+                            <ul class="bl_cat">
+                                @if (ViewBag.sort == "relevant")
+                                {
+                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "date" }, null)</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("Relevance", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "relevant" }, new { @class = "text-danger" })</li>
+                                }
+                                else
+                                {
+                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "date" }, new { @class = "text-danger" })</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("Relevance", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "relevant" }, null)</li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row sh_page rounded mb-3">
+                        <div class="col-12">
+
+                            <div class="title_outer">
+                                <h5 class="font-weight-bolder mb-4 d-inline-block pr-3 bg-white"><span class="text-danger">Top Users</span></h5>
+                            </div>
+
+                            <ul class="bl_cat">
+                                @foreach (var u in ViewBag.users)
+                                {
+                                    <li class="font-weight-bold pt-0" style="text-transform:none">@u.username</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function likePost(id, liked) {
+            event.preventDefault();
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: '@Url.Action("LikePost")?id=' + id + "&liked=" + liked,
+                success: function (data) {
+                    if (data == "success") {
+                        let likeIcon = $("#like-icon-p-" + id);
+                        let likeCount = $("#like-count-p-" + id);
+                        let dislikeIcon = $("#dislike-icon-p-" + id);
+                        let dislikeCount = $("#dislike-count-p-" + id);
+                        let previous = null;
+                        if (likeIcon.attr("data-prefix") == "fas")
+                            previous = true;
+                        else if (dislikeIcon.attr("data-prefix") == "fas")
+                            previous = false;
+                        if (previous == null) {
+                            if (liked) {
+                                likeIcon.addClass("fas");
+                                likeCount.html(parseInt(likeCount.text()) + 1);
+                            } else {
+                                dislikeIcon.addClass("fas");
+                                dislikeCount.html(parseInt(dislikeCount.text()) + 1);
+                            }
+                        } else {
+                            if (previous) {
+                                [likeIcon, dislikeIcon] = [dislikeIcon, likeIcon];
+                                [likeCount, dislikeCount] = [dislikeCount, likeCount];
+                                liked = !liked;
+                            }
+                            dislikeIcon.addClass("far");
+                            dislikeCount.html(parseInt(dislikeCount.text()) - 1);
+                            if (liked) {
+                                likeIcon.addClass("fas");
+                                likeCount.html(parseInt(likeCount.text()) + 1);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}
