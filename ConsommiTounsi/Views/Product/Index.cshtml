@@ -1,0 +1,379 @@
+﻿@model ConsommiTounsi.Models.ViewModels.ProductIndexViewModel
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewBag.Title = "Produits";
+}
+
+<div id="shop_page" class="shop-page animate__animated animate__fadeInUp">
+
+
+    <div class="sp_header bg-white p-3">
+        <div class="container custom_container ">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder">
+                            @Html.ActionLink("Accueil", "Index", "Home")
+                        </li>
+                        <li class="d-inline-block hr_ font-weight-bolder">
+                            @Html.ActionLink("Nos Produits", "Index", "Product")
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="sp_vertical_menu" class="container custom_container menu_slider d-xl-none d-lg-none d-md-block my-0">
+                    <div class="row">
+                        <div class="col-lg-3 vertical_menu ">
+                            <div class="v_menu bg-white rounded">
+                                <div class="cat_menu bg-warning rounded-top">
+                                    <a class="pe-auto text-uppercase d-md-none d-sm-none d-none d-lg-block font-weight-bold"
+                                       data-toggle="collapse" href="#vartical_collapse"
+                                       role="button" aria-expanded="false" aria-controls="vartical_collapse">
+                                        <i class="fas fa-bars"></i>all categories
+                                    </a>
+                                </div>
+
+                                <div class="navbar-header d-xl-none d-lg-none">
+                                    <button type="button" class="btn-navbar navbar-toggle" onclick="openNav()" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fas fa-bars"></i></button>
+                                </div>
+                                <div class="collapse" id="vartical_collapse">
+                                    <div id="mySidenav" class="sidenav	">
+                                        <div class="close-nav d-xl-none d-lg-none">
+                                            <span class="categories">Category</span>
+                                            <a href="javascript:void(0)" class="closebtn pull-right" onclick="closeNav()"><i class="fas fa-times"></i></a>
+                                        </div>
+
+                                        <ul class="vertical_main_menu sp_menu navbar navbar-nav">
+                                            <li class="dropdown mega_menu m1_menu level-1 font-weight-bolder">
+                                                <a class="dropdown-toggle" href="single-product.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-mobile-alt"></i>portfolio&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <ul class="row mx-0">
+                                                            <li class="mg_menu col-lg-6 col-md-12 ">
+                                                                <ul>
+                                                                    <li class="h_title text-uppercase font-weight-bold border-bottom">portfolio grid 2</li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="portfolio-grid-2.html">portfolio grid 2</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="portfolio-grid-3.html">portfolio grid 3</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="portfolio-grid-4.html">portfolio grid 4</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="mesonary-grid-2.html">mesonary grid 2</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="mesonary-grid-3.html">mesonary grid 3</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="mesonary-grid-4.html">mesonary grid 4</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li class="mg_menu col-lg-6 col-md-12">
+                                                                <ul>
+                                                                    <li class="h_title text-uppercase font-weight-bold border-bottom">theme elements</li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="title.html">title</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="category-style.html">category</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="services.html">services</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="product-tab.html">product tab</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="multi-slider-product.html">multi slider product</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown level-1 font-weight-bolder">
+                                                <a class="dropdown-toggle" href="blog.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="far fa-hourglass"></i>blog&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item font-weight-bolder" href="blog.html">blog</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="blog-left-sidebar.html">left sidebar</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="blog-right-sidebar.html">right sidebar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown level-1 font-weight-bolder">
+                                                <a class="dropdown-toggle" href="shop-left-sidebar.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-laptop"></i>shop&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item font-weight-bolder" href="shop-left-sidebar.html">left sidebar</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="shop-right-sidebar.html">right sidebar</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown mega_menu level-1 font-weight-bolder">
+                                                <a class="dropdown-toggle" href="single-product.html" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-mobile-alt"></i>Smartphone&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <ul class="row mx-0">
+                                                            <li class="mg_menu col-lg-4 col-md-12 ">
+                                                                <ul>
+                                                                    <li class="h_title text-uppercase font-weight-bold border-bottom">fashion</li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">Laptop</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">head phone</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">computer</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">chair</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">mobile</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li class="mg_menu col-lg-4 col-md-12">
+                                                                <ul>
+                                                                    <li class="h_title text-uppercase font-weight-bold border-bottom">fashion</li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">Laptop</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">head phone</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">computer</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">chair</a></li>
+                                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">mobile</a></li>
+                                                                </ul>
+                                                            </li>
+                                                            <li class="mg_menu col-lg-4 col-md-12">
+                                                                <ul>
+                                                                    <li><a href="single-product.html">
+                                                                        <img src="~/Content/TmpUserImages/product/deal2.jpg" class="fst-image mx-auto d-block mb-1 img-fluid" alt="deal2"></a></li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown level-1 font-weight-bolder">
+                                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-laptop"></i>pages&nbsp;<span class="float-right mt-1"><i class="fas fa-angle-down"></i></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item font-weight-bolder" href="about-us.html">about us</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="login.html">login</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="registration.html">registration</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="single-product.html">single product</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="single-blog.html">single blog</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="cart.html">cart</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="compare.html">compare</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="wishlist.html">wishlist</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="checkout.html">check out</a></li>
+                                                    <li><a class="dropdown-item font-weight-bolder" href="forgot.html">forgot password</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-tv"></i>TV & Audio</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-headphones-alt"></i>Headphone</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="far fa-clock"></i>Smart watch</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="shop-left-sidebar.html"><i class="far fa-keyboard"></i>Accessories</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-tshirt"></i>Fashion</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-universal-access"></i>Sale and Offers</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="shop-left-sidebar.html"><i class="far fa-keyboard"></i>Accessories</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-tshirt"></i>Fashion</a></li>
+                                            <li class="level-1 font-weight-bolder"><a href="single-product.html"><i class="fas fa-universal-access"></i>Sale and Offers</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> <!-- v_menu bg-white rounded -->
+                        </div> <!-- col-md-3 vertical_menu -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom_container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4">
+                <div class="shop_sidebar border card-body rounded bg-white">
+
+                    <h2 class="text-uppercase card-title  font-weight-bold d-md-block d-none">filter by</h2>
+
+                    <div class="s_filter mt-0">
+                        <h6 class="text-uppercase  border-bottom font-weight-bold">Range<button class="toggle collapsed" data-toggle="collapse" data-target="#shop_range_collapse"></button></h6>
+                        <div class="collapse " id="shop_range_collapse">
+                            <div class="col-md-6 col-sm-12 pl-0 pr-md-2 pr-sm-0 pr-0">
+                                <label class="font-weight-bolder">min</label>
+                                <input type="number" class="form-control" placeholder="$0">
+                            </div>
+                            <div class="col-md-6 col-sm-12 pr-0 pl-md-2 pl-sm-0 pl-0 ">
+                                <label class="font-weight-bolder">max</label>
+                                <input type="number" class="form-control" placeholder="$0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s_filter form">
+                        <h6 class="text-uppercase  border-bottom font-weight-bold">color<button class="toggle collapsed" data-toggle="collapse" data-target="#shop_color_collapse"></button></h6>
+                        <div class="collapse" id="shop_color_collapse">
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">pink</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input " type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">yellow</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">white</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">black</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="s_filter">
+                        <h6 class="text-uppercase border-bottom font-weight-bold">brand<button class="toggle collapsed" data-toggle="collapse" data-target="#shop_brand_collapse"></button></h6>
+                        <div class="collapse" id="shop_brand_collapse">
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">brand1</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">brand1</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">another brand</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="s_filter">
+                        <h6 class="text-uppercase border-bottom font-weight-bold">size<button class="toggle collapsed" data-toggle="collapse" data-target="#shop_size_collapse"></button></h6>
+                        <div class="collapse" id="shop_size_collapse">
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">s</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">m</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">l</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <span class="form-check-label font-weight-bolder">xl</span>
+                                <span class="text-right float-right font-weight-bolder">(1)</span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <button data-search-url="#" class="btn btn-primary clear_btn ">Clear all</button>
+
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-9 col-md-8">
+
+                <div class="row shop_grid_list_row mb-5 bg-white p-2 p-md-1 mb-lg-3 mx-0">
+                    <div class="col-xl-2 col-sm-2 col-4 pl-0">
+                        <a href="#" id="grid" class="btn">
+                            <span class="grid_icon  p-1"><i class="fas fa-th"></i></span>
+                        </a>
+                        <a href="#" id="list" class="btn">
+                            <span class="list_icon  p-1"><i class="fas fa-list"></i></span>
+                        </a>
+                    </div>
+                    <div class="col-xl-4 d-xl-inline-block d-lg-none d-sm-none d-none">
+                        <div class="show-product pt-1"><a href="#">Il existe @Model.Products.Count() produits</a></div>
+                    </div>
+                    <div class="col-xl-6 col-sm-10 col-8 pr-0 sortpro">
+                        <div class="sort-by text-right">
+                            <div class="sort">
+                                <select class="custom-select" id="inlineFormCustomSelect">
+                                    <option selected>Relevance...</option>
+                                    <option value="1">Relevance</option>
+                                    <option value="2">Name, A to Z</option>
+                                    <option value="3">Name, Z to A</option>
+                                    <option value="3">Price, low to high</option>
+                                    <option value="3">Price, high to low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="products" class="row">
+                    @foreach (var product in Model.Products)
+                    {
+                    <div class="item col-xl-3">
+                        <div class="product_thumb bg-white rounded">
+                            <div class="pro_image">
+                                <a href="single-product.html">
+                                    <img src="@product.Picture" 
+                                         class="fst-image mx-auto d-block img-fluid" alt="product_1"></a>
+                                <a href="single-product.html">
+                                    <img src="@product.Picture"
+                                         class="second-img mx-auto d-block img-fluid" alt="product_2">
+                                </a>
+                            </div>
+
+                            <div class="text-center main_text pt-3">
+                                <div>
+                                    <div class="star mb-2">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <h2 class="pro-heading  font-weight-bolder mb-1	">
+                                        <a href="single-product.html">@product.Name</a></h2>
+
+                                    <span>
+                                        <span class="font-weight-bold price">
+                                            @product.Price TND
+                                        </span> 
+                                        @*<del class="text-muted">$100.00</del>*@
+                                    </span>
+
+                                    <p class="description mt-1 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+
+                                    <div class="button-group">
+                                        <a href="#" class="symbol" data-toggle="modal" data-target="#cart_model"><svg width="20px" height="19px"><use xlink:href="#pro_cart"></use></svg></a>
+                                        <a href="#" class="symbol" data-toggle="modal" data-target="#compare_model"><svg width="20px" height="19px"><use xlink:href="#pro_compare"></use></svg></a>
+                                        <a href="#" class="symbol" data-toggle="modal" data-target="#eye_model"><svg width="20px" height="19px"><use xlink:href="#pro_eye"></use></svg></a>
+                                        <a href="#" class="symbol" data-toggle="modal" data-target="#heart_model"><svg width="20px" height="19px"><use xlink:href="#pro_heart"></use></svg></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container custom_container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="float-right mt-5 mt-col-3">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+</div>
