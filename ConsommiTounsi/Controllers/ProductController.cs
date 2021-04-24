@@ -37,16 +37,7 @@ namespace ConsommiTounsi.Controllers
         {
             var categories = await categoryRepository.Get();
             var products = await productRepository.Get();
-
-
-            Cart cart = null;
-            var user = Session["user"] as User;
-            if (user != null)
-            {
-                var response = await cartRepository.Get(1);
-                cart = response.Body;
-            }
-
+            Cart cart = await _getCart();
 
             var homeViewModel = new ProductIndexViewModel()
             {
@@ -58,8 +49,44 @@ namespace ConsommiTounsi.Controllers
             return View(homeViewModel);
         }
 
-       
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
+        {
+            var product = await productRepository.Get(id);
+            
+            if (product == null)
+            {
+                return View("~/Views/Shared/NotFound.cshtml");
+            }
 
+
+            var categories = await categoryRepository.Get();
+            Cart cart = await _getCart();
+
+            var model = new ProductDetailsViewModel()
+            {
+                Cart = cart,
+                Product = product,
+                Categories = categories
+            };
+
+            return View(model);
+        }
+
+
+        private async Task<Cart> _getCart()
+        {
+            Cart cart = null;
+            var user = Session["user"] as User;
+            if (user != null)
+            {
+                var response = await cartRepository.Get((int)user.id);
+                cart = response.Body;
+            }
+
+            return cart;
+        }
+       
         public ActionResult Product(long id)
         {
             return DisplayProduct(id);

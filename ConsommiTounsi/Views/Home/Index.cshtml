@@ -5,6 +5,16 @@
 }
 
 
+@section SearchCategories {
+    <select class="select-menu form-select d-none d-sm-block">
+        <option value="selected">Les categories</option>
+        @foreach (var category in Model.Categories)
+        {
+            <option value=@category.Id>@category.Name</option>
+        }
+    </select>
+}
+
 <div id="home_vertical_menu" class="container custom_container menu_slider ">
     <div class="row ">
         <div class="col-lg-3 vertical_menu ">

@@ -13,7 +13,6 @@ namespace ConsommiTounsi.Models.Products
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
         public List<Product> Products { get; set; }
-        //public Category BaseCategory { get; set; };
         public List<Category> SubCategories { get; set; }
     }
 }
