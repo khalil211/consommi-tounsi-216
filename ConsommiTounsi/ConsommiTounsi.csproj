@@ -153,6 +153,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CategorieController.cs" />
+    <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -161,13 +163,21 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Payment\AddItemModel.cs" />
+    <Compile Include="Models\Forum\DuplicateTopic.cs" />
+    <Compile Include="Models\Forum\Post.cs" />
+    <Compile Include="Models\Forum\PostLike.cs" />
+    <Compile Include="Models\Forum\Star.cs" />
+    <Compile Include="Models\Forum\Topic.cs" />
     <Compile Include="Models\Payment\Cart.cs" />
     <Compile Include="Models\Payment\Item.cs" />
     <Compile Include="Models\Payment\ResponseModel.cs" />
     <Compile Include="Models\Products\AdvertisementProduct.cs" />
     <Compile Include="Models\Products\Category.cs" />
+    <Compile Include="Models\Products\Comment.cs" />
+    <Compile Include="Models\Products\CommentLike.cs" />
     <Compile Include="Models\Products\Discount.cs" />
     <Compile Include="Models\Products\Product.cs" />
+    <Compile Include="Models\Products\ProductRating.cs" />
     <Compile Include="Models\Products\Tax.cs" />
     <Compile Include="Models\Products\ValueType.cs" />
     <Compile Include="Models\User\Address.cs" />
@@ -2050,7 +2060,8 @@
     <Content Include="Content\Admin\plugins\uplot\uPlot.iife.js" />
     <Content Include="Content\Admin\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\Admin\plugins\uplot\uPlot.min.css" />
-    <Content Include="Content\Shared\img\ConsommiTounsiLogo.jpg" />
+    <Content Include="Content\Shared\img\ConsommiTounsiLogo.png" />
+    <Content Include="Content\Shared\img\consommitounsi_icon.ico" />
     <Content Include="Content\TmpUserImages\8.html" />
     <Content Include="Content\TmpUserImages\about_us\about_us.jpg" />
     <Content Include="Content\TmpUserImages\about_us\fullsc3.jpg" />
@@ -2296,12 +2307,18 @@
     <Content Include="Views\User\Addresses.cshtml" />
     <Content Include="Views\User\EditAddress.cshtml" />
     <Content Include="Views\User\ManageUsers.cshtml" />
+    <Content Include="Views\Forum\Index.cshtml" />
+    <Content Include="Views\Forum\Topic.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Categorie\Create.cshtml" />
+    <Content Include="Views\Product\Product.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Forum\" />
     <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
