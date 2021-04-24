@@ -153,6 +153,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -171,8 +172,11 @@
     <Compile Include="Models\Payment\ResponseModel.cs" />
     <Compile Include="Models\Products\AdvertisementProduct.cs" />
     <Compile Include="Models\Products\Category.cs" />
+    <Compile Include="Models\Products\Comment.cs" />
+    <Compile Include="Models\Products\CommentLike.cs" />
     <Compile Include="Models\Products\Discount.cs" />
     <Compile Include="Models\Products\Product.cs" />
+    <Compile Include="Models\Products\ProductRating.cs" />
     <Compile Include="Models\Products\Tax.cs" />
     <Compile Include="Models\Products\ValueType.cs" />
     <Compile Include="Models\User\Address.cs" />
@@ -2304,6 +2308,8 @@
     <Content Include="Views\Forum\Topic.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Categorie\Create.cshtml" />
+    <Content Include="Views\Product\Product.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,120 @@
+﻿@model ConsommiTounsi.Models.ViewModels.ProductIndexViewModel
+
+@{
+    ViewBag.Title = ViewBag.product.Name;
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
+
+<div id="right_blog_sidebar_page" class="right-blog-page blog-page animate__animated animate__fadeInUp">
+
+    <div class="sp_header bg-white p-3   animate__animated animate__fadeInUp">
+        <div class="container custom_container ">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li class="d-inline-block hr_ font-weight-bolder"><a href="@Url.Action("Index", "Forum")">Forum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom_container">
+
+        <div class="row">
+            <div class="col-md-8 col-lg-8 col-xl-9 col-sm-12 b_left_blog mb-3 mb-md-0">
+                <div class="row sh_page rounded">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card mb-4  animate__animated animate__fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
+                            <div class="card-body p-0 mt-3">
+                                <div class="item col-xl-3">
+                                    <div class="product_thumb bg-white rounded">
+                                        <div class="pro_image">
+                                            <a href="single-product.html">
+                                                <img src="@ViewBag.product.Picture"
+                                                     class="fst-image mx-auto d-block img-fluid" alt="product_1">
+                                            </a>
+                                            <a href="single-product.html">
+                                                <img src="@ViewBag.product.Picture"
+                                                     class="second-img mx-auto d-block img-fluid" alt="product_2">
+                                            </a>
+                                        </div>
+                                        <h2 class="card-title mt-3 font-weight-bold" style="text-transform:none;">@ViewBag.product.Name</h2>
+                                        <p class="text-muted f_13" style="text-transform:none;">
+                                            @ViewBag.product.Description
+                                        </p>
+                                        <p class="text-muted f_13" style="text-transform:none;">
+                                            @ViewBag.product.Price TND
+                                        </p>
+                                        <div class="blog_subtitle">
+                                            <span class="font-weight-bolder pr-2"><i class="far fa-calendar-alt mr-2"></i> @ViewBag.product.CreationDate.ToString("dd/MM/yyyy") </span>
+
+                                        </div>
+                                    </div>
+
+                                    @{ double starAvg = 0;
+                                        if (ViewBag.product.ratings.Count != 0)
+                                        {
+                                            starAvg = (int)(((ConsommiTounsi.Models.Products.Product)ViewBag.product).ratings.Select(s => s.starRate).Average() * 100);
+                                            starAvg = starAvg / 100;
+                                        }
+                                    }
+                                    @if (user != null)
+                                    {
+                                        ConsommiTounsi.Models.Products.ProductRating userStar = null;
+                                        if (ViewBag.product.ratings.Count != 0)
+                                        {
+                                            userStar = ((ConsommiTounsi.Models.Products.Product)ViewBag.product).ratings.Where(s => s.user.id == user.id).FirstOrDefault();
+                                        }
+                                        <span class="font-weight-bolder border-secondary border-left pl-2">
+                                            @for (int i = 1; i < 6; i++)
+                                            {
+                                                <a href="@Url.Action("Rate", "Products", new { id = ViewBag.product.Id ,starRate = i })"><i class="@Html.Raw((userStar == null) ? "far" : ((i <= userStar.starRate) ? "fas" : "far")) fa-star" style="color: gold;"></i></a>
+                                            }
+                                            @starAvg
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-left: 21px;" class="text-danger">Comments</h4>
+                   
+                    @foreach (ConsommiTounsi.Models.Products.Comment comment in ViewBag.comments)
+                    {
+                        ConsommiTounsi.Models.Products.CommentLike userLike = null;
+                        if (comment.likes.Count != 0 && user != null)
+                        {
+                            userLike = comment.likes.Where(l => l.user.id == user.id).FirstOrDefault();
+                        }
+                         <div class="col-lg-12 col-md-12">
+                            <div class="card mb-4  animate__animated animate__fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
+                                <div class="card-body p-0 mt-3">
+                                    <h2 class="card-title mt-3 font-weight-bold" style="text-transform:none;">@comment.content</h2>
+                                   
+                                    <div class="blog_subtitle">
+                                        <span class="font-weight-bolder pr-2" style="text-transform:none;"><i class="fas fa-user mr-2"></i>@comment.user.username </span>
+                                        <span class="font-weight-bolder border-secondary border-left border-right px-2"><i class="far fa-calendar-alt mr-2"></i> @comment.date.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                        <span class="font-weight-bolder border-secondary pl-2"><a href="#" onclick="likePost(@comment.id, true)"><i id="like-icon-p-@comment.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "fas" : "far")) fa-thumbs-up mr-2" style="color: red;"></i><span id="like-count-p-@comment.id">@comment.likes.Where(l => l.liked).Count()</span> Like</a></span>
+                                        <span class="font-weight-bolder pl-2"><a href="#" onclick="likePost(@comment.id, false)"><i id="dislike-icon-p-@comment.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "far" : "fas")) fa-thumbs-down mr-2" style="color: red;"></i><span id="dislike-count-p-@comment.id">@comment.likes.Where(l => l.liked != true).Count()</span> Dislike</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    }
+
