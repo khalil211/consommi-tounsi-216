@@ -10,9 +10,22 @@ namespace ConsommiTounsi.Repositories.Product
 {
     public class ProductRepository : IProductRepository
     {
-        public Models.Products.Product Get(int id)
+        public async Task<Models.Products.Product> Get(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            var client = HttpClientBuilder.Get();
+            var response = await client.GetAsync($"products/{id}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new InvalidOperationException($"Error from the server: {response.StatusCode}");
+            }
+
+            return await response.Content.ReadAsAsync<Models.Products.Product>();
         }
 
         public async Task<IEnumerable<Models.Products.Product>> Get()

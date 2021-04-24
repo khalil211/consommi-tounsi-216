@@ -34,7 +34,7 @@ namespace ConsommiTounsi.Controllers
             var user = Session["user"] as User;
             if (user != null)
             {
-                var response = await cartRepository.Get(1);
+                var response = await cartRepository.Get((int)user.id);
                 cart = response.Body;
             }
 

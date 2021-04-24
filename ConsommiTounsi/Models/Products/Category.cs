@@ -11,7 +11,6 @@ namespace ConsommiTounsi.Models.Products
         public int Id { get; set; }
         public string Name { get; set; }
         public List<Product> Products { get; set; }
-        public Category BaseCategory { get; set; }
         public List<Category> SubCategories { get; set; }
     }
 }

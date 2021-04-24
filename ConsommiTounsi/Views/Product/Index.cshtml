@@ -4,6 +4,16 @@
     ViewBag.Title = "Produits";
 }
 
+@section SearchCategories {
+    <select class="select-menu form-select d-none d-sm-block">
+        <option value="selected">Les categories</option>
+        @foreach (var category in Model.Categories)
+        {
+            <option value=@category.Id>@category.Name</option>
+        }
+    </select>
+}
+
 <div id="shop_page" class="shop-page animate__animated animate__fadeInUp">
 
 
@@ -121,8 +131,11 @@
                                                             </li>
                                                             <li class="mg_menu col-lg-4 col-md-12">
                                                                 <ul>
-                                                                    <li><a href="single-product.html">
-                                                                        <img src="~/Content/TmpUserImages/product/deal2.jpg" class="fst-image mx-auto d-block mb-1 img-fluid" alt="deal2"></a></li>
+                                                                    <li>
+                                                                        <a href="single-product.html">
+                                                                            <img src="~/Content/TmpUserImages/product/deal2.jpg" class="fst-image mx-auto d-block mb-1 img-fluid" alt="deal2">
+                                                                        </a>
+                                                                    </li>
                                                                 </ul>
                                                             </li>
                                                         </ul>
@@ -299,49 +312,51 @@
                 <div id="products" class="row">
                     @foreach (var product in Model.Products)
                     {
-                    <div class="item col-xl-3">
-                        <div class="product_thumb bg-white rounded">
-                            <div class="pro_image">
-                                <a href="single-product.html">
-                                    <img src="@product.Picture" 
-                                         class="fst-image mx-auto d-block img-fluid" alt="product_1"></a>
-                                <a href="single-product.html">
-                                    <img src="@product.Picture"
-                                         class="second-img mx-auto d-block img-fluid" alt="product_2">
-                                </a>
-                            </div>
+                        <div class="item col-xl-3">
+                            <div class="product_thumb bg-white rounded">
+                                <div class="pro_image">
+                                    <a href="/Product/Details/@product.Id">
+                                        <img src="@product.Picture"
+                                             class="fst-image mx-auto d-block img-fluid" alt="product_1">
+                                    </a>
+                                    <a href="/Product/Details/@product.Id">
+                                        <img src="@product.Picture"
+                                             class="second-img mx-auto d-block img-fluid" alt="product_2">
+                                    </a>
+                                </div>
 
-                            <div class="text-center main_text pt-3">
-                                <div>
-                                    <div class="star mb-2">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                    <h2 class="pro-heading  font-weight-bolder mb-1	">
-                                        <a href="single-product.html">@product.Name</a></h2>
+                                <div class="text-center main_text pt-3">
+                                    <div>
+                                        <div class="star mb-2">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        </div>
+                                        <h2 class="pro-heading  font-weight-bolder mb-1	">
+                                            <a href="/Product/Details/@product.Id">@product.Name</a>
+                                        </h2>
 
-                                    <span>
-                                        <span class="font-weight-bold price">
-                                            @product.Price TND
-                                        </span> 
-                                        @*<del class="text-muted">$100.00</del>*@
-                                    </span>
+                                        <span>
+                                            <span class="font-weight-bold price">
+                                                @product.Price TND
+                                            </span>
+                                            @*<del class="text-muted">$100.00</del>*@
+                                        </span>
 
-                                    <p class="description mt-1 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                                        <p class="description mt-1 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
 
-                                    <div class="button-group">
-                                        <a href="#" class="symbol" data-toggle="modal" data-target="#cart_model"><svg width="20px" height="19px"><use xlink:href="#pro_cart"></use></svg></a>
-                                        <a href="#" class="symbol" data-toggle="modal" data-target="#compare_model"><svg width="20px" height="19px"><use xlink:href="#pro_compare"></use></svg></a>
-                                        <a href="#" class="symbol" data-toggle="modal" data-target="#eye_model"><svg width="20px" height="19px"><use xlink:href="#pro_eye"></use></svg></a>
-                                        <a href="#" class="symbol" data-toggle="modal" data-target="#heart_model"><svg width="20px" height="19px"><use xlink:href="#pro_heart"></use></svg></a>
+                                        <div class="button-group">
+                                            <a href="#" class="symbol" data-toggle="modal" data-target="#cart_model"><svg width="20px" height="19px"><use xlink:href="#pro_cart"></use></svg></a>
+                                            <a href="#" class="symbol" data-toggle="modal" data-target="#compare_model"><svg width="20px" height="19px"><use xlink:href="#pro_compare"></use></svg></a>
+                                            <a href="#" class="symbol" data-toggle="modal" data-target="#eye_model"><svg width="20px" height="19px"><use xlink:href="#pro_eye"></use></svg></a>
+                                            <a href="#" class="symbol" data-toggle="modal" data-target="#heart_model"><svg width="20px" height="19px"><use xlink:href="#pro_heart"></use></svg></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
                     }
 
                 </div>
@@ -374,6 +389,4 @@
             </div>
         </div>
     </div>
-
-
 </div>
