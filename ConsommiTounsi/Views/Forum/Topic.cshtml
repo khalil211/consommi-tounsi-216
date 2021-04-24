@@ -57,12 +57,12 @@
                                             {
                                                 <a href="@Url.Action("Rate", "Forum", new { id = ViewBag.topic.id, page = ViewBag.page, sort = ViewBag.sort, value = i })"><i class="@Html.Raw((userStar == null) ? "far" : ((i <= userStar.value) ? "fas" : "far")) fa-star" style="color: gold;"></i></a>
                                             }
-                                            @starAvg
+                                            @starAvg (@ViewBag.topic.stars.Count)
                                         </span>
                                     }
                                     else
                                     {
-                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg</span>
+                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg (@ViewBag.topic.stars.Count)</span>
                                     }
                                 </div>
                             </div>
