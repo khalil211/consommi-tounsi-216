@@ -50,7 +50,7 @@
                                                 starAvg = starAvg / 100;
                                             }
                                         }
-                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg</span>
+                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg (@topic.stars.Count)</span>
                                     </div>
                                     @Html.ActionLink("View topic", "Topic", "Forum", new { id = topic.id }, new { @class = "btn btn-primary mt-2 f_13 px-3 py-2" })
                                 </div>

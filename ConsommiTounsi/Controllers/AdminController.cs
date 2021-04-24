@@ -12,9 +12,8 @@ namespace ConsommiTounsi.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            //if (Session["user"] == null || ((User)Session["user"]).type != UserType.ADMIN)
-            //    return RedirectToAction("Index", "Home");
-            
+            if (Session["user"] == null || ((User)Session["user"]).type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
             return View();
         }
     }

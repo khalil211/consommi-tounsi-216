@@ -1,14 +1,12 @@
-﻿
-@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
+﻿@{ var user = (ConsommiTounsi.Models.User.User)Session["user"]; }
 <!DOCTYPE html>
 <html class="" lang="en">
 <head>
     <title>@ViewBag.Title - Consommi Tounsi #216</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     @Styles.Render("~/bundles/UserStyles")
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/Favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/Shared/img/consommitounsi_icon.ico">
 </head>
 <body>
 
@@ -509,11 +507,11 @@
                                 @if (user == null)
                                 {
                                     <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <a href="#" class="font-weight-bolder"> Mon compte&nbsp;<i class="fas fa-angle-down"></i></a>
+                                        <a href="#" class="font-weight-bolder"> My account&nbsp;<i class="fas fa-angle-down"></i></a>
                                     </span>
                                     <div class="dropdown-menu r_menu dropdown-menu-right">
-                                        @Html.ActionLink("Connexion", "Login", "User", null, new { @class = "dropdown-item font-weight-bolder" })
-                                        @Html.ActionLink("Créez un compte", "Register", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        @Html.ActionLink("Login", "Login", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        @Html.ActionLink("Register", "Register", "User", null, new { @class = "dropdown-item font-weight-bolder" })
                                     </div>
                                 }
                                 else
@@ -547,8 +545,8 @@
             <div class="container custom_container header-top-container">
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-6  head-logo">
-                        <div class="text-left header-top-left pt-2"><a href="index.html">
-                            <img src="~/Content/Shared/img/ConsommiTounsiLogo.jpg" 
+                        <div class="text-left header-top-left pt-2"><a href="@Url.Action("Index", "Home")">
+                            <img src="~/Content/Shared/img/ConsommiTounsiLogo.png" 
                                  class="img-responsive img" width="45" height="45" alt="ConsommiTounsi"></a></div>
                     </div> <!-- col-xl-2 col-lg-2 col-md-2 col-sm-3 head-logo -->
                     <div class="col-xl-10 col-lg-10 col-6  head-search">
@@ -558,10 +556,12 @@
                                     
                                     <select class="select-menu form-select d-none d-sm-block">
                                         <option value="selected">Les categories</option>
+
                                         @* @foreach (var category in Model.Categories)
                                         {
                                             <option value=@category.Id>@category.Name</option>
                                         }*@
+
                                         @RenderSection("NavbarCategoriesList", required: false)
                                     </select>
 
@@ -649,7 +649,7 @@
                     <div class="col-lg-9 text-left">
                         @RenderSection("AddionalNavbarLinks", required: false)
                         <ul class="main-menu navbar">
-                            <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
                         </ul>
                         <ul class="main-menu navbar">
