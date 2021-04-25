@@ -3,6 +3,7 @@ using ConsommiTounsi.Repositories.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -32,6 +33,10 @@ namespace ConsommiTounsi.Controllers
                 Quantity = quantity
             };
             var model = await cartRepository.AddItem(id, item, productId);
+            if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, model.ErrorMessage);
+            }
             return Json(model);
         }
     }

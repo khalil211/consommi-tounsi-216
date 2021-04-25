@@ -19,11 +19,6 @@ namespace ConsommiTounsi.Repositories.Payment
 
             var model = await response.Content.ReadAsAsync<ResponseModel<Cart>>();
 
-            if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
-            {
-                throw new InvalidOperationException(model.ErrorMessage);
-            }
-
             return model;
         }
 

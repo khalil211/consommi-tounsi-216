@@ -238,6 +238,16 @@
                     <a href="#" class="btn btn-primary primary" onclick="addToCart(@user.id)">Ajouter au Panier</a>
                 </span>
             </div>
+            <div class="row">
+                <div class="col-12 my-2">
+                    <div class="alert alert-success" role="alert" id="successMessage" style="display: none;">
+                        Produit ajouté avec succés!
+                    </div>
+                    <div class="alert alert-danger" role="alert" id="errorMessage" style="display: none;">
+                        Une erreur s'est produite, veuillez réessayer
+                    </div>
+                </div>
+            </div>
             }
                 
 
@@ -429,55 +439,38 @@
             document.getElementById('photo-display').innerHTML = '<a href="' + objUrl + '" id="selected-photo"><img src="' + objUrl + '" id="selected-photo" alt=""></a>';
         }
 
+        function hideMessages() {
+            $('#errorMessage').hide(0);
+            $('#successMessage').hide(0);
+        }
+
         function addToCart($event) {
+            hideMessages();
             var productQuantity = parseInt(document.getElementById("productCountInput").value);
             
             var url = '/Cart/AddItem/'
                         + @cartId
                         + '/?productId=' + @Model.Product.Id + '&quantity=' + productQuantity;
-            @*var body = {
+            var body = {
                 productId: @Model.Product.Id,
                 productQuantity: productQuantity
             };
             body = JSON.stringify(body);
-            console.log(body);*@
-            console.log(url);
-            //console.log(body)
-            $.post(url, null, function (data, status) {
-                if (status === 'success') {
-                    displayToast(status)
-                } else {
 
+            $.ajax({
+                statusCode: {
+                    400: function () {
+                        $('#errorMessage').show(500);
+                    }
+                },
+                url,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    $('#successMessage').show(500);
                 }
-                console.log(data);
-                console.log(status);
-            });
+            })
         }
-
-        function displayToast() {
-            var html;
-            if (status === 'success') {
-                html = '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">' +
-                            '<div class="toast-header" >' +
-                                '<img src="..." class="rounded mr-2" alt="...">' +
-                                '<strong class="mr-auto">Bootstrap</strong>' +
-                                '<small>11 mins ago</small>' +
-                                '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">' +
-                                    '<span aria-hidden="true">&times;</span>' +
-                                '</button>' +
-                            '</div>' +
-                            '<div class="toast-body">' +
-                                'Hello, world! This is a toast message.' +
-                            '</div>' +
-                        '</div >';
-            } else {
-                html = '';
-            }
-            //select
-            document.getElementById('toastContainer').html = html;
-            //inject
-        }
-
     </script>
 
 }
