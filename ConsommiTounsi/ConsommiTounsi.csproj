@@ -2315,6 +2315,7 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Categorie\Create.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
+    <Content Include="Views\Shared\_Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

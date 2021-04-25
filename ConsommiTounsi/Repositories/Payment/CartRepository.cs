@@ -16,7 +16,15 @@ namespace ConsommiTounsi.Repositories.Payment
             throw new NotImplementedException();
         }
 
-        public async Task<ResponseModel<Cart>> Get(int userId)
+        public ResponseModel<Cart> Get(int userId)
+        {
+            var client = HttpClientBuilder.Get();
+            var response = client.GetAsync($"users/{userId}/cart").Result;
+
+            return response.Content.ReadAsAsync<ResponseModel<Cart>>().Result;
+        }
+
+        public async Task<ResponseModel<Cart>> GetAsync(int userId)
         {
             var client = HttpClientBuilder.Get();
             var response = await client.GetAsync($"users/{userId}/cart");

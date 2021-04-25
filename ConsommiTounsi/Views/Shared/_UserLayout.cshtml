@@ -579,7 +579,9 @@
                                             <a class=" md_login" href="#"></a>
                                         </div>
                                     </li>
-                                    @RenderSection("CartBtn", required: false)
+                                    @if(user != null){
+                                        Html.RenderAction("RenderCart", "Home");
+                                    }
 
 
                                 </ul>
