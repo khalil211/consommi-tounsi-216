@@ -1,7 +1,9 @@
 ﻿using ConsommiTounsi.Models.Payment;
+using ConsommiTounsi.Repositories.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,6 +11,13 @@ namespace ConsommiTounsi.Controllers
 {
     public class CartController : Controller
     {
+        private readonly ICartRepository cartRepository;
+
+        public CartController(ICartRepository cartRepository)
+        {
+            this.cartRepository = cartRepository;
+        }
+
         // GET: Cart
         public ActionResult Index()
         {
@@ -16,9 +25,14 @@ namespace ConsommiTounsi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddItem(AddItemModel addItemModel)
+        public async Task<ActionResult> AddItem(int id, int productId, int quantity)
         {
-            return null;
+            var item = new Item()
+            {
+                Quantity = quantity
+            };
+            var model = await cartRepository.AddItem(id, item, productId);
+            return Json(model);
         }
     }
 }

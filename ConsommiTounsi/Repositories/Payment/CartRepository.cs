@@ -11,9 +11,20 @@ namespace ConsommiTounsi.Repositories.Payment
 {
     public class CartRepository : ICartRepository
     {
-        public Task<ResponseModel<Cart>> AddItem(int userId, Item item)
+        public async Task<ResponseModel<Cart>> AddItem(int cartId, Item item, int productId)
         {
-            throw new NotImplementedException();
+            var client = HttpClientBuilder.Get();
+            var response = await client.PostAsJsonAsync<Item>(
+                $"users/carts/{cartId}/items/{productId}", item);
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<Cart>>();
+
+            if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+            {
+                throw new InvalidOperationException(model.ErrorMessage);
+            }
+
+            return model;
         }
 
         public ResponseModel<Cart> Get(int userId)

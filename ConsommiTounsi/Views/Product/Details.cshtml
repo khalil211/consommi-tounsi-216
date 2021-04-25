@@ -5,6 +5,7 @@
     ViewBag.Title = Model.Product.Name;
     var user = Session["user"] as ConsommiTounsi.Models.User.User;
     var ApiBaseAddress = ConsommiTounsi.Utils.HttpClientBuilder.BaseAddress;
+    var cartId = Model.Cart == null ? -1 : Model.Cart.Id;
 }
 
 @section SearchCategories {
@@ -353,6 +354,7 @@
                                 </div>
                             </div>
                         </div>*@
+                        <div style="width: 100%; height: 200px" id="toastContainer"></div>
                     </div>
                 </div>
             </div>
@@ -429,18 +431,51 @@
 
         function addToCart($event) {
             var productQuantity = parseInt(document.getElementById("productCountInput").value);
-            var url = '/Cart/AddItem/';
-            var body = {
+            
+            var url = '/Cart/AddItem/'
+                        + @cartId
+                        + '/?productId=' + @Model.Product.Id + '&quantity=' + productQuantity;
+            @*var body = {
                 productId: @Model.Product.Id,
                 productQuantity: productQuantity
             };
             body = JSON.stringify(body);
+            console.log(body);*@
             console.log(url);
-            console.log(body)
-            $.post(url, body, function (data, status) {
+            //console.log(body)
+            $.post(url, null, function (data, status) {
+                if (status === 'success') {
+                    displayToast(status)
+                } else {
+
+                }
                 console.log(data);
                 console.log(status);
             });
+        }
+
+        function displayToast() {
+            var html;
+            if (status === 'success') {
+                html = '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">' +
+                            '<div class="toast-header" >' +
+                                '<img src="..." class="rounded mr-2" alt="...">' +
+                                '<strong class="mr-auto">Bootstrap</strong>' +
+                                '<small>11 mins ago</small>' +
+                                '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">' +
+                                    '<span aria-hidden="true">&times;</span>' +
+                                '</button>' +
+                            '</div>' +
+                            '<div class="toast-body">' +
+                                'Hello, world! This is a toast message.' +
+                            '</div>' +
+                        '</div >';
+            } else {
+                html = '';
+            }
+            //select
+            document.getElementById('toastContainer').html = html;
+            //inject
         }
 
     </script>
