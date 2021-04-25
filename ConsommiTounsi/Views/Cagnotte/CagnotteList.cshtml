@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ConsommiTounsi.Models.Evenement.Cagnotte>
+
+@{
+    ViewBag.Title = "CagnotteList";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="col-12">
+    <img src="~/Content/TmpUserImages/win.jpg" class="mx-auto rounded d-block img-fluid" alt="about_us">
+</div>
+
+
+
+    @foreach (var item in Model)
+    {
+        <div class="container custom_container ab_services_container">
+            <div class="row">
+
+                <div class="col-md-4 py-3 py-md-0">
+                    <div class="service-item border">
+                        <span class="number float-right">@Html.DisplayFor(modelItem => item.id)</span>
+                        <div><svg width="80px" height="80px"><use xlink:href="#secure"></use></svg></div>
+                        <h3 class="font-weight-bold pt-3">  jackpot : @Html.DisplayFor(modelItem => item.jackpot)</h3>
+                        <p class="font-weight-bolder text-muted mb-0">Draw final date :@Html.DisplayFor(modelItem => item.cagnotteDate) </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+       
+
