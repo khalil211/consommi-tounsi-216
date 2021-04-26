@@ -36,11 +36,18 @@ namespace ConsommiTounsi.Controllers
         {
             HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             User user = (User)Session["user"];
-            long userId = user.id;
-            string url = "bet/" + userId + "/" + cagnotteId;
-            HttpResponseMessage response = httpClient.PostAsJsonAsync<Ticket>(url,new Ticket()).Result;
-            response.EnsureSuccessStatusCode();
-            return RedirectToAction("CagnotteList", "Cagnotte");      
+            if (user == null) {
+                return RedirectToAction("Login", "User");
+
+            }
+            else
+            {
+                long userId = user.id;
+                string url = "bet/" + userId + "/" + cagnotteId;
+                HttpResponseMessage response = httpClient.PostAsJsonAsync<Ticket>(url, new Ticket()).Result;
+                response.EnsureSuccessStatusCode();
+                return RedirectToAction("CagnotteList", "Cagnotte");
+            }    
         }
        
 

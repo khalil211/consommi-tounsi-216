@@ -38,6 +38,7 @@ namespace ConsommiTounsi.Models.Evenement
 
         public double sumCollect { get; set; }
         public double maxCollect { get; set; }
+        public string picture { get; set; }
 
         [Display(Name = "Event Type")]
         [Required(ErrorMessage = "Please select an option")]
