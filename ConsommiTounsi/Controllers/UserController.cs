@@ -103,6 +103,7 @@ namespace ConsommiTounsi.Controllers
             string message = response.Content.ReadAsStringAsync().Result;
             if (message.Equals("\"SUCCESS\""))
             {
+                user.type = u.type;
                 Session["user"] = user;
                 return Redirect("Details");
             }

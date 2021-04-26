@@ -5,9 +5,8 @@
     <title>@ViewBag.Title - Consommi Tounsi #216</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     @Styles.Render("~/bundles/UserStyles")
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/Favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/Shared/img/consommitounsi_icon.ico">
 </head>
 <body>
 
@@ -493,25 +492,26 @@
         <div class="topbar-outer py-2 border-bottom bg-white d-md-none d-none d-none d-lg-block">
             <div class="container custom_container">
                 <div class="row">
-                    <div class="col-lg-5 col-md-4 col-sm-4 topbar_left">
+                    @*<div class="col-lg-5 col-md-4 col-sm-4 topbar_left">
                         <ul>
                             <li>
                                 <span class="font-weight-bolder">Get 30% Off On Selected Items</span>
                             </li>
                         </ul>
-                    </div> <!-- col-lg-5 col-md-4 col-sm-4 hidden-md-down topbar_left -->
-                    <div class="col-lg-7 col-md-8 col-sm-8 text-xs-right  topbar_right text-right">
+                    </div>*@ 
+                    <!-- col-lg-5 col-md-4 col-sm-4 hidden-md-down topbar_left -->
+                    <div class="col-lg-12 text-xs-right  topbar_right text-right">
 
                         <nav class="navbar ">
                             <div class="dropdown right1 md_acc ">
                                 @if (user == null)
                                 {
                                     <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <a href="#" class="font-weight-bolder"> Mon compte&nbsp;<i class="fas fa-angle-down"></i></a>
+                                        <a href="#" class="font-weight-bolder"> My account&nbsp;<i class="fas fa-angle-down"></i></a>
                                     </span>
                                     <div class="dropdown-menu r_menu dropdown-menu-right">
-                                        @Html.ActionLink("Connexion", "Login", "User", null, new { @class = "dropdown-item font-weight-bolder" })
-                                        @Html.ActionLink("Créez un compte", "Register", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        @Html.ActionLink("Login", "Login", "User", null, new { @class = "dropdown-item font-weight-bolder" })
+                                        @Html.ActionLink("Register", "Register", "User", null, new { @class = "dropdown-item font-weight-bolder" })
                                     </div>
                                 }
                                 else
@@ -545,22 +545,16 @@
             <div class="container custom_container header-top-container">
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-6  head-logo">
-                        <div class="text-left header-top-left pt-2"><a href="index.html">
-                            <img src="~/Content/Shared/img/ConsommiTounsiLogo.jpg" 
+                        <div class="text-left header-top-left pt-2"><a href="@Url.Action("Index", "Home")">
+                            <img src="~/Content/Shared/img/ConsommiTounsiLogo.png" 
                                  class="img-responsive img" width="45" height="45" alt="ConsommiTounsi"></a></div>
                     </div> <!-- col-xl-2 col-lg-2 col-md-2 col-sm-3 head-logo -->
                     <div class="col-xl-10 col-lg-10 col-6  head-search">
                         <div class="d-flex navbar">
                             <div class="input-class  text-left col-xl-8 col-lg-7 col-md-12  ">
                                 <div class="between-header border border-danger rounded mb-0 head-left">
-
-                                    <select class="select-menu form-select d-none d-sm-block">
-                                        <option value="selected">Les categories</option>
-                                        <option value="1">laptop</option>
-                                        <option value="2">headphone</option>
-                                        <option value="3">audio</option>
-                                    </select>
-
+                                    
+                                    @RenderSection("SearchCategories", required: false)
 
                                     <div class="input-group">
                                         <input type="text" placeholder="Saisissez des mots clés à rechercher"
@@ -585,49 +579,10 @@
                                             <a class=" md_login" href="#"></a>
                                         </div>
                                     </li>
+                                    @if(user != null){
+                                        Html.RenderAction("RenderCart", "Home");
+                                    }
 
-                                    <li class="dropdown d-inline-block">
-                                        <span class="dropdown-toggle" role="menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <a href="#">
-                                                <span><svg width="35px" height="35px"><use xlink:href="#cart"></use></svg></span>
-                                                <span class="text-danger d-lg-inline-block d-md-none d-sm-none d-none align-middle font-weight-bolder"></span><span class="text-danger price_cart d-md-inline-block align-middle font-weight-bolder">2</span>
-                                            </a>
-                                        </span>
-                                        <div class="dropdown-menu s_cart dropdown-menu-right">
-                                            <ul class="shopping-cart p-2 ">
-                                                <li class="pb-2 d-block">
-                                                    <div class="media ">
-                                                        <div>
-                                                            <a href="#"><img src="~/Content/TmpUserImages/product/product_13.jpg" class="fst-image img-fluid align-self-center" alt="product_13"></a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="mt-0 f_15">Media heading<span class="float-right cart_cross">X</span></h6>
-                                                            <p><span class="f_13">1 x $ 299.00</span></p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="pb-2 d-block border-bottom pl-0">
-                                                    <div class="media ">
-                                                        <div>
-                                                            <a href="#"><img src="~/Content/TmpUserImages/product/product_21.jpg" class="fst-image img-fluid align-self-center" alt="product_21"></a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="mt-0 f_15">Media heading<span class="float-right cart_cross">X</span></h6>
-                                                            <p><span>1 x $ 299.00</span></p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="d-block text-muted font-weight-bolder p-2 border-bottom">
-                                                    <span class="text-left">subtotal:</span>
-                                                    <span class="float-right">$230.00</span>
-                                                </li>
-                                                <li class="d-block font-weight-bolder pt-2">
-                                                    <span class="text-left"><a href="cart.html">view cart</a></span>
-                                                    <span class="float-right"><a href="checkout.html">check out</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
 
                                 </ul>
                             </div> <!-- col-sm-4 head-right text-right -->
@@ -643,25 +598,27 @@
             <div class="container custom_container">
                 <div class="row">
                     <div class="col-lg-9 text-left">
+                        @RenderSection("AddionalNavbarLinks", required: false)
                         <ul class="main-menu navbar">
-                            <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Events ", "Index", "Evenement")</li>
+
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
+                      <li>@Html.ActionLink("Events ", "Index", "Evenement")</li>
                             <li>@Html.ActionLink("Cagnotte ", "CagnotteList", "Cagnotte")</li>
                         </ul>
-                    </div> <!-- col-lg-9 text-left -->
+                        <ul class="main-menu navbar">
+                            <li>@Html.ActionLink("Nos produits", "Index", "Product")</li>
+                        </ul>
+                    </div> 
+                    <div class="col-lg-3 text-right">
+                        <a href="#" class="text-uppercase">Nous contacter</a>
+                    </div> 
+                </div>
+            </div>
+        </div>
 
-                   
 
-                        
-                        <div class="col-lg-3 text-right">
-                            <a href="#" class="text-uppercase">Nous contacter</a>
-                        </div> <!-- col-lg-3 text-right -->
-                    </div> <!-- row -->
-                </div> <!-- container custom_container -->
-        </div> <!-- header_bottom shadow-sm bg-white rounded bg-white -->
-
-    </header> <!-- header -->
-    <!-- header area end -->
+    </header>
 
     @RenderBody()
 
