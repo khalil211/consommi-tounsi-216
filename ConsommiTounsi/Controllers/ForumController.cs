@@ -137,5 +137,59 @@ namespace ConsommiTounsi.Controllers
                 return Json("failed", JsonRequestBehavior.AllowGet);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Admin() {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get();
+            HttpResponseMessage response = httpClient.GetAsync("topics?sort=date").Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<List<Topic>>().Result);
+        }
+
+        public ActionResult TopicAdmin(long id)
+        {
+            HttpClient httpClient = HttpClientBuilder.Get();
+            string url = "topics/" + id + "/posts?sort=date";
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+            ViewBag.topicId = id; 
+            return PartialView(response.Content.ReadAsAsync<List<Post>>().Result);
+        }
+
+        public JsonResult DeleteTopicAdmin(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.DeleteAsync("customer/topics/" + id).Result;
+            if (!response.IsSuccessStatusCode)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            return Json("SUCCESS", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeletePostAdmin(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.DeleteAsync("customer/posts/" + id).Result;
+            if (!response.IsSuccessStatusCode)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            return Json("SUCCESS", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DuplicateTopics()
+        {
+            return View();
+        }
+
+        public ActionResult ForbiddenWords()
+        {
+            return View();
+        }
     }
 }

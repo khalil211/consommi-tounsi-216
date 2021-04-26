@@ -1,0 +1,94 @@
+﻿@model IEnumerable<ConsommiTounsi.Models.Forum.Post>
+<div class="card">
+    <div class="card-header">
+        <h3 id="topic-title" class="card-title">Posts: </h3>
+    </div>
+    <div class="card-body">
+        <table id="post_table" class="table table-bordered table-striped" topicId="@ViewBag.topicId">
+            <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Image</th>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Likes</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ConsommiTounsi.Models.Forum.Post post in Model)
+                {
+                    <tr id="post-tr-@post.id">
+                        <td>@post.content</td>
+                        <td>
+                            @if (post.medias != null)
+                            {
+                                <a href="#" data-toggle="modal" data-target="#image-post-@post.id">@post.medias</a>
+                            }
+                            else
+                            {
+                                Html.Raw("No image");
+                            }
+                        </td>
+                        <td>@post.date.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                        <td>@post.user.username</td>
+                        <td>
+                            @{
+                                int totalCount = post.likes.Count;
+                                int likesCount = 0;
+                                int dislikesCount = 0;
+                                if (totalCount != 0)
+                                {
+                                    likesCount = post.likes.Where(l => l.liked).Count();
+                                    dislikesCount = post.likes.Where(l => !l.liked).Count();
+                                }
+                            }
+                            @likesCount likes / @dislikesCount dislikes (@totalCount total)
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" href="#" onclick="deletePost(@post.id)">
+                                <i class="fas fa-trash">
+                                </i>
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Content</th>
+                    <th>Image</th>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Likes</th>
+                    <th>Delete</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+@foreach (ConsommiTounsi.Models.Forum.Post post in Model)
+{
+    if (post.medias != null)
+    {
+        <div class="modal fade" id="image-post-@post.id">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">@post.medias</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="@Url.Content("~/Content/Forum/" + post.medias)" />
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
