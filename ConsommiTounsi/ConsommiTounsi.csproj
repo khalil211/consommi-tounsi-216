@@ -2293,6 +2293,7 @@
     <Content Include="Views\Evenement\SelectedEvents.cshtml" />
     <Content Include="Views\Participation\Participations.cshtml" />
     <Content Include="Views\Cagnotte\CagnotteList.cshtml" />
+    <Content Include="Views\Cagnotte\CagnotteListAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

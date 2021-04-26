@@ -22,6 +22,10 @@
                         <div><svg width="80px" height="80px"><use xlink:href="#secure"></use></svg></div>
                         <h3 class="font-weight-bold pt-3">  jackpot : @Html.DisplayFor(modelItem => item.jackpot)</h3>
                         <p class="font-weight-bolder text-muted mb-0">Draw final date :@Html.DisplayFor(modelItem => item.cagnotteDate) </p>
+                       
+                        <button type="button" class="btn btn-primary mt-3 float-right">
+                            @Html.ActionLink("Try My chance", "Bet", "Cagnotte", new { cagnotteId = item.id }, null)
+                        </button>
                     </div>
                 </div>
             </div>

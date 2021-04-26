@@ -1,4 +1,5 @@
 ﻿using ConsommiTounsi.Models.Evenement;
+using ConsommiTounsi.Models.User;
 using ConsommiTounsi.Utils;
 using System;
 using System.Collections.Generic;
@@ -20,32 +21,36 @@ namespace ConsommiTounsi.Controllers
             return View(response.Content.ReadAsAsync<IEnumerable<Cagnotte>>().Result);
         }
 
-        // GET: Cagnotte/Details/5
-        public ActionResult Details(int id)
+     
+        public ActionResult CagnotteListAdmin()
         {
-            return View();
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("Cagnottes").Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<IEnumerable<Cagnotte>>().Result);
         }
 
-        // GET: Cagnotte/Create
-        public ActionResult Create()
+        
+    
+        public ActionResult Bet(long cagnotteId)
         {
-            return View();
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            User user = (User)Session["user"];
+            long userId = user.id;
+            string url = "bet/" + userId + "/" + cagnotteId;
+            HttpResponseMessage response = httpClient.PostAsJsonAsync<Ticket>(url,new Ticket()).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("CagnotteList", "Cagnotte");      
         }
+       
 
-        // POST: Cagnotte/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult AddCagnotte()
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            HttpClient httpClient = HttpClientBuilder.Get();
+       
+            HttpResponseMessage response = httpClient.PostAsJsonAsync<Cagnotte>("AddCagnotte", new Cagnotte()).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("CagnotteListAdmin", "Cagnotte");
         }
 
         // GET: Cagnotte/Edit/5

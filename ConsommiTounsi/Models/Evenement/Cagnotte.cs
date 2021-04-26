@@ -12,6 +12,7 @@ namespace ConsommiTounsi.Models.Evenement
         public int jackpot { get; set; }
         public List<Ticket> tickets { get; set; }
         public DateTime cagnotteDate { get; set; }
+        
 
 
     }

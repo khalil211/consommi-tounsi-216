@@ -9,7 +9,7 @@ namespace ConsommiTounsi.Models.Evenement
     {
         public int id { get; set; }
         public DateTime ticketDate { get; set; }
-
+        public User.User user { get; set; }
 
     }
 }
