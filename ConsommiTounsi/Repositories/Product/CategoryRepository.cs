@@ -16,7 +16,20 @@ namespace ConsommiTounsi.Repositories.Product
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Category>> Get()
+        public IEnumerable<Category> Get()
+        {
+            var client = HttpClientBuilder.Get();
+            var response = client.GetAsync("categories").Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new InvalidOperationException($"Error from the server: {response.StatusCode}");
+            }
+
+            return response.Content.ReadAsAsync<List<Category>>().Result;
+        }
+
+        public async Task<IEnumerable<Category>> GetAsync()
         {
             var client = HttpClientBuilder.Get();
             var response = await client.GetAsync("categories");

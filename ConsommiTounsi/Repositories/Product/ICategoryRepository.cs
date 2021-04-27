@@ -10,7 +10,8 @@ namespace ConsommiTounsi.Repositories.Product
     public interface ICategoryRepository
     {
         Category Get(int id);
-        Task<IEnumerable<Category>> Get();
+        Task<IEnumerable<Category>> GetAsync();
+        IEnumerable<Category> Get();
         Category Update(int id);
         void Remove(int id);
     }

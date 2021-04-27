@@ -35,7 +35,7 @@ namespace ConsommiTounsi.Controllers
        
         public async Task<ActionResult> Index()
         {
-            var categories = await categoryRepository.Get();
+            var categories = await categoryRepository.GetAsync();
             var products = await productRepository.Get();
             Cart cart = await _getCart();
 
@@ -60,7 +60,7 @@ namespace ConsommiTounsi.Controllers
             }
 
 
-            var categories = await categoryRepository.Get();
+            var categories = await categoryRepository.GetAsync();
             Cart cart = await _getCart();
 
             var model = new ProductDetailsViewModel()

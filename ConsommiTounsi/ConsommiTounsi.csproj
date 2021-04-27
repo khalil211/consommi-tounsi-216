@@ -2315,11 +2315,12 @@
     <Content Include="Views\Categorie\Create.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
     <Content Include="Views\Shared\_Cart.cshtml" />
+    <Content Include="Views\Cart\Details.cshtml" />
+    <Content Include="Views\Home\_SearchCategories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Forum\" />
-    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\webfonts\fa-brands-400.eot" />

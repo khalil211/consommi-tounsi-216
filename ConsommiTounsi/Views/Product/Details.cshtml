@@ -8,16 +8,6 @@
     var cartId = Model.Cart == null ? -1 : Model.Cart.Id;
 }
 
-@section SearchCategories {
-    <select class="select-menu form-select d-none d-sm-block">
-        <option value="selected">Les categories</option>
-        @foreach (var category in Model.Categories)
-        {
-            <option value=@category.Id>@category.Name</option>
-        }
-    </select>
-}
-
 <div id="single_product" class="single_product_page animate__animated animate__fadeInUp">
 
     <div class="sp_header bg-white p-3">

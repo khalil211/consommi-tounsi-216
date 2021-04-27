@@ -4,16 +4,6 @@
     ViewBag.Title = "Produits";
 }
 
-@section SearchCategories {
-    <select class="select-menu form-select d-none d-sm-block">
-        <option value="selected">Les categories</option>
-        @foreach (var category in Model.Categories)
-        {
-            <option value=@category.Id>@category.Name</option>
-        }
-    </select>
-}
-
 <div id="shop_page" class="shop-page animate__animated animate__fadeInUp">
 
 

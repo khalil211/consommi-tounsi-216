@@ -1,4 +1,5 @@
 ﻿using ConsommiTounsi.Models.Payment;
+using ConsommiTounsi.Models.User;
 using ConsommiTounsi.Repositories.Payment;
 using System;
 using System.Collections.Generic;
@@ -39,5 +40,48 @@ namespace ConsommiTounsi.Controllers
             }
             return Json(model);
         }
+
+
+        public async Task<ActionResult> Details()
+        {
+            var user = Session["user"] as User;
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var response = await cartRepository.GetAsync((int)user.id);
+            var cart = response.Body;
+            if (cart == null || cart.Items.Count == 0)
+            {
+                return RedirectToAction("Index", "Product");
+            }
+
+            return View(cart);
+        }
+
+
+        [ChildActionOnly]
+        public ActionResult RenderCart()
+        {
+            var user = Session["user"] as User;
+            if (user != null)
+            {
+                var response = cartRepository.Get((int)user.id);
+                Cart cart = response.Body;
+                return PartialView("_Cart", cart);
+            }
+            return PartialView("_Cart", null);
+        }
+
+        //private Cart _getCart()
+        //{
+        //    var user = Session["user"] as User;
+        //    if (user != null)
+        //    {
+        //        return cartRepository.Get((int)user.id).Body;
+        //    }
+        //    return null;
+        //}
     }
 }
