@@ -7,6 +7,7 @@ using ConsommiTounsi.Repositories.Product;
 using ConsommiTounsi.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace ConsommiTounsi.Controllers
         }
 
         // GET: Product
-       
+
         public async Task<ActionResult> Index()
         {
             var categories = await categoryRepository.Get();
@@ -53,7 +54,7 @@ namespace ConsommiTounsi.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var product = await productRepository.Get(id);
-            
+
             if (product == null)
             {
                 return View("~/Views/Shared/NotFound.cshtml");
@@ -86,7 +87,24 @@ namespace ConsommiTounsi.Controllers
 
             return cart;
         }
-       
+
+
+        public ActionResult Indexback()
+        {
+            HttpClient httpClient = HttpClientBuilder.Get();
+            HttpResponseMessage response = httpClient.GetAsync("products").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                ViewBag.result = response.Content.ReadAsAsync<IEnumerable<Product>>().Result;
+            }
+            else
+            {
+                ViewBag.result = "error";
+            }
+
+            return View();
+        }
+
         public ActionResult Product(long id)
         {
             return DisplayProduct(id);
@@ -98,23 +116,23 @@ namespace ConsommiTounsi.Controllers
             HttpResponseMessage response = httpClient.GetAsync("products/" + id).Result;
             response.EnsureSuccessStatusCode();
             Product product = response.Content.ReadAsAsync<Product>().Result;
-            string url = "products/" + id ;
+            string url = "products/" + id;
             response = httpClient.GetAsync(url).Result;
             response.EnsureSuccessStatusCode();
-           
-            
-           
+
+
+
             ViewBag.product = product;
-            response = httpClient.GetAsync("products/" + id ).Result;
+            response = httpClient.GetAsync("products/" + id).Result;
             response.EnsureSuccessStatusCode();
-           
+
             ModelState.Clear();
             return View("Product");
         }
 
 
         [HttpPost]
-        public ActionResult Product(Comment comment,  long id)
+        public ActionResult AddComment(Comment comment, long id)
         {
             User user = (User)Session["user"];
             if (user == null)
@@ -124,27 +142,38 @@ namespace ConsommiTounsi.Controllers
 
                 content = comment.content
             };
-               
-            
-           
-            
+
+
             HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             string url = "customer/comments/" + user.id + "/" + id;
             HttpResponseMessage response = httpClient.PostAsJsonAsync<Comment>(url, p).Result;
             response.EnsureSuccessStatusCode();
-            return DisplayProduct(id);
+
+            return RedirectToAction("Details", new { id = id });
         }
 
-        public ActionResult Rate(long id,  int rating)
+        [ChildActionOnly]
+        public ActionResult AddComment()
+        {
+
+            User user = (User)Session["user"];
+            if (user == null)
+                return Redirect("Index");
+
+            return PartialView("_AddComment");
+
+        }
+
+        public ActionResult Rate(int id, int rating)
         {
             User user = (User)Session["user"];
             if (user != null)
             {
                 HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
-                string url = "customer/"+ user.id + "/"+"products/" + id + "/" + "ratings" + "/" + rating;
+                string url = "customer/" + user.id + "/" + "products/" + id + "/" + "ratings" + "/" + rating;
                 httpClient.PutAsync(url, null);
             }
-            return RedirectToAction("Product", "Product", new { id = id});
+            return RedirectToAction("Details", new { id = id });
         }
 
         [HttpGet]
@@ -154,8 +183,28 @@ namespace ConsommiTounsi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Product pro)
+        public ActionResult Create(Product pro, HttpPostedFileBase file)
         {
+
+            Product p = new Product();
+            //{
+              //  Picture = null
+            //};
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".jpg") || file.FileName.EndsWith(".png") || file.FileName.EndsWith(".gif"))
+                {
+                    string filename = file.FileName;
+                    file.SaveAs(Path.Combine(Server.MapPath("~/Content/Product/"), filename));
+                    p.Picture = filename;
+                }
+                else
+                {
+                    ModelState.AddModelError("medias", "Must be a jpg, png or gif.");
+                    // return DisplayProduct();
+                }
+            }
+
             HttpClient httpClient = HttpClientBuilder.Get();
             if (ModelState.IsValid)
             {
@@ -170,15 +219,30 @@ namespace ConsommiTounsi.Controllers
 
         public JsonResult LikeComment(long id, bool liked)
         {
-            User user = (User)Session["user"];
+             User user = (User)Session["user"];
             if (user == null)
-                return Json("failed", JsonRequestBehavior.AllowGet);
-            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
-            string url = "customer/comments/" + id + "/" + user.id + "/" + liked;
+            return Json("failed", JsonRequestBehavior.AllowGet);
+             HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+             string url = "customer/comments/" + id + "/" + user.id + "/" + liked;
             HttpResponseMessage response = httpClient.PutAsync(url, null).Result;
             if (!response.IsSuccessStatusCode)
-                return Json("failed", JsonRequestBehavior.AllowGet);
+            return Json("failed", JsonRequestBehavior.AllowGet);
             return Json("success", JsonRequestBehavior.AllowGet);
+           
+
         }
+
+        public ActionResult Delete(long id)
+        {
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            string url = "products/" + id;
+            HttpResponseMessage response = httpClient.DeleteAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("Indexback");
+        }
+
+
+        
+                   
     }
 }
