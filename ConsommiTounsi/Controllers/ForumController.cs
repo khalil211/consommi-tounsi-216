@@ -184,12 +184,86 @@ namespace ConsommiTounsi.Controllers
 
         public ActionResult DuplicateTopics()
         {
-            return View();
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/topics/duplicates").Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<List<DuplicateTopic>>().Result);
+        }
+
+        public ActionResult ResolveDuplicate(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.PutAsync("admin/topics/" + id, null).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("DuplicateTopics", "Forum");
+        }
+
+        public ActionResult DeleteDuplicate(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.DeleteAsync("customer/topics/" + id).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("DuplicateTopics", "Forum");
         }
 
         public ActionResult ForbiddenWords()
         {
-            return View();
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/posts/forbidden").Result;
+            response.EnsureSuccessStatusCode();
+            string words = response.Content.ReadAsStringAsync().Result;
+            return View(words.Split(' ').Where(w => !string.IsNullOrEmpty(w)).ToArray());
+        }
+
+        public ActionResult RemoveWord(string word)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/posts/forbidden").Result;
+            response.EnsureSuccessStatusCode();
+            string[] old = response.Content.ReadAsStringAsync().Result.Split(' ').Where(w => !string.IsNullOrEmpty(w)).ToArray();
+            old = old.Where(w => !w.Equals(word)).ToArray();
+            if (old.Count() == 0)
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(" ")).Result.EnsureSuccessStatusCode();
+            else
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(String.Join(" ", old))).Result.EnsureSuccessStatusCode();
+            return RedirectToAction("ForbiddenWords", "Forum");
+        }
+
+        [HttpPost]
+        public ActionResult ForbiddenWords(string words)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/posts/forbidden").Result;
+            response.EnsureSuccessStatusCode();
+            List<string> old = response.Content.ReadAsStringAsync().Result.Split(' ').Where(w => !string.IsNullOrEmpty(w)).ToList();
+            foreach (string word in words.Split(' ').Where(w => !string.IsNullOrEmpty(w)))
+            {
+                if (!old.Contains(word))
+                    old.Add(word);
+            }
+            if (old.Count() == 0)
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(" ")).Result.EnsureSuccessStatusCode();
+            else
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(String.Join(" ", old.ToArray()))).Result.EnsureSuccessStatusCode();
+            return RedirectToAction("ForbiddenWords", "Forum");
         }
     }
 }
