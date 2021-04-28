@@ -29,23 +29,22 @@ namespace ConsommiTounsi.Controllers
         {
             var categories = await categoryRepository.Get();
 
+            return View(categories);
+        }
 
-            Cart cart = null;
+        [ChildActionOnly]
+        public ActionResult RenderCart()
+        {
             var user = Session["user"] as User;
             if (user != null)
             {
-                var response = await cartRepository.Get((int)user.id);
-                cart = response.Body;
+                var response = cartRepository.Get((int)user.id);
+                Cart cart = response.Body;
+                return PartialView("_Cart", cart);
             }
 
-
-            var homeViewModel = new HomeIndexViewModel()
-            {
-                Cart = cart,
-                Categories = categories
-            };
-
-            return View(homeViewModel);
+            return PartialView("_Cart", null);
         }
+
     }
 }
