@@ -1,9 +1,19 @@
-﻿@model ConsommiTounsi.Models.ViewModels.HomeIndexViewModel
+﻿@model IEnumerable<ConsommiTounsi.Models.Products.Category>
 @{
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewBag.Title = "Home";
 }
 
+
+@section SearchCategories {
+    <select class="select-menu form-select d-none d-sm-block">
+        <option value="selected">Les categories</option>
+        @foreach (var category in Model)
+        {
+            <option value=@category.Id>@category.Name</option>
+        }
+    </select>
+}
 
 <div id="home_vertical_menu" class="container custom_container menu_slider ">
     <div class="row ">
@@ -27,7 +37,7 @@
 
                     <ul class="vertical_main_menu h_menu navbar navbar-nav">
 
-                        @foreach (var category in Model.Categories)
+                        @foreach (var category in @Model)
                         {
                             <li class="level-1 font-weight-bolder">
                                 <a href="single-product.html">

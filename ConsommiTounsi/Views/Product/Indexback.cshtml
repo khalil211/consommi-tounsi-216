@@ -1,10 +1,9 @@
 ﻿@model ConsommiTounsi.Models.Products.Product
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Indexback";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 
 @section styles {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -27,7 +26,6 @@
     <!-- summernote -->
     <link rel="stylesheet" href="~/Content/Admin/plugins/summernote/summernote-bs4.min.css">
 }
-
 
 @section scripts {
     <!-- jQuery -->
@@ -62,70 +60,56 @@
     <script src="~/Content/Admin/dist/js/adminlte.js"></script>
 }
 
-<h2>Create</h2>
+<!DOCTYPE html>
 
-@using (Html.BeginForm("Create","Product",FormMethod.Post,new { enctype = "multipart/form-data"}))
-{
-    @Html.AntiForgeryToken()
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <a href="@Url.Action("Create","Product")"> add new product</a>
 
-<div class="form-horizontal">
-    <h4>Product</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.CreationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CreationDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <table cellpadding="2" cellspacing="2" border="1">
+        <tr>
+            <th>Id</th>
+            <th>CreationDate</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Picture</th>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Picture, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-             @Html.TextBox("file", "", new { type = "file" })
-         @Html.EditorFor(model => model.Picture, new { htmlAttributes = new { @class = "form-control" } })
-             @Html.ValidationMessageFor(model => model.Picture, "", new { @class = "text-danger" })
-           
-        </div>
-    </div>
-
-    
-       
-      
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Indexback")
-</div>
+        </tr>
+        @foreach (var p in ViewBag.result)
+        {
+    <tr>
+        <td>@p.Id</td>
+        <td>@p.CreationDate</td>
+        <td>@p.Name</td>
+        <td>@p.Description</td>
+        <td>@p.Price</td>
+       @* <td>@p.Picture</td>*@
+    <td>
+        @if (p.Picture != null)
+        {
+            <img src="@Url.Content("~/Content/Product/" +p.Picture)" class="fst-image mx-auto d-block img-fluid rounded" alt="image" , style="margin-bottom: 21px; width: 40%;">
+        }
+    </td>
+        <td class="project-actions text-right">
+            <a class="btn btn-info btn-sm" href="#">
+                <i class="fas fa-pencil-alt">
+                </i>
+                @Html.ActionLink("Update", "Update", "Product", new { id = p.Id }, null)
+            </a>
+            <a class="btn btn-danger btn-sm" href="#">
+                <i class="fas fa-trash">
+                </i>
+                @Html.ActionLink("Delete", "Delete", "Product", new { id = p.Id},null)
+            </a>
+        </td>
+    </tr>
+            
+        }
+    </table>
+</body>
+</html>

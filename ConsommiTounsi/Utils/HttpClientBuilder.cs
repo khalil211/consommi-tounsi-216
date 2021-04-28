@@ -9,6 +9,9 @@ namespace ConsommiTounsi.Utils
 {
     public class HttpClientBuilder
     {
+        public static Uri BaseAddress { get; } = new Uri("http://localhost:8080/api/");
+
+
         public static HttpClient Get(object header = null)
         {
             HttpClient httpClient = 
@@ -17,7 +20,7 @@ namespace ConsommiTounsi.Utils
                     UseCookies = false 
                 });
 
-            httpClient.BaseAddress = new Uri("http://localhost:8080/api/");
+            httpClient.BaseAddress = BaseAddress;
 
             httpClient.DefaultRequestHeaders
                 .Accept
