@@ -30,8 +30,8 @@
     </div>
 
     @*<h1>SubTotal: @subTotal</h1>
-    <h1>Taxes: @taxes</h1>
-    <h1>Total: @total</h1>*@
+        <h1>Taxes: @taxes</h1>
+        <h1>Total: @total</h1>*@
 
     <div class="container custom_container ">
         <div class="row">
@@ -89,12 +89,22 @@
                                                 @itemSubTotal TND
                                             </span>
                                         </div>
-                                        <div class="col-md-7 col-sm-4 col-5">
-                                            <input type="number" class="form-control border" placeholder="0"
+                                        <div class="col-md-5 col-sm-4 col-5">
+                                            <input id="@item.Id" min="1" type="number" class="form-control border" placeholder="0"
                                                    value="@item.Quantity">
                                         </div>
-                                        <div class="col-md-2 col-sm-4 col-2 my-2 mt-1 text-right text-md-left">
-                                            <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                        <div class="col-md-2 col-sm-4 col-2 mt-1 text-right text-md-left">
+                                            <button class="deleteBtn btn btn-warning" href="#"
+                                                    onclick="updateItemHandler(@item.Id)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2 col-sm-4 col-2 mt-1 text-right text-md-left">
+                                            <button class="deleteBtn btn btn-danger"
+                                                    data-toggle="modal" data-target="#deleteModal" href="#"
+                                                    onclick="deleteItemHandler(@item.Id)">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -106,13 +116,13 @@
 
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-6 col-sm-7 text-right">
+                            <div class="col-6 col-sm-4">
                                 <div class="my-2 font-weight-bold">
                                     <span>Totale:</span>
                                     <span>@total TND</span>
                                 </div>
                             </div>
-                            <div class="col-6 col-sm-5">
+                            <div class="col-12 offset-sm-4 col-sm-4">
                                 <a href="checkout.html" class="btn btn-success btn-block f_13 font-weight-bold">Passer la commande</a>
                             </div>
                         </div>
@@ -131,9 +141,9 @@
                     </div>
                     <div class="card-body ">
                         @*<div>
-                            <span class="font-weight-bold">total(tax excl.)</span>
-                            <span class="float-right font-weight-bold">$94.00</span>
-                        </div>*@
+                                <span class="font-weight-bold">total(tax excl.)</span>
+                                <span class="float-right font-weight-bold">$94.00</span>
+                            </div>*@
                         <div>
                             <span class="font-weight-bold">taxes</span>
                             <span class="float-right font-weight-bold">@taxes TND</span>
@@ -143,8 +153,77 @@
             </div>
         </div>
     </div>
-
-
 </div>
+
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
+     role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Est-ce que vous etes sur?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary confirmDelBtn">Oui</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Delete Modal -->
+
+
+@section AdditionalScripts {
+    <script>
+        var selectedItemId = -1;
+        function deleteItemHandler(itemId) {
+            selectedItemId = itemId;
+            $('#exampleModal').appendTo("body");
+        }
+        $(".confirmDelBtn").click(function () {
+
+            var url = '/Cart/RemoveItem/' + selectedItemId;
+
+            $.ajax({
+                statusCode: {
+                    400: function (error) {
+                        console.error(error);
+                    }
+                },
+                url,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    window.location.replace("/Cart/Details");
+                }
+            });
+        })
+
+        function updateItemHandler(itemId) {
+            var quantity = $('#' + itemId)[0].value;
+
+            var url = '/Cart/UpdateItem/' + itemId + "?quantity=" + quantity;
+
+            $.ajax({
+                statusCode: {
+                    400: function (error) {
+                        console.error(error);
+                    }
+                },
+                url,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    window.location.replace("/Cart/Details");
+                }
+            });
+        }  
+    </script>
+}
 
 

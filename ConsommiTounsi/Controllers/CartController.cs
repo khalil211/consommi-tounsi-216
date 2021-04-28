@@ -60,6 +60,29 @@ namespace ConsommiTounsi.Controllers
             return View(cart);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> RemoveItem(int id)
+        {
+            var model = await cartRepository.RemoveItem(id);
+            if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, model.ErrorMessage);
+            }
+            return Json(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateItem(int id, int quantity)
+        {
+            var model = await cartRepository.UpdateItemQuantity(itemId: id, quantity);
+            if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, model.ErrorMessage);
+            }
+            return Json(model);
+        }
+
+
 
         [ChildActionOnly]
         public ActionResult RenderCart()

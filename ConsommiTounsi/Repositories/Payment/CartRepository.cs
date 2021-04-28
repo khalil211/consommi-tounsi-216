@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -38,14 +40,26 @@ namespace ConsommiTounsi.Repositories.Payment
             return await response.Content.ReadAsAsync<ResponseModel<Cart>>();
         }
 
-        public Task<ResponseModel<Cart>> RemoveItem(int userId, int itemId)
+        public async Task<ResponseModel<Cart>> RemoveItem(int itemId)
         {
-            throw new NotImplementedException();
+            var client = HttpClientBuilder.Get();
+            var response = await client.DeleteAsync($"items/{itemId}");
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<Cart>>();
+
+            return model;
         }
 
-        public Task<ResponseModel<Cart>> UpdateItemQuantity(int userId, int itemId, int quantity)
+        public async Task<ResponseModel<Cart>> UpdateItemQuantity(
+            int itemId, int quantity)
         {
-            throw new NotImplementedException();
+
+            var client = HttpClientBuilder.Get();
+            var response = await client.PutAsync($"items/{itemId}/{quantity}", null);
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<Cart>>();
+
+            return model;
         }
     }
 }
