@@ -2309,6 +2309,8 @@
     <Content Include="Views\Forum\TopicAdmin.cshtml" />
     <Content Include="Views\Forum\DuplicateTopics.cshtml" />
     <Content Include="Views\Forum\ForbiddenWords.cshtml" />
+    <Content Include="Views\Forum\EditTopic.cshtml" />
+    <Content Include="Views\Forum\EditPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
