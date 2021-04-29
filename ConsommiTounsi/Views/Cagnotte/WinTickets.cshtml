@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ConsommiTounsi.Models.Evenement.Ticket>
+
+@{
+    ViewBag.Title = "WinTickets";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<div class="col-12">
+    <img src="~/Content/TmpUserImages/win.jpg" class="mx-auto rounded d-block img-fluid" alt="about_us">
+</div>
+<div id="wishlist_page" class="wishlist-page animate__animated animate__fadeInUp">
+
+    <div class="sp_header bg-white p-3 ">
+        <div class="container custom_container ">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder"><a href="#">home</a></li>
+                        <li class="d-inline-block hr_ font-weight-bolder"><a href="#">My Tickets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom_container">
+        <div class="row sh_page border-bottom">
+            <div class="col-12">
+                <span class="font-weight-bold">Winner Historique</span>
+            </div>
+        </div>
+        @foreach (var item in Model)
+        {
+            if(item.valide==true){ 
+            <div class="row sh_page border-bottom">
+                <div class="col-12 col-md-6 pr-0">
+                    <div class="d-flex">
+                        <div class=" col-xl-4 col-lg-5 col-md-5 col-4 px-0">
+                            <a href="#"><img src="~/Content/TmpUserImages/win.png" class="fst-image mx-auto d-block img-fluid" alt="product_13"></a>
+                        </div>
+                        <div class=" col-xl-8 col-lg-7 col-md-7 col-8 pr-0">
+                            <h5 class="w_product_name font-weight-bold mb-2 mb-sm-3 mb-xl-3 mt-sm-2 mt-md-2"><a>Ticket N' :  @Html.DisplayFor(modelItem => item.id)</a></h5>
+                            <ul>
+                                <li class="my-1 f_13">
+                                    <span>Ticket Date :</span>
+                                    <span>   @Html.DisplayFor(modelItem => item.ticketDate)</span>
+                                </li>
+                                <li class="f_13">
+                                    <span>Cagnotte Id:</span>
+                                    <span> @Html.DisplayFor(modelItem => item.cagnotte.id)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mt-4 pl-0">
+                    <div class="d-flex">
+                        <div class="col-md-4 col-sm-4 col-4 ">
+                            <span class="font-weight-bold">Jackpot : @Html.DisplayFor(modelItem => item.cagnotte.jackpot)  </span>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-5 text-center">
+                            <span class="font-weight-bolder"><span class="d-xl-inline-block d-none">Qr code : </span> </span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div> <!-- container custom_container -->
+        }
+            }
+    </div>
+
+</div>

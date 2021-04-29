@@ -43,8 +43,8 @@ namespace ConsommiTounsi.Models.Evenement
         [Display(Name = "Event Type")]
         [Required(ErrorMessage = "Please select an option")]
         public string eventType { get; set; }
-        public List<object> participations { get; set; }
+        public List<Participation> participation { get; set; }
         public int maxnumber { get; set; }
-        public List<object> events_donations { get; set; }
+        public List<Donation> events_donation { get; set; }
     }
 }

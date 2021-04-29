@@ -1,0 +1,116 @@
+﻿@model IEnumerable<ConsommiTounsi.Models.Forum.DuplicateTopic>
+@{
+    ViewBag.Title = "Duplicate topics";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="~/Content/Admin/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/Admin/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/Content/Admin/plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="~/Content/Admin/dist/css/adminlte.min.css">
+}
+
+<section class="content">
+    @if (Model.Count() == 0)
+    {
+        <p>No duplicates found</p>
+    }
+    @foreach (ConsommiTounsi.Models.Forum.DuplicateTopic duplicateTopic in Model)
+    {
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title">Duplicate: </h3>
+                <!--topic start-->
+                <div class="card-body pt-0">
+                    <div class="row">
+                        <div class="col-7">
+                            <h2 class="lead"><b>@duplicateTopic.duplicate.title</b></h2>
+                            <p class="text-muted text-sm"><b> @duplicateTopic.duplicate.description </b></p>
+                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                @{ double starAvg = 0;
+                                    if (duplicateTopic.duplicate.stars.Count != 0)
+                                    {
+                                        starAvg = (int)(((ConsommiTounsi.Models.Forum.Topic)duplicateTopic.duplicate).stars.Select(s => s.value).Average() * 100);
+                                        starAvg = starAvg / 100;
+                                    }
+                                }
+                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-star"></i></span> @starAvg (@duplicateTopic.duplicate.stars.Count) </li>
+                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope-square"></i></span>@duplicateTopic.duplicate.posts.Count</li>
+                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar"></i></span>@duplicateTopic.duplicate.date.ToString("dd/MM/yyyy HH:mm:ss")</li>
+                                <li class="small"><span class="fa-li"><i class="fas fa-lg fa-user"></i></span>@duplicateTopic.duplicate.user.username</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                        <a class="btn btn-success btn-sm" href="@Url.Action("ResolveDuplicate", "Forum", new { id = duplicateTopic.duplicate.id })">
+                            <i class="fas fa-check">
+                            </i>
+                            Keep
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteDuplicate", "Forum", new { id = duplicateTopic.duplicate.id })">
+                            <i class="fas fa-trash">
+                            </i>
+                            Delete
+                        </a>
+                    </div>
+                </div>
+                <!--topic end-->
+            </div>
+            <div class="card-body">
+                <h4>Originals</h4>
+                <div class="row">
+                    <div class="col-5 col-sm-3">
+                        <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                            @foreach (ConsommiTounsi.Models.Forum.Topic topic in duplicateTopic.originals)
+                            {
+                                <a class="nav-link" id="vert-tabs-@duplicateTopic.id-@topic.id-tab" data-toggle="pill" href="#vert-tabs-@duplicateTopic.id-@topic.id" role="tab" aria-controls="vert-tabs-@duplicateTopic.id-@topic.id" aria-selected="false">@topic.title</a>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-7 col-sm-9">
+                        <div class="tab-content" id="vert-tabs-tabContent">
+                            @foreach (ConsommiTounsi.Models.Forum.Topic topic in duplicateTopic.originals)
+                            {
+                                <div class="tab-pane" id="vert-tabs-@duplicateTopic.id-@topic.id" role="tabpanel" aria-labelledby="vert-tabs-@duplicateTopic.id-@topic.id-tab">
+                                    <div class="card-body pt-0">
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <h2 class="lead"><b>@topic.title</b></h2>
+                                                <p class="text-muted text-sm"><b> @topic.description </b></p>
+                                                <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                    @{  starAvg = 0;
+                                                        if (topic.stars.Count != 0)
+                                                        {
+                                                            starAvg = (int)(((ConsommiTounsi.Models.Forum.Topic)topic).stars.Select(s => s.value).Average() * 100);
+                                                            starAvg = starAvg / 100;
+                                                        }
+                                                    }
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-star"></i></span> @starAvg (@topic.stars.Count) </li>
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-envelope-square"></i></span>@topic.posts.Count</li>
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar"></i></span>@topic.date.ToString("dd/MM/yyyy HH:mm:ss")</li>
+                                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-user"></i></span>@topic.user.username</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+
+@section scripts {
+    <script src="~/Content/Admin/plugins/jquery/jquery.min.js"></script>
+    <script src="~/Content/Admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/Admin/dist/js/adminlte.min.js"></script>
+    <script src="~/Content/Admin/dist/js/demo.js"></script>
+}

@@ -1,8 +1,10 @@
-﻿@model IEnumerable<ConsommiTounsi.Models.Evenement.Evenement>
+﻿@model IEnumerable<ConsommiTounsi.Models.Evenement.Participation>
+
 @{
-    ViewBag.Title = "Manage events";
+    ViewBag.Title = "ParticipationsListAdmin";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 
 @section styles {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -18,46 +20,43 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>name</th>
+                    <th>id</th>
+                    <th>Evenement</th>
+                    <th>username</th>
+                    <th>participation Date</th>
                     <th>location</th>
-                    <th>maxnumber</th>
-                    <th>Email</th>
-                    <th>number</th>
-                    <th>date</th>
-                 
+                    <th>date evenement</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var evenement in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
-                            @evenement.name
+                            @item.id
                             <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu" role="menu">
 
                                 <div class="dropdown-divider"></div>
-                              
-                                @Html.ActionLink("Delete", "Delete", "Evenement", new { id = evenement.id }, new { @class = "dropdown-item" })
-</td>
-                        <td>@evenement.location</td>
-                        <td>@evenement.eventType</td>
-                        <td>@evenement.maxnumber</td>
-                        <td>@evenement.number</td>
-                        <td>@evenement.eventDate.ToString("dd/MM/yyyy")</td>
+                                @Html.ActionLink("Delete", "Delete", "Evenement", new { id = item.id }, new { @class = "dropdown-item" })
+                        </td>
+                        <td>@item.ev.name</td>
+                        <td>@item.user.username</td>
+                        <td>@item.participDate</td>
+                        <td>@item.ev.location</td>
+                        <td>@item.ev.eventDate.ToString("dd/MM/yyyy")</td>
                     </tr>
                 }
             </tbody>
             <tfoot>
                 <tr>
-                    <th>name</th>
+                    <th>Evenement</th>
+                    <th>username</th>
+                    <th>participation Date</th>
                     <th>location</th>
-                    <th>maxnumber</th>
-                    <th>Email</th>
-                    <th>number</th>
-                    <th>date</th>
+                    <th>date evenement</th>
                 </tr>
             </tfoot>
         </table>

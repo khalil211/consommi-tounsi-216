@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using ConsommiTounsi.Models.Evenement;
+using ConsommiTounsi.Models.User;
 
 namespace ConsommiTounsi.Controllers
 {
@@ -43,22 +44,33 @@ namespace ConsommiTounsi.Controllers
             response.EnsureSuccessStatusCode();
             return View(response.Content.ReadAsAsync<IEnumerable<Evenement>>().Result);
         }
-        public ActionResult SelectedEvents(long id)
+        public ActionResult SelectedEvents()
         {
             HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
-            string url = "SelectedEvents/" + id;
+            User user = (User)Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+
+            }
+   
+            long userId = user.id;
+            string url = "SelectedEvents/" + userId;
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
             response.EnsureSuccessStatusCode();
             return View(response.Content.ReadAsAsync<IEnumerable<Evenement>>().Result);
         }
 
-        // GET: Evenement/Details/5
-        public ActionResult Details(int id)
+        public ActionResult EvenementById(int id)
         {
-            return View();
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            string url = "event/" + id;
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<Evenement>().Result);
         }
 
-        // GET: Evenement/Create
+   
         public ActionResult CreateEvent()
         {
             return View();
@@ -79,13 +91,27 @@ namespace ConsommiTounsi.Controllers
             return View(evenement);
         }
 
-        // GET: Evenement/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPost]
+        public ActionResult Donate(int EvId , Participation participation)
         {
-            return View();
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            User user = (User)Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+
+            }
+            long userId = user.id;
+            string url = "donate/" + userId +" /" + EvId;
+            if (ModelState.IsValid)
+            {
+                HttpResponseMessage response = httpClient.PostAsJsonAsync<Participation>(url, participation).Result;
+                response.EnsureSuccessStatusCode();
+            }
+            return View(participation);
         }
 
-        // POST: Evenement/Edit/5
+      
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {

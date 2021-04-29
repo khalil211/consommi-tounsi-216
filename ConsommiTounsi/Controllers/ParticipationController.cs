@@ -1,4 +1,5 @@
 ﻿using ConsommiTounsi.Models.Evenement;
+using ConsommiTounsi.Models.User;
 using ConsommiTounsi.Utils;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ConsommiTounsi.Controllers
     public class ParticipationController : Controller
     {
         // GET: Participation
-        public ActionResult Paritcipations()
+        public ActionResult ParticipationsListAdmin()
         {
             HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
             HttpResponseMessage response = httpClient.GetAsync("Participations").Result;
@@ -26,10 +27,24 @@ namespace ConsommiTounsi.Controllers
             return View();
         }
 
-        // GET: Participation/Create
-        public ActionResult Create()
+ 
+        public ActionResult Participé(long EvId)
         {
-            return View();
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            User user = (User)Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+
+            }
+            else
+            {
+                long userId = user.id;
+                string url = "Participation/" + userId + "/" + EvId;
+                HttpResponseMessage response = httpClient.PostAsJsonAsync<Participation>(url, new Participation()).Result;
+                response.EnsureSuccessStatusCode();
+                return RedirectToAction("Index", "Evenement");
+            }
         }
 
         // POST: Participation/Create

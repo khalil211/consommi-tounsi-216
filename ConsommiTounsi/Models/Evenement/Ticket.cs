@@ -10,6 +10,8 @@ namespace ConsommiTounsi.Models.Evenement
         public int id { get; set; }
         public DateTime ticketDate { get; set; }
         public User.User user { get; set; }
+        public Cagnotte cagnotte { get; set; }
+        public Boolean valide { get; set; }
 
     }
 }

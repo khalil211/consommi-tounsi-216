@@ -153,29 +153,23 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-
     <Compile Include="Controllers\CagnotteController.cs" />
     <Compile Include="Controllers\EvenementController.cs" />
-
     <Compile Include="Controllers\ParticipationController.cs" />
-
     <Compile Include="Controllers\CategorieController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-
     <Compile Include="Models\Evenement\Evenement.cs" />
     <Compile Include="Models\Evenement\Cagnotte.cs" />
     <Compile Include="Models\Evenement\Donation.cs" />
     <Compile Include="Models\Evenement\Ticket.cs" />
     <Compile Include="Models\Evenement\Participation.cs" />
-
     <Compile Include="Models\Payment\AddItemModel.cs" />
     <Compile Include="Models\Forum\DuplicateTopic.cs" />
     <Compile Include="Models\Forum\Post.cs" />
@@ -194,7 +188,6 @@
     <Compile Include="Models\Products\ProductRating.cs" />
     <Compile Include="Models\Products\Tax.cs" />
     <Compile Include="Models\Products\ValueType.cs" />
-
     <Compile Include="Models\User\Address.cs" />
     <Compile Include="Models\User\PasswordEdit.cs" />
     <Compile Include="Models\User\User.cs" />
@@ -2075,8 +2068,10 @@
     <Content Include="Content\Admin\plugins\uplot\uPlot.iife.js" />
     <Content Include="Content\Admin\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\Admin\plugins\uplot\uPlot.min.css" />
+    <Content Include="Content\jack.jpg" />
     <Content Include="Content\Shared\img\ConsommiTounsiLogo.png" />
     <Content Include="Content\Shared\img\consommitounsi_icon.ico" />
+    <Content Include="Content\Tick.png" />
     <Content Include="Content\TmpUserImages\8.html" />
     <Content Include="Content\TmpUserImages\about_us\about_us.jpg" />
     <Content Include="Content\TmpUserImages\about_us\fullsc3.jpg" />
@@ -2123,6 +2118,8 @@
     <Content Include="Content\TmpUserImages\logo2.png" />
     <Content Include="Content\TmpUserImages\logo3.png" />
     <Content Include="Content\TmpUserImages\logo4.png" />
+    <Content Include="Content\TmpUserImages\non.png" />
+    <Content Include="Content\TmpUserImages\oui.png" />
     <Content Include="Content\TmpUserImages\portfolio\portfolio_1.jpg" />
     <Content Include="Content\TmpUserImages\portfolio\portfolio_2.jpg" />
     <Content Include="Content\TmpUserImages\portfolio\portfolio_3.jpg" />
@@ -2178,7 +2175,9 @@
     <Content Include="Content\TmpUserImages\svg\plus_f.svg" />
     <Content Include="Content\TmpUserImages\svg\right-arrow.svg" />
     <Content Include="Content\TmpUserImages\svg\scroll.svg" />
+    <Content Include="Content\TmpUserImages\Tick.png" />
     <Content Include="Content\TmpUserImages\win.jpg" />
+    <Content Include="Content\TmpUserImages\win.png" />
     <Content Include="Content\UserImages\down_arrow.png" />
     <Content Include="Content\UserImages\left-arrow.svg" />
     <Content Include="Content\UserImages\loader.gif" />
@@ -2201,6 +2200,7 @@
     <Content Include="Content\UserStyles\owl.theme.default.min.css" />
     <Content Include="Content\UserStyles\responsive.css" />
     <Content Include="Content\UserStyles\style.css" />
+    <Content Include="Content\win.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\webfonts\fa-brands-400.svg" />
     <Content Include="fonts\webfonts\fa-regular-400.svg" />
@@ -2290,6 +2290,12 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\qrcode\index-svg.html" />
+    <Content Include="Scripts\qrcode\index.html" />
+    <Content Include="Scripts\qrcode\index.svg" />
+    <Content Include="Scripts\qrcode\jquery.min.js" />
+    <Content Include="Scripts\qrcode\qrcode.js" />
+    <Content Include="Scripts\qrcode\qrcode.min.js" />
     <Content Include="Scripts\UserScripts\all.min.js" />
     <Content Include="Scripts\UserScripts\bootstrap.min.js" />
     <Content Include="Scripts\UserScripts\daterangepicker.min.js" />
@@ -2324,7 +2330,6 @@
     <Content Include="Views\User\Addresses.cshtml" />
     <Content Include="Views\User\EditAddress.cshtml" />
     <Content Include="Views\User\ManageUsers.cshtml" />
-
     <Content Include="Views\Evenement\EventDisponible.cshtml" />
     <Content Include="Views\Evenement\Index.cshtml" />
     <Content Include="Views\Evenement\CreateEvent.cshtml" />
@@ -2334,7 +2339,6 @@
     <Content Include="Views\Participation\Participations.cshtml" />
     <Content Include="Views\Cagnotte\CagnotteList.cshtml" />
     <Content Include="Views\Cagnotte\CagnotteListAdmin.cshtml" />
-
     <Content Include="Views\Forum\Index.cshtml" />
     <Content Include="Views\Forum\Topic.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
@@ -2344,7 +2348,15 @@
     <Content Include="Views\Categorie\Create.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
     <Content Include="Views\Shared\_Cart.cshtml" />
-
+    <Content Include="Views\Cagnotte\Tickets.cshtml" />
+    <Content Include="Views\Cagnotte\WinTickets.cshtml" />
+    <Content Include="Scripts\qrcode\.gitignore" />
+    <Content Include="Scripts\qrcode\bower.json" />
+    <Content Include="Scripts\qrcode\LICENSE" />
+    <Content Include="Scripts\qrcode\README.md" />
+    <Content Include="Views\Participation\ParticipationsListAdmin.cshtml" />
+    <Content Include="Views\Evenement\EvenementById.cshtml" />
+    <Content Include="Views\Evenement\Donate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

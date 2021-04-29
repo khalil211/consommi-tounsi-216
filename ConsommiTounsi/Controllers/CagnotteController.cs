@@ -60,48 +60,56 @@ namespace ConsommiTounsi.Controllers
             return RedirectToAction("CagnotteListAdmin", "Cagnotte");
         }
 
-        // GET: Cagnotte/Edit/5
-        public ActionResult Edit(int id)
+       
+        public ActionResult Tickets()
         {
-            return View();
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            User user = (User)Session["user"];
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+
+            }
+            long userId = user.id;
+            string url = "Tickets/" + userId;
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<IEnumerable<Ticket>>().Result);
         }
 
-        // POST: Cagnotte/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult WinTickets()
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            User user = (User)Session["user"];
+            HttpResponseMessage response = httpClient.GetAsync("Tickets").Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<IEnumerable<Ticket>>().Result);
         }
 
-        // GET: Cagnotte/Delete/5
-        public ActionResult Delete(int id)
+
+     
+        public ActionResult Winner(int cagnotteId)
         {
-            return View();
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            User user = (User)Session["user"];
+           
+                
+                string url = "winner/" + cagnotteId;
+                HttpResponseMessage response = httpClient.GetAsync(url).Result;
+                response.EnsureSuccessStatusCode();
+               return RedirectToAction("CagnotteListAdmin", "Cagnotte");
+            
         }
 
-        // POST: Cagnotte/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+      
+  
+        public ActionResult DeleteTicket(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            string url = "deleteTicket/" + id;
+            HttpResponseMessage response = httpClient.DeleteAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("Tickets", "Cagnotte");
         }
     }
 }

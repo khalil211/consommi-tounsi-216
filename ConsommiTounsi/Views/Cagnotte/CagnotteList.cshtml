@@ -4,32 +4,117 @@
     ViewBag.Title = "CagnotteList";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="col-12">
-    <img src="~/Content/TmpUserImages/win.jpg" class="mx-auto rounded d-block img-fluid" alt="about_us">
+    <img src="~/Content/TmpUserImages/win.jpg" class="mx-auto rounded d-block img-fluid" alt="about_us">  
 </div>
 
-
+<div class="sp_header bg-white p-3 ">
+    <div class="container custom_container">
+        <div class="row ">
+            <div class="col-12 ">
+                <ul>
+                    <li class="d-inline-block font-weight-bolder"><a> @Html.ActionLink("My Tickets ", "Tickets", "Cagnotte")</a></li>
+                    <li class="d-inline-block hr_ font-weight-bolder"><a></a></li>
+                    <li class="d-inline-block font-weight-bolder"><a> @Html.ActionLink("Winner Historique ", "WinTickets", "Cagnotte")</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w3-panel w3-topbar w3-bottombar w3-border-red w3-pale-red">
 
     @foreach (var item in Model)
     {
-        <div class="container custom_container ab_services_container">
-            <div class="row">
 
-                <div class="col-md-4 py-3 py-md-0">
-                    <div class="service-item border">
-                        <span class="number float-right">@Html.DisplayFor(modelItem => item.id)</span>
-                        <div><svg width="80px" height="80px"><use xlink:href="#secure"></use></svg></div>
-                        <h3 class="font-weight-bold pt-3">  jackpot : @Html.DisplayFor(modelItem => item.jackpot)</h3>
-                        <p class="font-weight-bolder text-muted mb-0">Draw final date :@Html.DisplayFor(modelItem => item.cagnotteDate) </p>
-                       
-                        <button type="button" class="btn btn-primary mt-3 float-right">
-                            @Html.ActionLink("Try My chance", "Bet", "Cagnotte", new { cagnotteId = item.id }, null)
-                        </button>
+    <div class"container custom_container">
+        <div class="container custom_container main_banner ">
+            <div class="row bnr_row">
+                <div class="col-sm-4 col-12 bnr_col">
+                    <div class="banner  animate__animated animate__fadeInUp">
+                        <a href="#">
+                            <img src="~/Content/jack.jpg" class="rounded float-left img-fluid" alt="banner-1" data-wow-delay="0.2s">
+                            <button type="button" class="btn btn-primary mt-3 float-right">
+                                @Html.ActionLink("Try My chance", "Bet", "Cagnotte", new { cagnotteId = item.id }, null)
+                            </button>
+
+
+                        </a>
                     </div>
+                    <span class="number float-lg-left">@Html.DisplayFor(modelItem => item.id)</span>
+                </div>
+               
+                <div><svg width="200px" height="200px"><use xlink:href="#secure"></use></svg></div>
+
+                <h3 class="font-weight-bold pt-3">
+                    Jackpot |  <h1 class="w3-text-orange" style="text-shadow:1px 1px 0 #444">
+                        <b> @Html.DisplayFor(modelItem => item.jackpot) Dt </b>
+                    </h1>
+
+                    @Html.DisplayFor(modelItem => item.expired)
+</div> <!-- row -->
+            <p class="font-weight-bolder">Draw final date :@Html.DisplayFor(modelItem => item.cagnotteDate) </p>
+        </div>
+    </div>
+
+
+    }
+ 
+
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/owl.carousel.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/all.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script>
+        var deadline = new Date("dec 31, 2021 15:37:25").getTime();
+
+        var x = setInterval(function () {
+
+            var now = new Date().getTime();
+            var t = deadline - now;
+            var days = Math.floor(t / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((t % (1000 * 60)) / 1000);
+            document.getElementById("day").innerHTML = days;
+            document.getElementById("hour").innerHTML = hours;
+            document.getElementById("minute").innerHTML = minutes;
+            document.getElementById("second").innerHTML = seconds;
+            if (t < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "TIME UP";
+                document.getElementById("day").innerHTML = '0';
+                document.getElementById("hour").innerHTML = '0';
+                document.getElementById("minute").innerHTML = '0';
+                document.getElementById("second").innerHTML = '0';
+            }
+        }, 1000);
+    </script>
+    <div class="col-12">
+        <div class="pace-center-atom-red">
+            <div id="clockdiv">
+                <div class="main_box rounded">
+                    <span class="days" id="day">1</span>
+                    <div class="smalltext">Day</div>
+                </div>
+                <div class="main_box rounded">
+                    <span class="hours" id="hour">11</span>
+                    <div class="smalltext">Hour</div>
+                </div>
+                <div class="main_box rounded">
+                    <span class="minutes" id="minute">59</span>
+                    <div class="smalltext">Min</div>
+                </div>
+                <div class="main_box rounded">
+                    <span class="seconds" id="second">15</span>
+                    <div class="smalltext">Sec</div>
                 </div>
             </div>
         </div>
-    }
-       
+    </div>
+</div>
+
 
