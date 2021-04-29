@@ -189,6 +189,7 @@
     <Compile Include="Models\User\PasswordEdit.cs" />
     <Compile Include="Models\User\User.cs" />
     <Compile Include="Models\ViewModels\CheckoutViewModel.cs" />
+    <Compile Include="Models\ViewModels\ConfirmPaymentModel.cs" />
     <Compile Include="Models\ViewModels\HomeIndexViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductIndexViewModel.cs" />

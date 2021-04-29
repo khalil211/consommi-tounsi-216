@@ -1,4 +1,5 @@
 ﻿using ConsommiTounsi.Models.Payment;
+using ConsommiTounsi.Models.ViewModels;
 using ConsommiTounsi.Utils;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,18 @@ namespace ConsommiTounsi.Controllers
             var model = await response.Content.ReadAsAsync<CreatePaymentResponse>();
 
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ConfirmCardPayment(ConfirmPaymentModel confirmPaymentModel)
+        {
+            var client = HttpClientBuilder.Get();
+            var response = await client.PostAsJsonAsync<ConfirmPaymentModel>(
+                $"payments/online/confirmCardPayment", confirmPaymentModel);
+
+            var model = await response.Content.ReadAsAsync<CreatePaymentResponse>();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
