@@ -5,9 +5,9 @@ using System.Web;
 
 namespace ConsommiTounsi.Models.Payment
 {
-    public class AddItemModel
+    public class CreatePaymentResponse
     {
-        public int ProductId { get; set; }
-        public int quantity { get; set; }
+        public string PublishableKey { get; set; }
+        public string ClientSecret { get; set; }
     }
 }

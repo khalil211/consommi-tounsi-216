@@ -5,16 +5,7 @@
     ViewBag.Title = Model.Product.Name;
     var user = Session["user"] as ConsommiTounsi.Models.User.User;
     var ApiBaseAddress = ConsommiTounsi.Utils.HttpClientBuilder.BaseAddress;
-}
-
-@section SearchCategories {
-    <select class="select-menu form-select d-none d-sm-block">
-        <option value="selected">Les categories</option>
-        @foreach (var category in Model.Categories)
-        {
-            <option value=@category.Id>@category.Name</option>
-        }
-    </select>
+    var cartId = Model.Cart == null ? -1 : Model.Cart.Id;
 }
 
 <div id="single_product" class="single_product_page animate__animated animate__fadeInUp">
@@ -25,10 +16,10 @@
                 <div class="col-12">
                     <ul>
                         <li class="d-inline-block font-weight-bolder">
-                            @Html.ActionLink("Accueil", "Index", "Home")
+                            @Html.ActionLink("Home", "Index", "Home")
                         </li>
                         <li class="d-inline-block hr_ font-weight-bolder">
-                            @Html.ActionLink("Nos Produits", "Index", "Product")
+                            @Html.ActionLink("Our Products", "Index", "Product")
                         </li>
                         <li class="d-inline-block hr_ font-weight-bolder">
                             @Html.ActionLink(Model.Product.Name, "Details", "Product")
@@ -203,7 +194,7 @@
                 @if(Session["user"] == null)
             {
                 <div>
-                    <p>Vous devez etre connectez pour ajouter des produits au cart.</p>
+                    <p class="text-danger">You need to be connected in order to manage your cart.</p>
                 </div>
             } else
             {
@@ -236,6 +227,16 @@
                 <span class="sp_c_count2">
                     <a href="#" class="btn btn-primary primary" onclick="addToCart(@user.id)">Ajouter au Panier</a>
                 </span>
+            </div>
+            <div class="row">
+                <div class="col-12 my-2">
+                    <div class="alert alert-success" role="alert" id="successMessage" style="display: none;">
+                        Product added to the cart.
+                    </div>
+                    <div class="alert alert-danger" role="alert" id="errorMessage" style="display: none;">
+                       An error happened while adding the item, please try again.
+                    </div>
+                </div>
             </div>
             }
                 
@@ -353,6 +354,7 @@
                                 </div>
                             </div>
                         </div>*@
+                        <div style="width: 100%; height: 200px" id="toastContainer"></div>
                     </div>
                 </div>
             </div>
@@ -427,22 +429,38 @@
             document.getElementById('photo-display').innerHTML = '<a href="' + objUrl + '" id="selected-photo"><img src="' + objUrl + '" id="selected-photo" alt=""></a>';
         }
 
+        function hideMessages() {
+            $('#errorMessage').hide(0);
+            $('#successMessage').hide(0);
+        }
+
         function addToCart($event) {
+            hideMessages();
             var productQuantity = parseInt(document.getElementById("productCountInput").value);
-            var url = '/Cart/AddItem/';
+            
+            var url = '/Cart/AddItem/'
+                        + @cartId
+                        + '/?productId=' + @Model.Product.Id + '&quantity=' + productQuantity;
             var body = {
                 productId: @Model.Product.Id,
                 productQuantity: productQuantity
             };
             body = JSON.stringify(body);
-            console.log(url);
-            console.log(body)
-            $.post(url, body, function (data, status) {
-                console.log(data);
-                console.log(status);
-            });
-        }
 
+            $.ajax({
+                statusCode: {
+                    400: function () {
+                        $('#errorMessage').show(500);
+                    }
+                },
+                url,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    $('#successMessage').show(500);
+                }
+            })
+        }
     </script>
 
 }

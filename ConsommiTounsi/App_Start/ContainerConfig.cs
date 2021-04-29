@@ -30,6 +30,9 @@ namespace ConsommiTounsi
             builder.RegisterType<ProductRepository>()
                     .As<IProductRepository>()
                     .InstancePerRequest();
+            builder.RegisterType<CheckoutRepository>()
+                    .As<ICheckoutRepository>()
+                    .InstancePerRequest();
         }
     }
 }

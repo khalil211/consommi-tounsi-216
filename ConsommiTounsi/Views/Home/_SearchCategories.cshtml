@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ConsommiTounsi.Models.Products.Category>
+    @{ 
+        Layout = null;
+    }
+
+@if (Model != null)
+{
+
+    <div class="input-class  text-left col-xl-8 col-lg-7 col-md-12  ">
+        <div class="between-header border border-danger rounded mb-0 head-left">
+
+            <select class="select-menu form-select d-none d-sm-block">
+                <option value="selected">All Categories</option>
+                @foreach (var category in Model)
+                {
+                    <option value=@category.Id>@category.Name</option>
+                }
+            </select>
+
+            <div class="input-group">
+                <input type="text" placeholder="Saisissez des mots clés à rechercher"
+                       class="form-control" aria-label="search" aria-describedby="button-addon2">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-danger font-weight-normal">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div> <!-- between-header text-left col-sm-8 head-left border border-danger rounded mb-0 -->
+    </div>
+
+}

@@ -27,24 +27,16 @@ namespace ConsommiTounsi.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var categories = await categoryRepository.Get();
+            var categories = await categoryRepository.GetAsync();
 
             return View(categories);
         }
 
         [ChildActionOnly]
-        public ActionResult RenderCart()
+        public ActionResult RenderSearchCategories()
         {
-            var user = Session["user"] as User;
-            if (user != null)
-            {
-                var response = cartRepository.Get((int)user.id);
-                Cart cart = response.Body;
-                return PartialView("_Cart", cart);
-            }
-
-            return PartialView("_Cart", null);
+            var categories = this.categoryRepository.Get();
+            return PartialView("_SearchCategories", categories);
         }
-
     }
 }

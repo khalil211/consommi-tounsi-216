@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -11,9 +13,15 @@ namespace ConsommiTounsi.Repositories.Payment
 {
     public class CartRepository : ICartRepository
     {
-        public Task<ResponseModel<Cart>> AddItem(int userId, Item item)
+        public async Task<ResponseModel<Cart>> AddItem(int cartId, Item item, int productId)
         {
-            throw new NotImplementedException();
+            var client = HttpClientBuilder.Get();
+            var response = await client.PostAsJsonAsync<Item>(
+                $"users/carts/{cartId}/items/{productId}", item);
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<Cart>>();
+
+            return model;
         }
 
         public ResponseModel<Cart> Get(int userId)
@@ -32,14 +40,37 @@ namespace ConsommiTounsi.Repositories.Payment
             return await response.Content.ReadAsAsync<ResponseModel<Cart>>();
         }
 
-        public Task<ResponseModel<Cart>> RemoveItem(int userId, int itemId)
+        public async Task<ResponseModel<IEnumerable<Item>>> GetItems()
         {
-            throw new NotImplementedException();
+            var client = HttpClientBuilder.Get();
+            var response = await client.GetAsync("items");
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<IEnumerable<Item>>>();
+
+
+            return model;
         }
 
-        public Task<ResponseModel<Cart>> UpdateItemQuantity(int userId, int itemId, int quantity)
+        public async Task<ResponseModel<Cart>> RemoveItem(int itemId)
         {
-            throw new NotImplementedException();
+            var client = HttpClientBuilder.Get();
+            var response = await client.DeleteAsync($"items/{itemId}");
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<Cart>>();
+
+            return model;
+        }
+
+        public async Task<ResponseModel<Cart>> UpdateItemQuantity(
+            int itemId, int quantity)
+        {
+
+            var client = HttpClientBuilder.Get();
+            var response = await client.PutAsync($"items/{itemId}/{quantity}", null);
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<Cart>>();
+
+            return model;
         }
     }
 }
