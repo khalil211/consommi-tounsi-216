@@ -1,0 +1,125 @@
+﻿@model ConsommiTounsi.Models.Evenement.Evenement
+
+@{
+    ViewBag.Title = "CreateEvent";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="container custom_container">
+    <h1 class="text-lg-center" style="color:rosybrown"> Create new Event </h1>
+    <div id="Registration" class="page-content card-body alert-danger  ">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.location, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.picture, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.picture, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.number, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.number, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.eventDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.eventDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.eventDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.maxCollect, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.maxCollect, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.maxCollect, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group text-left">
+                <label class="font-weight-bolder">Event Type</label><br>
+                <span class="form-check">
+                    @Html.RadioButtonFor(model => model.eventType, ConsommiTounsi.Models.Evenement.EventType.CHARITY, new { @class = "form-check-input", @id = "charity", @checked = true })
+                    <label class="form-check-label" for="charity">Charity</label>
+                </span>
+                <span class="form-check">
+                    @Html.RadioButtonFor(model => model.eventType, ConsommiTounsi.Models.Evenement.EventType.BUSINESS, new { @class = "form-check-input", @id = "buisiness" })
+                    <label class="form-check-label" for="buisiness">Buisiness</label>
+                </span>
+                <span class="form-check">
+                    @Html.RadioButtonFor(model => model.eventType, ConsommiTounsi.Models.Evenement.EventType.CULTURE, new { @class = "form-check-input", @id = "culture" })
+                    <label class="form-check-label" for="culture">Culture</label>
+                </span>
+                <span class="form-check">
+                    @Html.RadioButtonFor(model => model.eventType, ConsommiTounsi.Models.Evenement.EventType.SPORT, new { @class = "form-check-input", @id = "sport" })
+                    <label class="form-check-label" for="sport">Sport</label>
+                </span>
+                @Html.ValidationMessageFor(model => model.eventType, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.maxnumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.maxnumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.maxnumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn-danger" />
+                </div>
+            </div>
+
+
+
+
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    </div>
+</div>

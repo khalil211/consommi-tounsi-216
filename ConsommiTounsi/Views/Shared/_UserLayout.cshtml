@@ -587,8 +587,11 @@
                     <div class="col-lg-9 text-left">
                         @RenderSection("AddionalNavbarLinks", required: false)
                         <ul class="main-menu navbar">
+
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("Forum", "Index", "Forum")</li>
+                      <li>@Html.ActionLink("Events ", "Index", "Evenement")</li>
+                            <li>@Html.ActionLink("Cagnotte ", "CagnotteList", "Cagnotte")</li>
                         </ul>
                         <ul class="main-menu navbar">
                             <li>@Html.ActionLink("Our Products", "Index", "Product")</li>
@@ -600,6 +603,7 @@
                 </div>
             </div>
         </div>
+
 
     </header>
 

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ConsommiTounsi.Models.Evenement.Evenement>
+@{
+    ViewBag.Title = "Event List";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div id="shop_page" class="shop-page animate__animated animate__fadeInUp">
+
+    <div class="sp_header p-3 " style="background-color: #ff3333;
+    ">
+        <div class="container custom_container">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder"><a> @Html.ActionLink("For you Events ", "SelectedEvents", "Evenement")</a></li>
+                        <li class="d-inline-block hr_ font-weight-bolder"><a> @Html.ActionLink("Disponible Events ", "EventDisponible", "Evenement")</a></li>
+                        <li class="d-inline-block hr_ font-weight-bolder"><a>@Html.ActionLink("Last Events ", "LastEvents", "Evenement")</a></li>
+                        <li class="d-inline-block hr_ font-weight-bolder"><a>@Html.ActionLink("Create events ", "CreateEvent", "Evenement")</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="row sh_page rounded">
+            @foreach (var evenement in Model)
+            {
+                <div class="col-xl-4 col-md-6 col-sm-12">
+                    <div class="card mb-4  animate__animated animate__fadeInUp" data-wow-duration="0.8s" data-wow-delay="0s">
+                     
+                        <a @Html.ActionLink("Détails", "EvenementById", "Evenement", new { id = evenement.id }, null)><img src="@evenement.picture" class="fst-image mx-auto d-block img-fluid rounded" alt="blog_1"></a>
+                        <div class="card-body p-0 mt-3">
+                            <div class="blog_subtitle">
+                                <span class="font-weight-bolder pr-2"><svg class="svg-inline--fa fa-calendar-alt fa-w-14 mr-2" aria-hidden="true" focusable="false" data-prefix="far" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z"></path></svg><!-- <i class="far fa-calendar-alt mr-2"></i> Font Awesome fontawesome.com -->@evenement.eventDate</span>
+   
+                                <span class="font-weight-bolder pl-2"><svg class="svg-inline--fa fa-user fa-w-14 mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg><!-- <i class="fas fa-user mr-2"></i> Font Awesome fontawesome.com -->@evenement.number/@evenement.maxnumber paricipating</span>
+                            </div>
+                            <h2 class="card-title mt-3 font-weight-bold"><a>@evenement.eventType</a></h2>
+                            <p class="card-text text-muted f_13">
+
+                                @Html.ActionLink("Participate", "Participé", "Participation", new { EvId = evenement.id }, new { @class = "btn btn-primary rese float-left mt-3" })
+</div>
+                    </div>
+                </div>
+                @*@<del class="text-muted">$100.00</del>*@
+            }
+
+
+
+
+
+
+
+
+
+
+           
+              
+
+            </div>
+
+ 
+
+    <div class="container custom_container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="float-right mt-5 mt-col-3">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+</div>
