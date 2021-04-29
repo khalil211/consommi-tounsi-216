@@ -1,10 +1,13 @@
 ﻿@model ConsommiTounsi.Models.ViewModels.ProductDetailsViewModel
 
 @{
+
     Layout = "~/Views/Shared/_UserLayout.cshtml";
     ViewBag.Title = Model.Product.Name;
     var user = Session["user"] as ConsommiTounsi.Models.User.User;
     var ApiBaseAddress = ConsommiTounsi.Utils.HttpClientBuilder.BaseAddress;
+
+
 }
 
 @section SearchCategories {
@@ -77,200 +80,224 @@
                 <div class="text-secondary sp_tax">Taxes inclues.</div>
 
                 @*<div class="sp_add_info my-3">
-                    <ul>
-                        <li class="sku my-2">
-                            <span class="text-uppercase font-weight-bolder">sku:</span>
-                            <span>5010</span>
-                        </li>
-                        <li class="availability my-2">
-                            <span class="font-weight-bolder">Availability:</span>
-                            <span class="p_quantity">1</span>
-                            <span>in stock</span>
-                        </li>
-                    </ul>
-                </div>*@
+                        <ul>
+                            <li class="sku my-2">
+                                <span class="text-uppercase font-weight-bolder">sku:</span>
+                                <span>5010</span>
+                            </li>
+                            <li class="availability my-2">
+                                <span class="font-weight-bolder">Availability:</span>
+                                <span class="p_quantity">1</span>
+                                <span>in stock</span>
+                            </li>
+                        </ul>
+                    </div>*@
 
                 @*<div class="sp_text">
-                    <ul>
-                        <li class="my-2">Fashion has been creating well-designed collections since 2010. </li>
-                        <li class="my-2">The brand offers feminine designs delivering stylish separates and statement dresses which have since evolved into a full ready-tcollection in which every item is a vital part of a woman's wardrobe. </li>
-                    </ul>
-                </div>*@
+                        <ul>
+                            <li class="my-2">Fashion has been creating well-designed collections since 2010. </li>
+                            <li class="my-2">The brand offers feminine designs delivering stylish separates and statement dresses which have since evolved into a full ready-tcollection in which every item is a vital part of a woman's wardrobe. </li>
+                        </ul>
+                    </div>*@
 
                 <div class="sp_rating">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
+                    @{ double starAvg = 0;
+                        if (@Model.Product.ratings.Count != 0)
+                        {
+                            starAvg = (int)(((ConsommiTounsi.Models.Products.Product)@Model.Product).ratings.Select(s => s.starRate).Average() * 100);
+                            starAvg = starAvg / 100;
+                        }
+                    }
+                    @if (user != null)
+                    {
+                        ConsommiTounsi.Models.Products.ProductRating userStar = null;
+                        if (@Model.Product.ratings.Count != 0)
+                        {
+                            userStar = ((ConsommiTounsi.Models.Products.Product)@Model.Product).ratings.Where(s => s.user.id == user.id).FirstOrDefault();
+                        }
+                        <span class="font-weight-bolder border-secondary border-left pl-2">
+                            @for (int i = 1; i < 6; i++)
+                            {
+                                <a href="@Url.Action("Rate", "Product", new { id = @Model.Product.Id ,rating = i },null)"><i class="@Html.Raw((userStar == null) ? "far" : ((i <= userStar.starRate) ? "fas" : "far")) fa-star" style="color: gold;"></i></a>
+                            }
+                            @starAvg
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg</span>
+                    }
                 </div>
+
+
 
                 @*<div id="clockdiv" class="sp_clockdiv">
-                    <div class="main_box rounded">
-                        <span class="days"></span>
-                        <div class="smalltext">Day</div>
+                        <div class="main_box rounded">
+                            <span class="days"></span>
+                            <div class="smalltext">Day</div>
+                        </div>
+                        <div class="main_box rounded">
+                            <span class="hours"></span>
+                            <div class="smalltext">Hour</div>
+                        </div>
+                        <div class="main_box rounded">
+                            <span class="minutes"></span>
+                            <div class="smalltext">Min</div>
+                        </div>
+                        <div class="main_box rounded">
+                            <span class="seconds"></span>
+                            <div class="smalltext">Sec</div>
+                        </div>
                     </div>
-                    <div class="main_box rounded">
-                        <span class="hours"></span>
-                        <div class="smalltext">Hour</div>
-                    </div>
-                    <div class="main_box rounded">
-                        <span class="minutes"></span>
-                        <div class="smalltext">Min</div>
-                    </div>
-                    <div class="main_box rounded">
-                        <span class="seconds"></span>
-                        <div class="smalltext">Sec</div>
-                    </div>
-                </div>
 
-                <div class="sp_color my-4">
-                    <ul>
-                        <li class="font-weight-bold text-uppercase my-2">color:</li>
-                        <li class="btn-group btn-group-toggle my-2" data-toggle="buttons">
-                            <label class="btn yellow rounded  active">
-                                <input class="" type="radio" name="options">
-                            </label>
-                            <label class="btn black rounded">
-                                <input class="" type="radio" name="options">
-                            </label>
-                        </li>
-                    </ul>
-                </div>
+                    <div class="sp_color my-4">
+                        <ul>
+                            <li class="font-weight-bold text-uppercase my-2">color:</li>
+                            <li class="btn-group btn-group-toggle my-2" data-toggle="buttons">
+                                <label class="btn yellow rounded  active">
+                                    <input class="" type="radio" name="options">
+                                </label>
+                                <label class="btn black rounded">
+                                    <input class="" type="radio" name="options">
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
 
-                <div class="sp_size">
-                    <ul>
-                        <li class="font-weight-bold text-uppercase my-2">size:</li>
-                        <li class="btn-group btn-group-toggle my-2" data-toggle="buttons">
-                            <label class="btn size_ rounded  active">
-                                <input class="" type="radio" name="options">S
-                            </label>
-                            <label class="btn size_ rounded">
-                                <input class="" type="radio" name="options">M
-                            </label>
-                            <label class="btn size_ rounded">
-                                <input class="" type="radio" name="options">L
-                            </label>
-                        </li>
-                    </ul>
-                </div>*@
+                    <div class="sp_size">
+                        <ul>
+                            <li class="font-weight-bold text-uppercase my-2">size:</li>
+                            <li class="btn-group btn-group-toggle my-2" data-toggle="buttons">
+                                <label class="btn size_ rounded  active">
+                                    <input class="" type="radio" name="options">S
+                                </label>
+                                <label class="btn size_ rounded">
+                                    <input class="" type="radio" name="options">M
+                                </label>
+                                <label class="btn size_ rounded">
+                                    <input class="" type="radio" name="options">L
+                                </label>
+                            </li>
+                        </ul>
+                    </div>*@
 
                 @*<div class="sp_about my-3">
-                    <span class="sp_comn1"><a href="#" class="font-weight-bolder" data-toggle="modal" data-target="#shippingModal"><i class="fas fa-box-open"></i>shipping</a></span>
+                        <span class="sp_comn1"><a href="#" class="font-weight-bolder" data-toggle="modal" data-target="#shippingModal"><i class="fas fa-box-open"></i>shipping</a></span>
 
 
 
-                    <span class="sp_comn2"><a href="#" class="font-weight-bolder" data-toggle="modal" data-target="#question_Modal"><i class="far fa-envelope"></i>ask about this product</a></span>
+                        <span class="sp_comn2"><a href="#" class="font-weight-bolder" data-toggle="modal" data-target="#question_Modal"><i class="far fa-envelope"></i>ask about this product</a></span>
 
-                    <div class="modal fade" id="question_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title " id="exampleModalLabel">shipping</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body que_form">
-                                    <h6>have a any question?</h6>
-                                    <form>
-                                        <div>
-                                            <div class="col-12 sp_form pl-0 pb-3">
-                                                <textarea class="form-control" rows="3" placeholder="Enter Your Message"></textarea>
+                        <div class="modal fade" id="question_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title " id="exampleModalLabel">shipping</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body que_form">
+                                        <h6>have a any question?</h6>
+                                        <form>
+                                            <div>
+                                                <div class="col-12 sp_form pl-0 pb-3">
+                                                    <textarea class="form-control" rows="3" placeholder="Enter Your Message"></textarea>
+                                                </div>
+                                                <div class="col-12 sp_form pl-0 pb-3">
+                                                    <input type="text" class="form-control" placeholder="Enter Your Name">
+                                                </div>
+                                                <div class="col-12 sp_form pl-0 pb-3">
+                                                    <input type="email" class="form-control" placeholder="Enter Your Mail">
+                                                </div>
+                                                <div class="col-12 sp_form pl-0 pb-3 ">
+                                                    <input type="tel" pattern=".{10}" class="form-control" id="other_number" oninput="check(this)" required placeholder="Enter Your Phone">
+                                                </div>
+                                                <div class="col-12 sp_form pl-0 pb-3">
+                                                    <button type="submit" class="btn btn-primary">submit review</button>
+                                                </div>
                                             </div>
-                                            <div class="col-12 sp_form pl-0 pb-3">
-                                                <input type="text" class="form-control" placeholder="Enter Your Name">
-                                            </div>
-                                            <div class="col-12 sp_form pl-0 pb-3">
-                                                <input type="email" class="form-control" placeholder="Enter Your Mail">
-                                            </div>
-                                            <div class="col-12 sp_form pl-0 pb-3 ">
-                                                <input type="tel" pattern=".{10}" class="form-control" id="other_number" oninput="check(this)" required placeholder="Enter Your Phone">
-                                            </div>
-                                            <div class="col-12 sp_form pl-0 pb-3">
-                                                <button type="submit" class="btn btn-primary">submit review</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+
+                    </div>*@
+
+                @if (Session["user"] == null)
+                {
+                    <div>
+                        <p>Vous devez etre connectez pour ajouter des produits au cart.</p>
                     </div>
+                }
+                else
+                {
+                    <div class="sp_counter">
+                        <div class="sp_c_count1">
+                            <div class="number">
+                                <!-- <span class="minus">-</span>
+                                <input type="text" value="1"/>
+                                <span class="plus">+</span> -->
+                                <div class="sp_counter ">
 
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default btn-number p-0"
+                                                    disabled="disabled" data-type="minus" data-field="quant[1]">
+                                                <span class="minus">-</span>
+                                            </button>
+                                        </span>
+                                        <input id="productCountInput" type="number" name="quant[1]" class="form-control input-number" value="1" min="1" max="100">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default btn-number p-0" data-type="plus" data-field="quant[1]">
+                                                <span class="plus">+</span>
+                                            </button>
+                                        </span>
+                                    </div>
 
-                </div>*@
-
-                @if(Session["user"] == null)
-            {
-                <div>
-                    <p>Vous devez etre connectez pour ajouter des produits au cart.</p>
-                </div>
-            } else
-            {
-            <div class="sp_counter">
-                <div class="sp_c_count1">
-                    <div class="number">
-                        <!-- <span class="minus">-</span>
-            <input type="text" value="1"/>
-            <span class="plus">+</span> -->
-                        <div class="sp_counter ">
-
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number p-0"
-                                            disabled="disabled" data-type="minus" data-field="quant[1]">
-                                        <span class="minus">-</span>
-                                    </button>
-                                </span>
-                                <input id="productCountInput" type="number" name="quant[1]" class="form-control input-number" value="1" min="1" max="100">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-number p-0" data-type="plus" data-field="quant[1]">
-                                        <span class="plus">+</span>
-                                    </button>
-                                </span>
+                                </div>
                             </div>
-
                         </div>
+                        <span class="sp_c_count2">
+                            <a href="#" class="btn btn-primary primary" onclick="addToCart(@user.id)">Ajouter au Panier</a>
+                        </span>
                     </div>
-                </div>
-                <span class="sp_c_count2">
-                    <a href="#" class="btn btn-primary primary" onclick="addToCart(@user.id)">Ajouter au Panier</a>
-                </span>
-            </div>
-            }
-                
+                }
+
 
                 @*<div class="form-check sp_check my-3">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">I agree with the terms and conditions </label>
-                </div>*@
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">I agree with the terms and conditions </label>
+                    </div>*@
 
                 @*<div class="sp_buy">
-                    <button type="button" class="btn btn-primary primary">buy it now</button>
-                </div>*@
+                        <button type="button" class="btn btn-primary primary">buy it now</button>
+                    </div>*@
                 @*<div class="sp_wish_com my-3">
-                    <span class="sp_comp1"><a href="#" class="text-uppercase font-weight-bolder " data-toggle="modal" data-target="#wish_Modal"><i class="far fa-heart"></i>add TO WISHLIST</a></span>
+                        <span class="sp_comp1"><a href="#" class="text-uppercase font-weight-bolder " data-toggle="modal" data-target="#wish_Modal"><i class="far fa-heart"></i>add TO WISHLIST</a></span>
 
 
 
-                    <span class="sp_comp2"><a href="#" class="text-uppercase font-weight-bolder"><i class="fas fa-tasks"></i>ADD TO COMPARE</a></span>
-                </div>*@
+                        <span class="sp_comp2"><a href="#" class="text-uppercase font-weight-bolder"><i class="fas fa-tasks"></i>ADD TO COMPARE</a></span>
+                    </div>*@
                 @*<div class="sp_ad_info">
-                    <ul>
-                        <li class="my-2">
-                            <span>vendor:</span><span><a href="#" class="text-muted pl-2">levis</a></span>
-                        </li>
-                        <li class="my-2">
-                            <span>product type:</span><span class="text-muted pl-2">shirt</span>
-                        </li>
-                        <li class="my-2">
-                            <span>barcode:</span><span class="text-muted pl-2">1234321</span>
-                        </li>
-                        <li class="my-2">
-                            <span>tags:</span><span><a href="#" class="text-muted px-2">summer ,</a></span><span><a href="#" class="text-muted ">winter</a></span>
-                        </li>
-                    </ul>
-                </div>*@
+                        <ul>
+                            <li class="my-2">
+                                <span>vendor:</span><span><a href="#" class="text-muted pl-2">levis</a></span>
+                            </li>
+                            <li class="my-2">
+                                <span>product type:</span><span class="text-muted pl-2">shirt</span>
+                            </li>
+                            <li class="my-2">
+                                <span>barcode:</span><span class="text-muted pl-2">1234321</span>
+                            </li>
+                            <li class="my-2">
+                                <span>tags:</span><span><a href="#" class="text-muted px-2">summer ,</a></span><span><a href="#" class="text-muted ">winter</a></span>
+                            </li>
+                        </ul>
+                    </div>*@
                 <div class="sp_collapse_block my-4">
                     <div class="accordion" id="collapse_block">
                         <div class="card">
@@ -284,86 +311,125 @@
 
                             <div id="collapse_One" class="collapse show" aria-labelledby="heading_One" data-parent="#collapse_block">
                                 <div class="card-body">
-                                    <p>@Model.Product.Description</p>     
+                                    <p>@Model.Product.Description</p>
                                 </div>
                             </div>
                         </div>
-                        @*<div class="card">
-                            <div class="card-header" id="heading_Two">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_Two" aria-expanded="false" aria-controls="collapse_Two">
-                                        ADDITIONAL INFORMATION<span class="float-right"><i class="fas fa-angle-down"></i></span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapse_Two" class="collapse" aria-labelledby="heading_Two" data-parent="#collapse_block">
-                                <div class="card-body">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td class="pr-5">color:</td>
-                                                <td>pink</td>
-                                            </tr>
-                                            <tr>
-                                                <td>size:</td>
-                                                <td>large</td>
-                                            </tr>
-                                            <tr>
-                                                <td>material:</td>
-                                                <td>faberics</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="heading_Three">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed " type="button" data-toggle="collapse" data-target="#collapse_Three" aria-expanded="false" aria-controls="collapse_Three">
-                                        REVIEW<span class="float-right"><i class="fas fa-angle-down"></i></span>
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="collapse_Three" class="collapse" aria-labelledby="heading_Three" data-parent="#collapse_block">
-                                <div class="card-body">
-                                    <form>
-                                        <div class="">
-                                            <div class="col-12 sp_form pl-0">
-                                                <label class="font-weight-bolder">name:</label>
-                                                <input type="text" class="form-control" placeholder="First name">
-                                            </div>
-                                            <div class="col-12 sp_form pl-0">
-                                                <label class="font-weight-bolder">email:</label>
-                                                <input type="email" class="form-control" placeholder="Enter Your Mail">
-                                            </div>
-                                            <div class="col-12 sp_form pl-0">
-                                                <label class="font-weight-bolder">title:</label>
-                                                <input type="text" class="form-control" placeholder="Review Title">
-                                            </div>
-                                            <div class="col-12 sp_form pl-0">
-                                                <label class="font-weight-bolder">review:</label>
-                                                <textarea class="form-control sp_text_area" id="exampleFormControlTextarea1" rows="3" placeholder="Your Review"></textarea>
-                                            </div>
-                                            <div class="col-12 sp_form pl-0">
-                                                <button type="submit" class="btn btn-primary font-weight-bolder">submit review</button>
-                                            </div>
+
+
+
+                        <h4 style="margin-left: 21px;" class="text-danger">Comments</h4>
+                        
+                        @{
+                            Html.RenderAction("AddComment", "Product");
+                        }
+                        @foreach (ConsommiTounsi.Models.Products.Comment comment in Model.Product.comments)
+                        {
+                            ConsommiTounsi.Models.Products.CommentLike userLike = null;
+                            if (comment.likes.Count != 0 && user != null)
+                            {
+                                userLike = comment.likes.Where(l => l.user.id == user.id).FirstOrDefault();
+                            }
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card mb-4  animate__animated animate__fadeInUp" data-wow-duration="0.8s" data-wow-delay="0.4s">
+                                    <div class="card-body p-0 mt-3">
+                                        <h2 class="card-title mt-3 font-weight-bold" style="text-transform:none;">@comment.content</h2>
+
+                                        <div class="blog_subtitle">
+                                            <span class="font-weight-bolder pr-2" style="text-transform:none;"><i class="fas fa-user mr-2"></i>@comment.user.username </span>
+                                            <span class="font-weight-bolder border-secondary border-left border-right px-2"><i class="far fa-calendar-alt mr-2"></i> @comment.date.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                            <span class="font-weight-bolder border-secondary pl-2"><a href="#" onclick="likeComment(@comment.id, true)"><i id="like-icon-p-@comment.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "fas" : "far")) fa-thumbs-up mr-2" style="color: red;"></i><span id="like-count-p-@comment.id">@comment.likes.Where(l => l.liked).Count()</span> Like</a></span>
+                                            <span class="font-weight-bolder pl-2"><a href="#" onclick="likeComment(@comment.id, false)"><i id="dislike-icon-p-@comment.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "far" : "fas")) fa-thumbs-down mr-2" style="color: red;"></i><span id="dislike-count-p-@comment.id">@comment.likes.Where(l => l.liked != true).Count()</span> Dislike</a></span>
                                         </div>
-                                    </form>
+
+
+
+
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>*@
+                        }
                     </div>
-                </div>
-            </div>
+                    </div>
 
-        </div>
-    </div>
-</div>
+                                    @*<div class="card">
+                        <div class="card-header" id="heading_Two">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_Two" aria-expanded="false" aria-controls="collapse_Two">
+                                    ADDITIONAL INFORMATION<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapse_Two" class="collapse" aria-labelledby="heading_Two" data-parent="#collapse_block">
+                            <div class="card-body">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="pr-5">color:</td>
+                                            <td>pink</td>
+                                        </tr>
+                                        <tr>
+                                            <td>size:</td>
+                                            <td>large</td>
+                                        </tr>
+                                        <tr>
+                                            <td>material:</td>
+                                            <td>faberics</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="heading_Three">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed " type="button" data-toggle="collapse" data-target="#collapse_Three" aria-expanded="false" aria-controls="collapse_Three">
+                                    REVIEW<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapse_Three" class="collapse" aria-labelledby="heading_Three" data-parent="#collapse_block">
+                            <div class="card-body">
+                                <form>
+                                    <div class="">
+                                        <div class="col-12 sp_form pl-0">
+                                            <label class="font-weight-bolder">name:</label>
+                                            <input type="text" class="form-control" placeholder="First name">
+                                        </div>
+                                        <div class="col-12 sp_form pl-0">
+                                            <label class="font-weight-bolder">email:</label>
+                                            <input type="email" class="form-control" placeholder="Enter Your Mail">
+                                        </div>
+                                        <div class="col-12 sp_form pl-0">
+                                            <label class="font-weight-bolder">title:</label>
+                                            <input type="text" class="form-control" placeholder="Review Title">
+                                        </div>
+                                        <div class="col-12 sp_form pl-0">
+                                            <label class="font-weight-bolder">review:</label>
+                                            <textarea class="form-control sp_text_area" id="exampleFormControlTextarea1" rows="3" placeholder="Your Review"></textarea>
+                                        </div>
+                                        <div class="col-12 sp_form pl-0">
+                                            <button type="submit" class="btn btn-primary font-weight-bolder">submit review</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>*@
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
 
-@section scripts
-    {
+
+ @section scripts
+  {
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
 
 
@@ -443,7 +509,51 @@
             });
         }
 
-    </script>
 
-}
+
+        function likeComment(id, liked) {
+            event.preventDefault();
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: '@Url.Action("LikeComment")?id=' + id + "&liked=" + liked,
+                success: function (data) {
+                    if (data == "success") {
+                        let likeIcon = $("#like-icon-p-" + id);
+                        let likeCount = $("#like-count-p-" + id);
+                        let dislikeIcon = $("#dislike-icon-p-" + id);
+                        let dislikeCount = $("#dislike-count-p-" + id);
+                        let previous = null;
+                        if (likeIcon.attr("data-prefix") == "fas")
+                            previous = true;
+                        else if (dislikeIcon.attr("data-prefix") == "fas")
+                            previous = false;
+                        if (previous == null) {
+                            if (liked) {
+                                likeIcon.addClass("fas");
+                                likeCount.html(parseInt(likeCount.text()) + 1);
+                            } else {
+                                dislikeIcon.addClass("fas");
+                                dislikeCount.html(parseInt(dislikeCount.text()) + 1);
+                            }
+                        } else {
+                            if (previous) {
+                                [likeIcon, dislikeIcon] = [dislikeIcon, likeIcon];
+                                [likeCount, dislikeCount] = [dislikeCount, likeCount];
+                                liked = !liked;
+                            }
+                            dislikeIcon.addClass("far");
+                            dislikeCount.html(parseInt(dislikeCount.text()) - 1);
+                            if (liked) {
+                                likeIcon.addClass("fas");
+                                likeCount.html(parseInt(likeCount.text()) + 1);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+       </script>
+    }
 

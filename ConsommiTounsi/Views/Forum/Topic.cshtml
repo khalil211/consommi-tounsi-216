@@ -59,6 +59,11 @@
                                             }
                                             @starAvg (@ViewBag.topic.stars.Count)
                                         </span>
+                                        if (ViewBag.topic.user.id == user.id)
+                                        {
+                                            <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-edit mr-2" style="color: red;"></i>@Html.ActionLink("Edit", "EditTopic", "Forum", new { id = ViewBag.topic.id }, null)</span>
+                                            <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-trash mr-2" style="color: red;"></i>@Html.ActionLink("Delete", "DeleteTopic", "Forum", new { id = ViewBag.topic.id }, null)</span>
+                                        }
                                     }
                                     else
                                     {
@@ -86,14 +91,19 @@
                                     <h2 class="card-title mt-3 font-weight-bold" style="text-transform:none;">@post.content</h2>
                                     @if (post.medias != null)
                                     {
-                                        <img src="@Url.Content("~/Content/Forum/" + post.medias)" class="fst-image mx-auto d-block img-fluid rounded" alt="image", style="margin-bottom: 21px; width: 40%;">
+                                        <img src="@Url.Content("~/Content/Forum/" + post.medias)" class="fst-image mx-auto d-block img-fluid rounded" alt="image", style="margin-bottom: 21px;">
                                     }
-                                    <div class="blog_subtitle">
-                                        <span class="font-weight-bolder pr-2" style="text-transform:none;"><i class="fas fa-user mr-2"></i>@post.user.username </span>
-                                        <span class="font-weight-bolder border-secondary border-left border-right px-2"><i class="far fa-calendar-alt mr-2"></i> @post.date.ToString("dd/MM/yyyy HH:mm:ss")</span>
-                                        <span class="font-weight-bolder border-secondary pl-2"><a href="#" onclick="likePost(@post.id, true)"><i id="like-icon-p-@post.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "fas" : "far")) fa-thumbs-up mr-2" style="color: red;"></i><span id="like-count-p-@post.id">@post.likes.Where(l => l.liked).Count()</span> Like</a></span>
-                                        <span class="font-weight-bolder pl-2"><a href="#" onclick="likePost(@post.id, false)"><i id="dislike-icon-p-@post.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "far" : "fas")) fa-thumbs-down mr-2" style="color: red;"></i><span id="dislike-count-p-@post.id">@post.likes.Where(l => l.liked != true).Count()</span> Dislike</a></span>
-                                    </div>
+                                <div class="blog_subtitle">
+                                    <span class="font-weight-bolder pr-2" style="text-transform:none;"><i class="fas fa-user mr-2"></i>@post.user.username </span>
+                                    <span class="font-weight-bolder border-secondary border-left border-right px-2"><i class="far fa-calendar-alt mr-2"></i> @post.date.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                    <span class="font-weight-bolder border-secondary pl-2"><a href="#" onclick="likePost(@post.id, true)"><i id="like-icon-p-@post.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "fas" : "far")) fa-thumbs-up mr-2" style="color: red;"></i><span id="like-count-p-@post.id">@post.likes.Where(l => l.liked).Count()</span> Like</a></span>
+                                    <span class="font-weight-bolder pl-2"><a href="#" onclick="likePost(@post.id, false)"><i id="dislike-icon-p-@post.id" class="@Html.Raw((userLike == null) ? "far" : ((userLike.liked) ? "far" : "fas")) fa-thumbs-down mr-2" style="color: red;"></i><span id="dislike-count-p-@post.id">@post.likes.Where(l => l.liked != true).Count()</span> Dislike</a></span>
+                                    @if (user != null && post.user.id == user.id)
+                                    {
+                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-edit mr-2" style="color: red;"></i>@Html.ActionLink("Edit", "EditPost", "Forum", new { id = post.id, topicId = ViewBag.topic.id, page = ViewBag.page, sort = ViewBag.sort }, null)</span>
+                                        <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-trash mr-2" style="color: red;"></i>@Html.ActionLink("Delete", "DeletePost", "Forum", new { id = post.id, topicId = ViewBag.topic.id, page = ViewBag.page, sort = ViewBag.sort }, null)</span>
+                                    }
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +187,7 @@
                             <div class="page-content card card-block p-3 p-sm-4 col-md-12">
                                 <div class="col-md-12">
                                     <h5 style="text-transform:none" class="font-weight-bold text-danger">Post in this topic</h5>
-                                    @using (Html.BeginForm("Topic", "Forum", FormMethod.Post, new { enctype = "multipart/form-data", id = ViewBag.topic.id, page = ViewBag.page, sort = ViewBag.sort }))
+                                    @using (Html.BeginForm("Topic", "Forum", new { id = ViewBag.topic.id, page = ViewBag.page, sort = ViewBag.sort }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                                     {
                                         @Html.AntiForgeryToken()
                                         <div class="form-horizontal">
@@ -231,17 +241,12 @@
                             </div>
 
                             <ul class="bl_cat">
-                                @if (ViewBag.sort == "relevant")
+                                <li class="font-weight-bold">@Html.ActionLink("Date", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "date" }, new { @class = (ViewBag.sort.Equals("date")) ? "text-danger" : "" })</li>
+                                <li class="font-weight-bold">@Html.ActionLink("Relevance", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "relevant" }, new { @class = (ViewBag.sort.Equals("relevant")) ? "text-danger" : "" })</li>
+                                @if (user != null)
                                 {
-                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "date" }, null)</li>
-                                    <li class="font-weight-bold">@Html.ActionLink("Relevance", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "relevant" }, new { @class = "text-danger" })</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("My posts", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "user" }, new { @class = (ViewBag.sort.Equals("user")) ? "text-danger" : "" })</li>
                                 }
-                                else
-                                {
-                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "date" }, new { @class = "text-danger" })</li>
-                                    <li class="font-weight-bold">@Html.ActionLink("Relevance", "Topic", "Forum", new { id = ViewBag.topic.id, page = 1, sort = "relevant" }, null)</li>
-                                }
-
                             </ul>
                         </div>
                     </div>

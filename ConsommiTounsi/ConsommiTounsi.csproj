@@ -2068,7 +2068,11 @@
     <Content Include="Content\Admin\plugins\uplot\uPlot.iife.js" />
     <Content Include="Content\Admin\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\Admin\plugins\uplot\uPlot.min.css" />
+<<<<<<< HEAD
     <Content Include="Content\jack.jpg" />
+=======
+    <Content Include="Content\Product\Jumia.jpg" />
+>>>>>>> 1ae2ff1523a2b775f89661f5557a0290251aca51
     <Content Include="Content\Shared\img\ConsommiTounsiLogo.png" />
     <Content Include="Content\Shared\img\consommitounsi_icon.ico" />
     <Content Include="Content\Tick.png" />
@@ -2345,9 +2349,18 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Forum\Admin.cshtml" />
+    <Content Include="Views\Forum\TopicAdmin.cshtml" />
+    <Content Include="Views\Forum\DuplicateTopics.cshtml" />
+    <Content Include="Views\Forum\ForbiddenWords.cshtml" />
+    <Content Include="Views\Forum\EditTopic.cshtml" />
+    <Content Include="Views\Forum\EditPost.cshtml" />
     <Content Include="Views\Categorie\Create.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
+    <Content Include="Views\Product\Indexback.cshtml" />
+    <Content Include="Views\Product\_AddComment.cshtml" />
     <Content Include="Views\Shared\_Cart.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Cagnotte\Tickets.cshtml" />
     <Content Include="Views\Cagnotte\WinTickets.cshtml" />
     <Content Include="Scripts\qrcode\.gitignore" />
@@ -2357,6 +2370,8 @@
     <Content Include="Views\Participation\ParticipationsListAdmin.cshtml" />
     <Content Include="Views\Evenement\EvenementById.cshtml" />
     <Content Include="Views\Evenement\Donate.cshtml" />
+=======
+>>>>>>> 1ae2ff1523a2b775f89661f5557a0290251aca51
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

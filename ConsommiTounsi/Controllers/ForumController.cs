@@ -15,6 +15,7 @@ namespace ConsommiTounsi.Controllers
     {
         public ActionResult Index(int page = 1, string sort = "date")
         {
+            User user = (User)Session["user"];
             HttpClient httpClient = HttpClientBuilder.Get();
             string url = "topics?sort="+sort;
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
@@ -25,6 +26,8 @@ namespace ConsommiTounsi.Controllers
                 page = totalPages;
             else if (page > totalPages)
                 page = 1;
+            if (user != null && sort.Equals("user"))
+                topics = topics.Where(t => t.user.id == user.id).ToList();
             ViewBag.topics = topics.Skip(10 * (page - 1)).Take(10);
             ViewBag.page = page;
             ViewBag.totalPages = totalPages;
@@ -88,6 +91,7 @@ namespace ConsommiTounsi.Controllers
 
         private ActionResult DisplayTopic(long id, int page, string sort)
         {
+            User user = (User)Session["user"];
             HttpClient httpClient = HttpClientBuilder.Get();
             HttpResponseMessage response = httpClient.GetAsync("topics/" + id).Result;
             response.EnsureSuccessStatusCode();
@@ -101,6 +105,8 @@ namespace ConsommiTounsi.Controllers
                 page = totalPages;
             else if (page > totalPages)
                 page = 1;
+            if (user != null && sort.Equals("user"))
+                posts = posts.Where(t => t.user.id == user.id).ToList();
             ViewBag.posts = posts.Skip(10 * (page - 1)).Take(10);
             ViewBag.page = page;
             ViewBag.totalPages = totalPages;
@@ -136,6 +142,219 @@ namespace ConsommiTounsi.Controllers
             if (!response.IsSuccessStatusCode)
                 return Json("failed", JsonRequestBehavior.AllowGet);
             return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Admin() {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get();
+            HttpResponseMessage response = httpClient.GetAsync("topics?sort=date").Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<List<Topic>>().Result);
+        }
+
+        public ActionResult TopicAdmin(long id)
+        {
+            HttpClient httpClient = HttpClientBuilder.Get();
+            string url = "topics/" + id + "/posts?sort=date";
+            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+            response.EnsureSuccessStatusCode();
+            ViewBag.topicId = id; 
+            return PartialView(response.Content.ReadAsAsync<List<Post>>().Result);
+        }
+
+        public JsonResult DeleteTopicAdmin(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.DeleteAsync("customer/topics/" + id).Result;
+            if (!response.IsSuccessStatusCode)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            return Json("SUCCESS", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeletePostAdmin(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.DeleteAsync("customer/posts/" + id).Result;
+            if (!response.IsSuccessStatusCode)
+                return Json("FAILED", JsonRequestBehavior.AllowGet);
+            return Json("SUCCESS", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DuplicateTopics()
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/topics/duplicates").Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<List<DuplicateTopic>>().Result);
+        }
+
+        public ActionResult ResolveDuplicate(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.PutAsync("admin/topics/" + id, null).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("DuplicateTopics", "Forum");
+        }
+
+        public ActionResult DeleteDuplicate(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.DeleteAsync("customer/topics/" + id).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("DuplicateTopics", "Forum");
+        }
+
+        public ActionResult ForbiddenWords()
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/posts/forbidden").Result;
+            response.EnsureSuccessStatusCode();
+            string words = response.Content.ReadAsStringAsync().Result;
+            return View(words.Split(' ').Where(w => !string.IsNullOrEmpty(w)).ToArray());
+        }
+
+        public ActionResult RemoveWord(string word)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/posts/forbidden").Result;
+            response.EnsureSuccessStatusCode();
+            string[] old = response.Content.ReadAsStringAsync().Result.Split(' ').Where(w => !string.IsNullOrEmpty(w)).ToArray();
+            old = old.Where(w => !w.Equals(word)).ToArray();
+            if (old.Count() == 0)
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(" ")).Result.EnsureSuccessStatusCode();
+            else
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(String.Join(" ", old))).Result.EnsureSuccessStatusCode();
+            return RedirectToAction("ForbiddenWords", "Forum");
+        }
+
+        [HttpPost]
+        public ActionResult ForbiddenWords(string words)
+        {
+            User user = Session["user"] as User;
+            if (user == null || user.type != UserType.ADMIN)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.GetAsync("admin/posts/forbidden").Result;
+            response.EnsureSuccessStatusCode();
+            List<string> old = response.Content.ReadAsStringAsync().Result.Split(' ').Where(w => !string.IsNullOrEmpty(w)).ToList();
+            foreach (string word in words.Split(' ').Where(w => !string.IsNullOrEmpty(w)))
+            {
+                if (!old.Contains(word))
+                    old.Add(word);
+            }
+            if (old.Count() == 0)
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(" ")).Result.EnsureSuccessStatusCode();
+            else
+                httpClient.PostAsync("admin/posts/forbidden", new StringContent(String.Join(" ", old.ToArray()))).Result.EnsureSuccessStatusCode();
+            return RedirectToAction("ForbiddenWords", "Forum");
+        }
+
+        public ActionResult DeleteTopic(long id, int page = 1, string sort = "date")
+        {
+            User user = Session["user"] as User;
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            httpClient.DeleteAsync("customer/topics/" + id).Result.EnsureSuccessStatusCode();
+            return RedirectToAction("Index", "Forum", new { page = page, sort = sort });
+        }
+
+        public ActionResult DeletePost(long id, long topicId, int page = 1, string sort = "date")
+        {
+            User user = Session["user"] as User;
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            httpClient.DeleteAsync("customer/posts/" + id).Result.EnsureSuccessStatusCode();
+            return RedirectToAction("Topic", "Forum", new { id = topicId, page = page, sort = sort });
+        }
+
+        public ActionResult EditTopic(long id)
+        {
+            User user = Session["user"] as User;
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get();
+            HttpResponseMessage response = httpClient.GetAsync("topics/" + id).Result;
+            response.EnsureSuccessStatusCode();
+            return View(response.Content.ReadAsAsync<Topic>().Result);
+        }
+
+        [HttpPost]
+        public ActionResult EditTopic(Topic topic)
+        {
+            User user = Session["user"] as User;
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.PostAsJsonAsync<Topic>("customer/topics", topic).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("Topic", "Forum", new { id = topic.id });
+        }
+
+        public ActionResult EditPost(long id, long topicId, int page = 1, string sort = "date")
+        {
+            User user = Session["user"] as User;
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            HttpClient httpClient = HttpClientBuilder.Get();
+            HttpResponseMessage response = httpClient.GetAsync("posts/" + id).Result;
+            response.EnsureSuccessStatusCode();
+            ViewBag.page = page;
+            ViewBag.sort = sort;
+            ViewBag.topicId = topicId;
+            return View(response.Content.ReadAsAsync<Post>().Result);
+        }
+
+        [HttpPost]
+        public ActionResult EditPost(Post post, HttpPostedFileBase file, long topicId, int page, string sort, bool removeImage = false)
+        {
+            User user = Session["user"] as User;
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".jpg") || file.FileName.EndsWith(".png") || file.FileName.EndsWith(".gif"))
+                {
+                    string filename = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + file.FileName;
+                    file.SaveAs(Path.Combine(Server.MapPath("~/Content/Forum/"), filename));
+                    post.medias = filename;
+                }
+                else
+                {
+                    ModelState.AddModelError("medias", "Must be a jpg, png or gif.");
+                    return View(post);
+                }
+            }
+            else if (removeImage)
+                post.medias = null;
+            HttpClient httpClient = HttpClientBuilder.Get(Session["api-cookie"]);
+            HttpResponseMessage response = httpClient.PostAsJsonAsync<Post>("customer/posts/edit", post).Result;
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction("Topic", "Forum", new { id = topicId, page = page, sort = sort });
         }
     }
 }
