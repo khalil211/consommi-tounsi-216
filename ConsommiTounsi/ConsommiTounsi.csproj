@@ -2349,12 +2349,6 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
-    <Content Include="Views\Forum\Admin.cshtml" />
-    <Content Include="Views\Forum\TopicAdmin.cshtml" />
-    <Content Include="Views\Forum\DuplicateTopics.cshtml" />
-    <Content Include="Views\Forum\ForbiddenWords.cshtml" />
-    <Content Include="Views\Forum\EditTopic.cshtml" />
-    <Content Include="Views\Forum\EditPost.cshtml" />
     <Content Include="Views\Categorie\Create.cshtml" />
     <Content Include="Views\Product\Product.cshtml" />
     <Content Include="Views\Product\Indexback.cshtml" />

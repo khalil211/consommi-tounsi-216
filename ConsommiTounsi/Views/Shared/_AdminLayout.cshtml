@@ -171,25 +171,10 @@
                 </div>
 
                 <!-- Sidebar Menu -->
-                @{ 
-                    bool forumMenuOpen = false;
-                    if(Convert.ToString(ViewContext.RouteData.Values["action"]).Equals("Admin") && Convert.ToString(ViewContext.RouteData.Values["controller"]).Equals("Forum"))
-                    {
-                        forumMenuOpen = true;
-                    }
-                    else if (Convert.ToString(ViewContext.RouteData.Values["action"]).Equals("DuplicateTopics") && Convert.ToString(ViewContext.RouteData.Values["controller"]).Equals("Forum"))
-                    {
-                        forumMenuOpen = true;
-                    }
-                    else if (Convert.ToString(ViewContext.RouteData.Values["action"]).Equals("ForbiddenWords") && Convert.ToString(ViewContext.RouteData.Values["controller"]).Equals("Forum"))
-                    {
-                        forumMenuOpen = true;
-                    }
-                }
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="@Url.Action("ManageUsers", "User")" class="nav-link @if (Convert.ToString(ViewContext.RouteData.Values["action"]).Equals("ManageUsers") && Convert.ToString(ViewContext.RouteData.Values["controller"]).Equals("User")){@Html.Raw("active");}">
+                            <a href="@Url.Action("ManageUsers", "User")" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Manage Users
@@ -208,6 +193,7 @@
                                 </p>
                             </a>
                         </li>
+
                         <li class="nav-item @if (forumMenuOpen) { @Html.Raw("menu-open"); }">
                             <a href="#" class="nav-link @if (forumMenuOpen) { @Html.Raw("active"); }">
                                 <i class="nav-icon fas fa-align-justify"></i>
@@ -261,6 +247,7 @@
                                 </p>
                             </a>
                         </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

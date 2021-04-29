@@ -51,11 +51,6 @@
                                             }
                                         }
                                         <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-star mr-2" style="color: gold;"></i>@starAvg (@topic.stars.Count)</span>
-                                        @if (user != null && topic.user.id == user.id)
-                                        {
-                                            <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-edit mr-2" style="color: red;"></i>@Html.ActionLink("Edit", "EditTopic", "Forum", new { id = topic.id }, null)</span>
-                                            <span class="font-weight-bolder border-secondary border-left pl-2"><i class="fas fa-trash mr-2" style="color: red;"></i>@Html.ActionLink("Delete", "DeleteTopic", "Forum", new { id = topic.id, page = ViewBag.page, sort = ViewBag.sort }, null)</span>
-                                        }
                                     </div>
                                     @Html.ActionLink("View topic", "Topic", "Forum", new { id = topic.id }, new { @class = "btn btn-primary mt-2 f_13 px-3 py-2" })
                                 </div>
@@ -197,12 +192,17 @@
                             </div>
 
                             <ul class="bl_cat">
-                                <li class="font-weight-bold">@Html.ActionLink("Date", "Index", "Forum", new { page = 1, sort = "date" }, new { @class = (ViewBag.sort.Equals("date")) ? "text-danger" : "" })</li>
-                                <li class="font-weight-bold">@Html.ActionLink("Popularity", "Index", "Forum", new { page = 1, sort = "popular" }, new { @class = (ViewBag.sort.Equals("popular")) ? "text-danger" : ""})</li>
-                                @if (user != null)
+                                @if (ViewBag.sort == "popular")
                                 {
-                                    <li class="font-weight-bold">@Html.ActionLink("My topics", "Index", "Forum", new { page = 1, sort = "user" }, new { @class = (ViewBag.sort.Equals("user")) ? "text-danger" : "" })</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Index", "Forum", new { page = 1, sort = "date" }, null)</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("Popularity", "Index", "Forum", new { page = 1, sort = "popular" }, new { @class = "text-danger" })</li>
                                 }
+                                else
+                                {
+                                    <li class="font-weight-bold">@Html.ActionLink("Date", "Index", "Forum", new { page = 1, sort = "date" }, new { @class = "text-danger" })</li>
+                                    <li class="font-weight-bold">@Html.ActionLink("Popularity", "Index", "Forum", new { page = 1, sort = "popular" }, null)</li>
+                                }
+
                             </ul>
                         </div>
                     </div>
