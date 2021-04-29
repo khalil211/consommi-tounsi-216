@@ -72,11 +72,11 @@
                 </ul>
             </div>
 
-            @Html.ActionLink("Donate", "Donate", "Evenement", null , new { @class = "btn btn-primary rese float-left mt-3" })
+            @Html.ActionLink("Donate", "Donate", "Evenement", new { EvId = Model.id }, new { @class = "btn btn-primary rese float-left mt-3" })
 
 
-      
+
         </div>
-
+       
     </div>
 </div>
