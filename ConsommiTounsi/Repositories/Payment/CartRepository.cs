@@ -40,6 +40,17 @@ namespace ConsommiTounsi.Repositories.Payment
             return await response.Content.ReadAsAsync<ResponseModel<Cart>>();
         }
 
+        public async Task<ResponseModel<IEnumerable<Item>>> GetItems()
+        {
+            var client = HttpClientBuilder.Get();
+            var response = await client.GetAsync("items");
+
+            var model = await response.Content.ReadAsAsync<ResponseModel<IEnumerable<Item>>>();
+
+
+            return model;
+        }
+
         public async Task<ResponseModel<Cart>> RemoveItem(int itemId)
         {
             var client = HttpClientBuilder.Get();

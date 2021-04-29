@@ -13,10 +13,10 @@
                 <div class="col-12 ">
                     <ul>
                         <li class="d-inline-block font-weight-bolder">
-                            @Html.ActionLink("Accueil", "Index", "Home")
+                            @Html.ActionLink("Home", "Index", "Home")
                         </li>
                         <li class="d-inline-block hr_ font-weight-bolder">
-                            @Html.ActionLink("Nos Produits", "Index", "Product")
+                            @Html.ActionLink("Our Products", "Index", "Product")
                         </li>
                     </ul>
                 </div>
@@ -281,7 +281,7 @@
                         </a>
                     </div>
                     <div class="col-xl-4 d-xl-inline-block d-lg-none d-sm-none d-none">
-                        <div class="show-product pt-1"><a href="#">Il existe @Model.Products.Count() produits</a></div>
+                        <div class="show-product pt-1"><a href="#">There are @Model.Products.Count() products</a></div>
                     </div>
                     <div class="col-xl-6 col-sm-10 col-8 pr-0 sortpro">
                         <div class="sort-by text-right">

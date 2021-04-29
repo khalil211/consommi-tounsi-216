@@ -16,10 +16,10 @@
                 <div class="col-12">
                     <ul>
                         <li class="d-inline-block font-weight-bolder">
-                            @Html.ActionLink("Accueil", "Index", "Home")
+                            @Html.ActionLink("Home", "Index", "Home")
                         </li>
                         <li class="d-inline-block hr_ font-weight-bolder">
-                            @Html.ActionLink("Nos Produits", "Index", "Product")
+                            @Html.ActionLink("Our Products", "Index", "Product")
                         </li>
                         <li class="d-inline-block hr_ font-weight-bolder">
                             @Html.ActionLink(Model.Product.Name, "Details", "Product")
@@ -194,7 +194,7 @@
                 @if(Session["user"] == null)
             {
                 <div>
-                    <p>Vous devez etre connectez pour ajouter des produits au cart.</p>
+                    <p class="text-danger">You need to be connected in order to manage your cart.</p>
                 </div>
             } else
             {
@@ -231,10 +231,10 @@
             <div class="row">
                 <div class="col-12 my-2">
                     <div class="alert alert-success" role="alert" id="successMessage" style="display: none;">
-                        Produit ajouté avec succés!
+                        Product added to the cart.
                     </div>
                     <div class="alert alert-danger" role="alert" id="errorMessage" style="display: none;">
-                        Une erreur s'est produite, veuillez réessayer
+                       An error happened while adding the item, please try again.
                     </div>
                 </div>
             </div>

@@ -1,0 +1,148 @@
+﻿@model ConsommiTounsi.Models.ViewModels.CheckoutViewModel
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewBag.Title = "Passer la commande";
+    var items = Model.Cart.Items.ToList();
+    var subTotal = items.Sum(i => i.Product.Price * i.Quantity);
+    var taxes = items.Sum(i => i.Product.Taxes.Sum(t => t.TaxValue));
+    var total = subTotal + taxes;
+}
+}
+
+<div id="checkout_page" class="checkout-page animate__animated animate__fadeInUp">
+
+
+    <div class="sp_header bg-white p-3 ">
+        <div class="container custom_container ">
+            <div class="row ">
+                <div class="col-12 ">
+                    <ul>
+                        <li class="d-inline-block font-weight-bolder">
+                            @Html.ActionLink("Accueil", "Index", "Home")
+                        </li>
+                        <li class="d-inline-block hr_ font-weight-bolder">
+                            @Html.ActionLink("Passer la commande", "Checkout", "Cart")
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container custom_container">
+        <div class="row">
+            <div class="col-lg-8 col-12">
+                <div class="card rounded mb-2">
+                    <div class="card-header bg-white" id="chechout_add">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed text-body p-0 font-weight-bold">
+                                Shipping Address
+                            </button>
+                        </h2>
+                    </div>
+                        <div class="card-body">
+
+                            <div id="c_address" class="page-content">
+                                @using (Html.BeginForm())
+                                {
+
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Payment.Address.street,
+                                                htmlAttributes: new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Payment.Address.street,
+                                                new { htmlAttributes = new { @class = "form-control", placeholder = "Street" } })
+                                        @Html.ValidationMessageFor(model => model.Payment.Address.street, "", new { @class = "invalid-feedback" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Payment.Address.city,
+                                            htmlAttributes: new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Payment.Address.city,
+                                            new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
+                                        @Html.ValidationMessageFor(model => model.Payment.Address.city, "",
+                                            new { @class = "invalid-feedback" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Payment.Address.governorate,
+                                            htmlAttributes: new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Payment.Address.governorate,
+                                            new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
+                                        @Html.ValidationMessageFor(model => model.Payment.Address.governorate, "",
+                                            new { @class = "invalid-feedback" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Payment.Address.postCode,
+                                            htmlAttributes: new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Payment.Address.postCode,
+                                            new { htmlAttributes = new { @class = "form-control", placeholder = "Postal Code" } })
+                                        @Html.ValidationMessageFor(model => model.Payment.Address.postCode, "",
+                                            new { @class = "invalid-feedback" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Payment.Address.recipientName,
+                                            htmlAttributes: new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Payment.Address.recipientName,
+                                            new { htmlAttributes = new { @class = "form-control", placeholder = "Postal Code" } })
+                                        @Html.ValidationMessageFor(model => model.Payment.Address.recipientName, "",
+                                            new { @class = "invalid-feedback" })
+                                    </div>
+                                    <div class="form-group text-left">
+                                        <label class="font-weight-bold">Payment Method</label><br>
+                                        <span class="form-check">
+                                            <input class="form-check-input" type="radio" name="Payment.PaymentMethod" id="gender_mr" value="ONLINE" checked>
+                                            <label class="form-check-label" for="gender_mr">
+                                                Online
+                                            </label>
+                                        </span>
+                                        <span class="form-check">
+                                            <input class="form-check-input" type="radio" name="Payment.PaymentMethod" value="ATDELIVERY" id="gender_mrs">
+                                            <label class="form-check-label" for="gender_mrs">
+                                                At Delivery
+                                            </label>
+                                        </span>
+                                    </div>
+
+
+
+                                    <div>
+                                        <button id="clearButton" type="reset" class="btn btn-primary rese float-left mt-3">Reset</button>
+                                        <input type="submit" name="submit" class="btn btn-primary mt-3 float-right" value="Submit">
+                                    </div>
+                                }
+                            </div>
+
+
+                        </div>
+                    
+                </div> <!-- card -->
+            </div>
+            <div class="col-lg-4 col-12 ">
+                <div class="border rounded bg-white final_payment">
+                    <div class="card-body  border-bottom">
+                        <p class="text-muted">@items.Count items</p>
+                        <div>
+                            <span class="font-weight-bold">Subtotal</span>
+                            <span class="float-right font-weight-bold">@subTotal TND</span>
+                        </div>
+                        <div>
+                            <span class="font-weight-bold">Shipping Cost</span>
+                            <span class="float-right font-weight-bold">0 TND</span>
+                        </div>
+                    </div>
+                    <div class="card-body ">
+                        <div>
+                            <span class="font-weight-bold">Total</span>
+                            <span class="float-right font-weight-bold">@total TND </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

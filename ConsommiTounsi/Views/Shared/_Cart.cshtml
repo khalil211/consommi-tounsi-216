@@ -45,14 +45,18 @@
                         </li>
                     }
                     <li class="d-block text-muted font-weight-bolder p-2 border-bottom">
-                        <span class="text-left">Sous-total</span>
+                        <span class="text-left">Subtotal</span>
                         <span class="float-right">@items.Sum(i => i.Product.Price * i.Quantity) TND</span>
                     </li>
                     <li class="d-block font-weight-bolder pt-2">
                         <span class="text-left">
-                            <a href="/Cart/Details" style="height: auto;">Details du panier</a>
+                            @Html.ActionLink("Cart Details", "Details", "Cart", null,
+                           new { style = "height: auto;" })
                         </span>
-                        <span class="float-right"><a href="checkout.html" style="height: auto;">Passer la commande</a></span>
+                        <span class="float-right">
+                            @Html.ActionLink("Check Out", "Checkout", "Cart", null,
+                           new { style = "height: auto;" })
+                        </span>
                     </li>
                 </ul>
             </div>

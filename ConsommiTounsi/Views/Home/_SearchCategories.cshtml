@@ -10,7 +10,7 @@
         <div class="between-header border border-danger rounded mb-0 head-left">
 
             <select class="select-menu form-select d-none d-sm-block">
-                <option value="selected">Les categories</option>
+                <option value="selected">All Categories</option>
                 @foreach (var category in Model)
                 {
                     <option value=@category.Id>@category.Name</option>
@@ -22,7 +22,7 @@
                        class="form-control" aria-label="search" aria-describedby="button-addon2">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-danger font-weight-normal">
-                        Rechercher
+                        Search
                     </button>
                 </div>
             </div>

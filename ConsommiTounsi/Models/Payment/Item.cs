@@ -13,6 +13,7 @@ namespace ConsommiTounsi.Models.Payment
         public int Id { get; set; }
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
+        [JsonProperty("product")]
         public Product Product { get; set; }
     }
 }

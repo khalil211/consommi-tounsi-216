@@ -11,6 +11,7 @@ namespace ConsommiTounsi.Repositories.Payment
     {
         Task<ResponseModel<Cart>> GetAsync(int userId);
         ResponseModel<Cart> Get(int userId);
+        Task<ResponseModel<IEnumerable<Item>>> GetItems();
         Task<ResponseModel<Cart>> AddItem(int cartId, Item item, int productId);
         Task<ResponseModel<Cart>> RemoveItem(int itemId);
         Task<ResponseModel<Cart>> UpdateItemQuantity(int itemId, int quantity);

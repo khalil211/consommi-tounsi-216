@@ -18,10 +18,10 @@
                 <div class="col-12 ">
                     <ul>
                         <li class="d-inline-block font-weight-bolder">
-                            <a href="/">Accueil</a>
+                            @Html.ActionLink("Accueil", "Index", "Home")
                         </li>
                         <li class="d-inline-block hr_ font-weight-bolder">
-                            <a href="/Cart/Details">Details du panier</a>
+                            @Html.ActionLink("Details du panier", "Details", "Cart")
                         </li>
                     </ul>
                 </div>
@@ -123,7 +123,8 @@
                                 </div>
                             </div>
                             <div class="col-12 offset-sm-4 col-sm-4">
-                                <a href="checkout.html" class="btn btn-success btn-block f_13 font-weight-bold">Passer la commande</a>
+                                @Html.ActionLink("Check Out", "Checkout", "Cart", null, 
+                               new { @class = "btn btn-success btn-block f_13 font-weight-bold"  })
                             </div>
                         </div>
                     </div>
@@ -178,7 +179,7 @@
 <!-- End Delete Modal -->
 
 
-@section AdditionalScripts {
+@section scripts {
     <script>
         var selectedItemId = -1;
         function deleteItemHandler(itemId) {
